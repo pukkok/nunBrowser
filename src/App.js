@@ -1,23 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react'
+// import axios from 'axios';
+const axios = require('axios')
 
 function App() {
+
+  useEffect(()=>{
+  const testFetch = async () => {
+    const url = 'https://e-childschoolinfo.moe.go.kr/api/notice/basicInfo2.do?'
+    const key = `key=${process.env.REACT_APP_CHILDSCHOOL_OPENAPI_KEY}`
+    const option = '&sidoCode=27&sggCode=27140'
+
+    const data = await axios.get('/api'+`${url}${key}${option}`)
+    console.log(data)
+  }
+
+    testFetch()
+  },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      앱이 열림
     </div>
   );
 }
