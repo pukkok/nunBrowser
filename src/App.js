@@ -1,8 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 import { useEffect } from 'react'
-// import axios from 'axios';
-const axios = require('axios')
+import axios from 'axios';
 
 function App() {
 
