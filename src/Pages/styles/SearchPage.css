@@ -1,0 +1,40 @@
+
+ul, li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.search-option{
+    display: flex;
+    gap: 20px;
+    text-align: center;
+}
+
+.search-option p{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.search-option ul{
+    width: 140px;
+    height: 300px;
+    overflow: scroll;
+    border: solid 1px grey;
+}
+.search-option ul li{
+    cursor: pointer;
+}
+
+.search-option ul li:not(:nth-last-child(1)){
+    padding-bottom: 10px;
+}
+
+.search-option ul li:hover,
+.search-option ul li.on{
+    font-weight: bold;
+    color: blue;
+}

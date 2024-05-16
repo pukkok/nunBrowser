@@ -1,26 +1,24 @@
-import { useEffect } from 'react'
-import axios from 'axios';
+import { Routes, Route } from 'react-router-dom';
+import { MainPage } from './Pages'
+
+
+import SearchPage from './Pages/SearchPage';
+import CheckBox from './Components/CheckBox';
 
 function App() {
 
-  useEffect(()=>{
-  const testFetch = async () => {
-    const url = 'https://e-childschoolinfo.moe.go.kr/api/notice/basicInfo2.do?'
-    const key = `key=${process.env.REACT_APP_CHILDSCHOOL_OPENAPI_KEY}`
-    const option = '&sidoCode=27&sggCode=27140'
-
-    const data = await axios.get('/api'+`${url}${key}${option}`)
-    console.log(data)
-  }
-
-    testFetch()
-  },[])
-
   return (
     <div className="App">
-      앱이 열림
+      
+      <Routes>
+        <Route exact path='/' element={<MainPage></MainPage>}/>
+        <Route exact path='/search' element={<SearchPage></SearchPage>}/>
+        <Route exact path='/imsi' element={<CheckBox></CheckBox>}/>
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+
