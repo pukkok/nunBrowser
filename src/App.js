@@ -1,9 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import { MainPage } from './Pages'
-
-
-import SearchPage from './Pages/SearchPage';
-import CheckBox from './Components/CheckBox';
+import { MainPage, NotFoundPage, SearchPage } from './Pages'
+import './App.css'
 
 function App() {
 
@@ -13,7 +10,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<MainPage></MainPage>}/>
         <Route exact path='/search' element={<SearchPage></SearchPage>}/>
-        <Route exact path='/imsi' element={<CheckBox></CheckBox>}/>
+        <Route exact path='*' element={<NotFoundPage />}/>
       </Routes>
     </div>
   );

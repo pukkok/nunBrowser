@@ -1,0 +1,41 @@
+#OptionFilter{
+    border: solid 1px grey;
+    width: 250px;
+    font-size: 14px;
+}
+
+#OptionFilter .option-title{
+    background-color: #f2f4fa;
+    padding: 12px 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#OptionFilter .option-title p {
+    display: flex;
+}
+
+#OptionFilter .option-title p::after{
+    content: '';
+    width: 30px;
+    height: 20px;
+    margin-left: auto;
+    background-image: url(./icon-filter-close.png);
+    background-position: center;
+}
+
+
+
+#OptionFilter .option-label{
+    padding: 12px;
+}
+#OptionFilter .option-label.off{
+    display: none;
+}
+
+
+#OptionFilter label{
+    padding: 5px 0;
+    display: flex;
+    gap: 5px;
+}
