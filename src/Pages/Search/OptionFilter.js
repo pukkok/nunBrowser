@@ -30,33 +30,38 @@ function OptionFilter () {
         }
     }
 
+    
     const [close, setClose] = useState([])
     const toggleLabel = (idx) => {
-        if(close.includes(idx)){
+        if(close.includes(idx)){ // 열기
             setClose(close.filter(innerIdx => innerIdx !== idx))
-        }else{
+        }else{ // 닫기
             setClose([...close, idx])
         }
     }
 
     return(
-        <section id="OptionFilter">
+        <section className="option-filter">
             {optionBox && optionBox.map((data, idx1)=>{
                 const { title, options } = data
                 return(
-                    <div key={`data${idx1}`} className="">
+                    <div key={`data${idx1}`}>
                         <div className="option-title" onClick={()=>toggleLabel(idx1)}>
                             <p>{title}</p>
                         </div>
-                        <div className={classNames(`option-label`,  {off : close.includes(idx1)} )}>
-                            {options && options.map((option, idx)=>{
+                        <div className={classNames(`option-label`, {off : close.includes(idx1)} )}>
+                            {options && options.map((option, idx) => {
                                 return(
                                     <CheckBox key={option+idx} inputValue={option} innerP={option}
                                     inputRef={(el)=>{
-                                        if(checkRef.current[title]){
-                                            checkRef.current[title] = [...checkRef.current[title], el]
-                                        }else{
-                                            checkRef.current[title] = [el]
+                                        if(el !== null){
+                                            if(checkRef.current[title]){
+                                                if(!checkRef.current[title].includes(el)){
+                                                    checkRef.current[title] = [...checkRef.current[title], el]
+                                                }
+                                            }else{
+                                                checkRef.current[title] = [el]
+                                            }
                                         }
                                     }}
                                     handleClick={(e)=>getCheckBoxValue(e, title)}
