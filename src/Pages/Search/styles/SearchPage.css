@@ -10,7 +10,7 @@
     grid-template-columns: 250px repeat(6, 1fr);
     grid-template-rows: 100px 200px repeat(2, 1fr);
 }
-.search-option{
+.search-local{
     grid-area: a;
 }
 .search-filter{
@@ -21,7 +21,7 @@
     grid-area: c;
 }
 
-.search-option{
+.search-local{
     border: solid 1px #5172df;
     display: flex;
     
@@ -31,12 +31,12 @@
     text-align: center;
     font-size: 14px;
 }
-.search-option .local-select{
+.search-local .local-select{
     position: relative;
     height: 44px;
 }
 
-.search-option .local-select > button{
+.search-local .local-select > button{
     box-sizing: border-box;
     width: 140px;
     text-align: left;
@@ -46,7 +46,7 @@
     cursor: pointer;
 }
 
-.search-option .local-select > button::after{
+.search-local .local-select > button::after{
     content: "";
     width: 0;
     height: 0;
@@ -57,7 +57,7 @@
     right: 10px;
 }
 
-.search-option .local-option{
+.search-local .local-option{
     display: none;
     position: absolute;
     top: 50px;
@@ -66,15 +66,15 @@
     border: solid 1px #5172df;
     z-index: 5;
 }
-.search-option .local-option.on{
+.search-local .local-option.on{
     display: block;
 }
 
-.search-option .local-option nav{
+.search-local .local-option nav{
     display: flex;
 }
 
-.search-option .local-option nav p{
+.search-local .local-option nav p{
     position: sticky;
     top: 0;
     width: 100%;
@@ -84,7 +84,7 @@
     background-color: #fff;
 }
 
-.search-option .local-option nav ul{
+.search-local .local-option nav ul{
     position: relative;
     width: 180px;
     height: 300px;
@@ -93,19 +93,19 @@
     background-color: #fff;
 }
 
-.search-option .local-option nav ul li{
+.search-local .local-option nav ul li{
     cursor: pointer;
     padding-bottom: 10px;
     
 }
 
-.search-option .local-option nav ul li:hover,
-.search-option .local-option nav ul li.on{
+.search-local .local-option nav ul li:hover,
+.search-local .local-option nav ul li.on{
     font-weight: bold;
     color: #5172df;
 }
 
-.search-option .btn-box{
+.search-local .btn-box{
     width: 100%;
     height: 60px;
     display: flex;
@@ -116,7 +116,7 @@
     border: solid 1px #cddaee;
 }
 
-.search-option .btn-box button{
+.search-local .btn-box button{
     min-width: 70px;
     border: solid 1px #5172df;
     padding: 10px 15px;
@@ -124,23 +124,23 @@
     cursor: pointer;
 }
 
-.search-option .btn-box button:nth-child(1){
+.search-local .btn-box button:nth-child(1){
     background-color: #fff;
     color: #5172df;
 }
-.search-option .btn-box button:nth-child(2){
+.search-local .btn-box button:nth-child(2){
     background-color: #5172df;
     color: #fff;
 }
 
 /* 검색 창 */
-.search-option .search-kinder{
+.search-local .search-kinder{
     display: flex;
     justify-content: flex-start;
     height: 44px;
 }
 
-.search-option .search-kinder input{
+.search-local .search-kinder input{
     width: 350px;
     padding: 10px;
     margin-right: 10px;
@@ -148,12 +148,12 @@
     border: none;
 }
 
-.search-option .search-kinder button{
+.search-local .search-kinder button{
     width: 100px;
     padding: 5px;
     background-color: #5172df;
     color: #fff;
-    border: solid 1px #5172df;
+    /* border: solid 1px #5172df; */
     cursor: pointer;
 }
 

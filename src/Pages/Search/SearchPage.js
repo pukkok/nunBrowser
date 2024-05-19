@@ -6,23 +6,16 @@ import './styles/SearchPage.css'
 import OptionFilter from "./OptionFilter";
 import classNames from "classnames";
 
-import axios from "axios";
-axios.defaults.baseURL = process.env.REACT_APP_RESTAPI_URL
-
 function SearchPage () {
     const [datas, setDatas] = useState([])
-    let filterData = []
 
-    const [allData, setAllData] = useState()
+    const [filteredData, setFilteredData] = useState([])
 
-    const fetchKinder = () => {
-        const {sido, sgg} = selectedCode
-        axiosData(sido, sgg, 1, setDatas)
-    }
+    const [allData, setAllData] = useState([])
     
     useEffect(()=>{
-        fetchKinder()
-        // allAxiosData(setAllData)
+        // fetchKinder()
+        allAxiosData(sggData, setAllData)
     },[])
 
     const [selectedCode, setSelectedCode] = useState({sido : 11, sgg : 11680}) // 시/도, 시/군/구 코드
@@ -32,27 +25,36 @@ function SearchPage () {
         setActive({...active, [name] : idx})
     }
 
+    // 검색 기능
+    const searchRef = useRef()
     const searchKinder = () => {
+        const result = allData.filter(data=>{
+            return data.kindername.includes(searchRef.current.value) 
+        })
 
+        setFilteredData(result)
     }
+
 
     const [openLocal, setOpenLocal] = useState(false)
     const openLocalOption = () => {
         setOpenLocal(!openLocal)
     }
 
-    const sggFilterData = sggData && sggData.filter(data => data.sidoCode === +selectedCode.sido).sort((a,b)=>a.sgg.localeCompare(b.sgg))
+    const sggFilterData = sggData
+    .filter(data => data.sidoCode === +selectedCode.sido)
+    .sort((a,b)=>a.sgg.localeCompare(b.sgg))
 
-    filterData = datas && datas.filter(data => data)
     return(
         <div className="Search">
-            <div className="search-option">
+            <div className="search-local">
                 <div className="local-select" >
                     <button onClick={openLocalOption}>지역선택</button>
                     <div className={classNames("local-option", {on : openLocal})}>
                         <nav>
                             <ul>
                                 <p>시/도</p>
+                                <li>전체</li>
                                 {sidoData && sidoData.map((option, idx)=>{
                                 const { city, code } = option
                                 return <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sido', idx)}
@@ -61,11 +63,18 @@ function SearchPage () {
                             </ul>
                             <ul>
                                 <p>시/군/구</p>
-                                {selectedCode.sido && sggFilterData.map((data, idx) => {
-                                const {sgg, code} = data
-                                return  <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sgg', idx)}
-                                        className={idx === +active['sgg'] ? 'on' : ''}>{sgg}</li>
-                                })}
+                                {sggData.length === sggFilterData.length ? 
+                                <li>전체</li> : 
+                                <>
+                                    <li>전체</li>
+                                    {sggFilterData.map((data, idx) => {
+                                        const {sgg, code} = data
+                                        return  <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sgg', idx)}
+                                                className={idx === +active['sgg'] ? 'on' : ''}>{sgg}</li>
+                                        })}
+                                
+                                </>
+                                }
                             </ul>
                         </nav>
                         <div className="btn-box">
@@ -76,20 +85,28 @@ function SearchPage () {
                 </div>
                     
                 <label className="search-kinder">
-                    <input onChange={searchKinder} placeholder="유치원명으로 검색"/>
-                    <button onClick={fetchKinder}>검색</button>
+                    <input ref={searchRef} placeholder="유치원명으로 검색"/>
+                    <button onClick={searchKinder}>검색</button>
                 </label>
             </div>
-            <div>
-                검색 결과 : {allData && allData.length}
-            </div>
+            
 
             <div className="search-filter">
                 <OptionFilter/>
                 <button>선택한 조건으로 검색</button>
             </div>
             <div className="search-viewer">
-                {filterData.length>0 && filterData.map((data, id)=> {
+                <div>
+                    검색 목록 <p>{filteredData.length>0 ? filteredData.length : 8523}</p>
+
+                    <ul>
+                        <li>10개씩 보기</li>
+                        <li>20개씩 보기</li>
+                        <li>50개씩 보기</li>
+                    </ul>
+                </div>
+
+                {filteredData && (filteredData.length>0 ? filteredData : allData).map((data, id)=> {
                     const { addr, establish, kindername, opertime} = data 
                     return(
                     <div key={id} className="search-data">
