@@ -1,5 +1,5 @@
 import React , { useEffect, useRef, useState }from "react";
-import { allAxiosData, axiosData, axiosPagesOptionData} from '../../Components/axiosData';
+import { allAxiosData, axiosData} from '../../Components/axiosData';
 import sidoData from '../../Datas/sidoData'
 import sggData from '../../Datas/sggData';
 import './styles/SearchPage.css'
@@ -8,60 +8,66 @@ import classNames from "classnames";
 import PageBtn from "../../Components/PageBtn";
 
 function SearchPage () {
-    const [allData, setAllData] = useState([])
-    const [searchData, setSearchData] = useState([])
-    const [viewData, setViewData] = useState([])
-    const [searchLength, setSearchLength] = useState()
-    
-    const [isChange, setIsChange] = useState(false)
-
-    const [pageCnt, setPageCnt] = useState(1)
+    const [allData, setAllData] = useState([]) // 전체 데이터
+    const [searchData, setSearchData] = useState([]) // 검색한 데이터
+    const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
 
     useEffect(()=>{ // 초기 랜더링
         allAxiosData(sggData, setAllData)
     },[])
 
-    useEffect(()=>{
-        setSearchLength(allData.length)
-    },[allData])
-
     // 지역 선택 토글
     const [openLocal, setOpenLocal] = useState(false)
-    const [selectedCode, setSelectedCode] = useState({sido : 11, sgg : 11140, cnt: 10}) // 시/도, 시/군/구 코드
-    const codeRef = useRef({sido: 11, sgg: 11140})
+    const codeRef = useRef({sido: 11, sgg: 11140}) // 시/도, 시/군/구 코드
 
     const openLocalOption = () => {
         setOpenLocal(!openLocal)
     }
 
     const applyLocalOption = () => {
-        const {sido, sgg} = selectedCode
+        console.log('작동')
         setOpenLocal(!openLocal)
-        setIsChange(true)
-        setSelectedCode({...selectedCode, ...codeRef.current})
-        axiosData(sido, sgg, setSearchLength)
+        const {sido, sgg} = codeRef.current
+
+        if(sgg!==0){
+            axiosData(sido, sgg, setSearchData)
+        }else{
+            const list = sggData.filter(data=>{
+                return data.sidoCode === sido
+            })
+            allAxiosData(list, setSearchData)
+            // searchData가 0이되면 allData를 불러옴
+        }
     }
 
     // 지역 옵션 선택
     const [active, setActive] = useState({sido : 0, sgg : 0}) // 선택된 active
     const valueExtractor = (e, name, idx) => {
         codeRef.current = {...codeRef.current, [name]: e.target.value}
-        if(name==='sido' && idx===0){ // 전체 선택시 초기화
-            setActive({sido: 0, sgg: 0})
+        if(name === 'sido'){ // 시/도 선택시 시/군/구 전체로 전환
+            setActive({...active, [name]: idx, sgg: 0})
         }else{
-            setActive({...active, [name] : idx})
+            setActive({...active, [name]: idx})
         }
     }
-
+    
     // 검색 기능
     const searchRef = useRef()
     const searchKinder = () => {
-        const result = allData.filter( data =>{
-            return data.kindername.includes(searchRef.current.value) 
-        })
-        setIsChange(true)
-        setViewData(result)
-        setSearchLength(result.length)
+        const filtering = (arr) => {
+            return arr.filter(data => {
+                return data.kindername.includes(searchRef.current.value)
+            })
+        }
+
+        if(searchData.length>0){
+            const result = filtering(searchData)
+            if(result.length>0) return setSearchData(result)
+        }else{
+            const result = filtering(allData)
+            if(result.length>0) return setSearchData(result)
+        }
+        alert('매칭 안됨')
     }
 
     const sggFilterData = sggData
@@ -83,29 +89,27 @@ function SearchPage () {
             isActive : false,
             text: innerText,
         })
-        setSelectedCode({...selectedCode, cnt: value})
+        setItemsCnt(+value)
     }
 
-    useEffect(()=>{
-        const {sido, sgg, cnt} = selectedCode
+    const [pagesCnt, setPagesCnt] = useState(1)
+    const [itemsCnt, setItemsCnt] = useState(10)
 
-        const allPageNation = () => {
-            const viewer = allData.filter((_, idx) => {
-                return +cnt * (pageCnt-1) <= idx && idx < +cnt * pageCnt
+    useEffect(()=>{
+        const pageNationViewer = (arr) => {
+            const viewer = arr.filter((_, idx) => {
+                return itemsCnt * (pagesCnt-1) <= idx && idx < itemsCnt * pagesCnt
             })
             setViewData(viewer)
         }
-        
-        if(!isChange){
-            if(allData.length === searchLength){
-                allPageNation()
-            }
+
+        if(searchData.length === 0){
+            pageNationViewer(allData)
         }else{
-            axiosPagesOptionData(sido, sgg, pageCnt, cnt, setViewData)
+            pageNationViewer(searchData)
         }
             
-    }, [selectedCode, pageCnt, allData, searchLength, isChange])
-
+    }, [pagesCnt, itemsCnt, allData, searchData])
 
     return(
         <div className="Search">
@@ -163,9 +167,9 @@ function SearchPage () {
 
             <div className="search-viewer">
                 <div className="search-result">
-                    {/* 나중에 바꿀 loading 추가 후 8523 바꾸기 */}
-                    {/* <p className="list">검색 목록 <span>{filteredData.length>0 ? filteredData.length : 8523}</span></p> */}
-                    <p className="list">검색 목록 <span>{viewData && searchLength ? searchLength : '로딩'}</span></p>
+                    <p className="list">
+                        검색 목록 <span>{searchData.length>0 ? searchData.length : allData ? allData.length : '로딩'}</span>
+                    </p>
                     <div onClick={openListOption} className={classNames('option', {on : listOption.isActive})}>
                         <p>{listOption.text}</p>
                         <ul onClick={changeListCnt} >
@@ -190,7 +194,7 @@ function SearchPage () {
                 })}
                 </div>
                 <div className="pages-btns">
-                    {searchLength && <PageBtn allLength={searchLength} dividedValue={selectedCode.cnt} setFunc={setPageCnt}/>}
+                    {allData && <PageBtn allLength={searchData.length>0 ? searchData.length : allData.length } dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
                 </div>
             </div>
         </div>
