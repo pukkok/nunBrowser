@@ -12,19 +12,28 @@ async function axiosData (sidoCode, sggCode, setFunc) {
     return setFunc(data)
 }
 
-async function allAxiosData (list, setFunc) {
+async function allAxiosData (allData, setFunc) {
     const success = await Promise.all(
-        list.map( async item => {
+        allData.map( item => {
             const {sidoCode, code} = item
-            const { data } = await axios.post(`/api/kinder`,{
-                sidoCode, sggCode: code
+            return axios.post('/api/kinder', {
+                sidoCode, sggCode : code
             })
-            return data
         })
     )
-    const allData = await success.reduce((acc, r) => acc.concat(r), [])
-    return setFunc(allData)
+    const flat = await success.reduce((acc, r)=>acc.concat(r.data), [])
+    return setFunc(flat)
 
 }
 
-export {axiosData, allAxiosData}
+async function axiosPagesOptionData (sidoCode, sggCode, page, cnt, setFunc) {
+
+    const { data } = await axios.post(`/api/kinder?page=${page}&cnt=${cnt}`, 
+    {
+        sidoCode, sggCode
+    })
+
+    return setFunc(data)
+}
+
+export {axiosData, allAxiosData, axiosPagesOptionData}
