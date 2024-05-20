@@ -13,34 +13,36 @@ function SearchPage () {
     const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
 
     useEffect(()=>{ // 초기 랜더링
-        allAxiosData(sggData, setAllData)
+        allAxiosData(sggData, setAllData) // 전체 데이터 불러오기
     },[])
 
     // 지역 선택 토글
     const [openLocal, setOpenLocal] = useState(false)
     const codeRef = useRef({sido: 11, sgg: 11140}) // 시/도, 시/군/구 코드
 
-    const openLocalOption = () => {
+    const openLocalOption = () => { // 지역선택 열기/닫기
         setOpenLocal(!openLocal)
     }
 
-    const applyLocalOption = () => {
-        console.log('작동')
+    const applyLocalOption = () => { // 지역필터 적용
         setOpenLocal(!openLocal)
         const {sido, sgg} = codeRef.current
 
+        if(sido === 0){ // searchData가 0이되면 allData를 불러옴
+            return setSearchData([])
+        }
+
         if(sgg!==0){
             axiosData(sido, sgg, setSearchData)
-        }else{
-            const list = sggData.filter(data=>{
+        }else{ // 시/도 선택 시/군/구 전체
+            const list = sggData.filter(data => {
                 return data.sidoCode === sido
             })
             allAxiosData(list, setSearchData)
-            // searchData가 0이되면 allData를 불러옴
         }
     }
 
-    // 지역 옵션 선택
+    // 지역 옵션 선택 & 시/도, 시/군/구 code 선택
     const [active, setActive] = useState({sido : 0, sgg : 0}) // 선택된 active
     const valueExtractor = (e, name, idx) => {
         codeRef.current = {...codeRef.current, [name]: e.target.value}
@@ -60,19 +62,19 @@ function SearchPage () {
             })
         }
 
-        if(searchData.length>0){
+        if(searchData.length>0){ // 검색 기록이 있는 경우
             const result = filtering(searchData)
             if(result.length>0) return setSearchData(result)
-        }else{
+        }else{ // 검색하지 않은 경우
             const result = filtering(allData)
             if(result.length>0) return setSearchData(result)
         }
-        alert('매칭 안됨')
+        alert('조회 결과가 없습니다.')
     }
 
-    const sggFilterData = sggData
-    .filter(data => data.sidoCode === +codeRef.current.sido)
-    .sort((a,b)=>a.sgg.localeCompare(b.sgg))
+    const sggFilterData = sggData // 시/도code에 맞는 시/군/구 데이터 불러오기
+    .filter(data => data.sidoCode === +codeRef.current.sido) 
+    .sort((a,b)=>a.sgg.localeCompare(b.sgg)) // 문자 오름차순 정렬
 
     const [listOption, setListOption] = useState({
         isActive : false, text : '10개씩 보기'
@@ -92,8 +94,8 @@ function SearchPage () {
         setItemsCnt(+value)
     }
 
-    const [pagesCnt, setPagesCnt] = useState(1)
-    const [itemsCnt, setItemsCnt] = useState(10)
+    const [pagesCnt, setPagesCnt] = useState(1) // 페이지 개수
+    const [itemsCnt, setItemsCnt] = useState(10) // 페이지당 아이템 개수
 
     useEffect(()=>{
         const pageNationViewer = (arr) => {

@@ -36,3 +36,28 @@
     display: flex;
     gap: 5px;
 }
+
+.option-filter .main-label .label-input-box p{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.option-filter .main-label .label-input-box p::after{
+    margin-left: 5px;
+    content: '';
+    background-image: url(./icon-filter-detail-open.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 8px;
+    padding: 4px;
+    border: solid 1px #5172df;
+    display: block;
+    cursor: pointer;
+}
+
+
+.option-filter .sub-label{
+    padding-left: 20px;
+}
