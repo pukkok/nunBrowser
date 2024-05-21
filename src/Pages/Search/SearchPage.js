@@ -9,7 +9,8 @@ import PageBtn from "../../Components/PageBtn";
 
 function SearchPage () {
     const [allData, setAllData] = useState([]) // 전체 데이터
-    const [searchData, setSearchData] = useState([]) // 검색한 데이터
+    const [localData, setLocalData] = useState([]) // 검색한 데이터 범위
+    const [filterData, setFilterData] = useState([]) // 검색한 결과 
     const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
 
     useEffect(()=>{ // 초기 랜더링
@@ -26,19 +27,20 @@ function SearchPage () {
 
     const applyLocalOption = () => { // 지역필터 적용
         setOpenLocal(!openLocal)
+        setFilterData([])
         const {sido, sgg} = codeRef.current
 
         if(sido === 0){ // searchData가 0이되면 allData를 불러옴
-            return setSearchData([])
+            return setLocalData([])
         }
 
         if(sgg!==0){
-            axiosData(sido, sgg, setSearchData)
+            axiosData(sido, sgg, setLocalData)
         }else{ // 시/도 선택 시/군/구 전체
             const list = sggData.filter(data => {
                 return data.sidoCode === sido
             })
-            allAxiosData(list, setSearchData)
+            allAxiosData(list, setLocalData)
         }
     }
 
@@ -61,13 +63,14 @@ function SearchPage () {
                 return data.kindername.includes(searchRef.current.value)
             })
         }
+        console.log(searchRef.current.value)
 
-        if(searchData.length>0){ // 검색 기록이 있는 경우
-            const result = filtering(searchData)
-            if(result.length>0) return setSearchData(result)
+        if(localData.length>0){ // 검색 기록이 있는 경우
+            const result = filtering(localData)
+            if(result.length>0) return setFilterData(result)
         }else{ // 검색하지 않은 경우
             const result = filtering(allData)
-            if(result.length>0) return setSearchData(result)
+            if(result.length>0) return setFilterData(result)
         }
         alert('조회 결과가 없습니다.')
     }
@@ -84,6 +87,7 @@ function SearchPage () {
         setListOption({...listOption, isActive: !listOption.isActive})
     }
 
+    // 페이지당 보여주는 아이템 개수 변경
     const changeListCnt = (e) => {
         e.stopPropagation() // 체이닝 방지
         const { value, innerText } = e.target
@@ -92,12 +96,13 @@ function SearchPage () {
             text: innerText,
         })
         setItemsCnt(+value)
+        setPagesCnt(1)
     }
 
     const [pagesCnt, setPagesCnt] = useState(1) // 페이지 개수
     const [itemsCnt, setItemsCnt] = useState(10) // 페이지당 아이템 개수
 
-    useEffect(()=>{
+    useEffect(()=>{ // 데이터 보여주기
         const pageNationViewer = (arr) => {
             const viewer = arr.filter((_, idx) => {
                 return itemsCnt * (pagesCnt-1) <= idx && idx < itemsCnt * pagesCnt
@@ -105,19 +110,85 @@ function SearchPage () {
             setViewData(viewer)
         }
 
-        if(searchData.length === 0){
+        if(localData.length === 0){
             pageNationViewer(allData)
         }else{
-            pageNationViewer(searchData)
+            if(filterData.length === 0){
+                pageNationViewer(localData)
+            }else{
+                pageNationViewer(filterData)
+            }
         }
             
-    }, [pagesCnt, itemsCnt, allData, searchData])
+    }, [pagesCnt, itemsCnt, allData, localData, filterData])
+
+
+    const [filterOption, setFilterOption] = useState({})
+    useEffect(()=>{
+        
+        let keys = Object.keys(filterOption)
+        
+        const filterOptionData = () => { // 체크박스 옵션에 따른 데이터 검색
+            let newAlldata = []
+            localData.length>0 ? newAlldata = JSON.parse(JSON.stringify(localData)) 
+            : newAlldata = JSON.parse(JSON.stringify(allData))
+
+            keys.forEach(key => {
+                if(key === '설립 유형'){
+                    newAlldata = newAlldata.filter(data => {
+                        return filterOption[key].includes(data.establish) 
+                    })
+                }
+
+                if(key === '제공 서비스'){
+                    if(filterOption[key].includes('특수학급')){
+                            newAlldata = newAlldata.filter(data => {
+                                return data.shclcnt !== null
+                            })
+                    }else{
+                        let result = []
+                        newAlldata.forEach(data => {
+                            let dataCode = data.kindercode
+                            let ot = data.opertime.split('~')[1].slice(0,2)
+                            
+                            if(!filterOption[key].includes('방과후과정')){
+                                if(filterOption[key].includes('미운영')){
+                                    if(ot<15){
+                                        result.push(dataCode)
+                                    }
+                                }
+                                if(filterOption[key].includes('운영')){
+                                    if(ot>=15){
+                                        result.push(dataCode)
+                                    }
+                                }
+                            }else{
+                                result.push(dataCode)
+                            }
+                        })
+                        newAlldata = newAlldata.filter(data => {
+                            return result.includes(data.kindercode)
+                        })
+                        
+                    }
+                }
+            })
+            if(newAlldata.length>0){
+                setFilterData(newAlldata)
+            }else{
+                alert('일치하는 데이터가 없습니다.')
+            }
+        }
+
+        filterOptionData()
+        
+    },[filterOption])
 
     return(
         <div className="Search">
             <div className="search-local">
                 <div className="local-select" >
-                    <button onClick={openLocalOption}>지역선택</button>
+                    <button onClick={openLocalOption}>지역선택 </button>
                     <div className={classNames("local-option", {on : openLocal})}>
                         <nav>
                             <ul>
@@ -160,17 +231,19 @@ function SearchPage () {
                     <button onClick={searchKinder}>검색</button>
                 </label>
             </div>
-            
 
             <div className="search-filter">
-                <OptionFilter/>
-                <button>선택한 조건으로 검색</button>
+                <OptionFilter setResult={setFilterOption}/>
             </div>
 
             <div className="search-viewer">
                 <div className="search-result">
                     <p className="list">
-                        검색 목록 <span>{searchData.length>0 ? searchData.length : allData ? allData.length : '로딩'}</span>
+                        검색 목록 <span>{
+                        filterData.length>0 ? filterData.length : localData.length>0 ? localData.length : 
+                        allData ? allData.length : '로딩'}
+                        
+                        </span>
                     </p>
                     <div onClick={openListOption} className={classNames('option', {on : listOption.isActive})}>
                         <p>{listOption.text}</p>
@@ -184,19 +257,20 @@ function SearchPage () {
 
                 <div className="search-datas">
                 {viewData.length>0 && viewData.map((data, id)=> {
-                    const { addr, establish, kindername, opertime} = data 
+                    const { addr, establish, kindername, edate, opertime, } = data 
                     return(
                         <div key={id} className="search-data">
                             <p>주소 : {addr}</p>
                             <p>유치원 명 : {kindername}</p>
-                            <p>설립일 : {establish}</p>
+                            <p>설립일 : {edate}</p>
+                            <p>설립유형 : {establish}</p>
                             <p>운영시간 : {opertime}</p>
                         </div>
                     )
                 })}
                 </div>
                 <div className="pages-btns">
-                    {allData && <PageBtn allLength={searchData.length>0 ? searchData.length : allData.length } dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
+                    {allData && <PageBtn allLength={localData.length>0 ? localData.length : allData.length } dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
                 </div>
             </div>
         </div>
