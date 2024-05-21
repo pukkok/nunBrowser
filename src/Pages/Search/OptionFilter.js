@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './styles/OptionFilter.css'
 import CheckBox from "../../Components/CheckBox";
 import classNames from "classnames";
@@ -22,7 +22,6 @@ function OptionFilter ({ setResult }) {
         }else{ // subRef인 경우
             getSubValue(e, title)
         }
-
     }
 
     const getMainValue = (e, title) => {
