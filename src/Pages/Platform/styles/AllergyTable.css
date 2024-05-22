@@ -63,7 +63,7 @@
     width: 280px;
     height: 200px;
     background-color: #fff;
-    transition: .2s;
+    transition: .2s ease-out;
 }
 .add-allergy p{
     border: solid 1px grey;

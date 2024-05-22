@@ -236,6 +236,12 @@
     color: #fff;
 }
 
+.search-datas{
+    position: relative;
+    min-width: 100%;
+    min-height: 600px;
+}
+
 .search-viewer .search-data{
     padding: 10px;
     border: solid 1px grey;

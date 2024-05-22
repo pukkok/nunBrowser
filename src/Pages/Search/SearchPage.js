@@ -6,6 +6,7 @@ import './styles/SearchPage.css'
 import { MemoOptionFilter } from "./OptionFilter";
 import classNames from "classnames";
 import PageBtn from "../../Components/PageBtn";
+import Loading from '../../Components/Loading'
 
 function SearchPage () {
     const [allData, setAllData] = useState([]) // 전체 데이터
@@ -269,7 +270,7 @@ function SearchPage () {
 
 
                 <div className="search-datas">
-                {viewData.length>0 && viewData.map((data, id)=> {
+                {viewData.length>0 ? viewData.map((data, id)=> {
                     const { addr, establish, kindername, edate, opertime, } = data 
                     return(
                         <div key={id} className="search-data">
@@ -280,7 +281,7 @@ function SearchPage () {
                             <p>운영시간 : {opertime}</p>
                         </div>
                     )
-                })}
+                }):<Loading/>}
                 </div>
                 <div className="pages-btns">
                     {allData.length>0 && <PageBtn 

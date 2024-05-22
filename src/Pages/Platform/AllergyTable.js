@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './styles/AllergyTable.css'
 
 const allergies = ['난류', '우유','메밀', '땅콩', '대두', '밀', '고등어', '게', '새우', '돼지고기', '복숭아', '토마토', '아황산포함식품(대부분의 가공식품에 포함되어 따로 표기하지 않음)', '호두', '닭고기', '소고기', '오징어', '조개류(굴, 전복, 홍합 포함)', '잣', '견과류(아몬드)']
@@ -67,20 +67,62 @@ function AllergyTable () {
     const dragComponentRef = useRef(null); // // 움직일 드래그 박스 Ref
     const [originPos, setOriginPos] = useState({ x: 0, y: 0 }); // 드래그 전 포지션값 (e.target.offset의 상대 위치)
     const [pos, setPos] = useState({ left: 500, top: 500 }); // 실제 drag할 요소가 위치하는 포지션값
-    
+    const [gap, setGap] = useState({ left : 0, top: 0})
     const remoteStart = (e) => {
-        const x = containerRef.current.offsetLeft
-        const y = containerRef.current.offsetTop
-        setOriginPos({x, y})
+        // const x = containerRef.current.offsetLeft
+        // const y = containerRef.current.offsetTop
+        // setOriginPos({x, y})
     }
 
-    const remoteEnd = (e) => {
-        console.log(containerRef.current.offsetWidth)
-        console.log('x', e.clientX, 'y', e.clientY)
-        console.log(window.innerWidth, window.innerHeight)
-        if(containerRef.current.offsetWidth){}
-        setPos({left: e.clientX, top: e.clientY})
+    const remoteEnd = (e) => {        
+        let left = e.clientX
+        let top = e.clientY
+
+        const gapX = e.clientX - window.innerWidth
+        const gapY = e.clientY - window.innerHeight
+        let bounceX = 0
+        let bounceY = 0
+
+        const maxX = window.innerWidth - containerRef.current.offsetWidth
+        const maxY = window.innerHeight - containerRef.current.offsetHeight
+
+        if(left<0){
+            left = 0
+        }
+        if(top<0){
+            top = 0
+        }
+        if(left>maxX){
+            left = maxX
+        }
+        if(top>maxY){
+            top = maxY
+        }
+
+        setPos({left, top})
+        if(gapX>0 && gapY>0){
+            bounceX = maxX - gapX
+            bounceY = maxY - gapY
+            return setGap({left: bounceX, top: bounceY})
+        }
+        if(gapX>0){
+            bounceX = maxX - gapX
+            return setGap({left: bounceX, top: top})
+        }
+        if(gapY>0){
+            bounceY = maxY - gapY
+            return setGap({left: left, top: bounceY})
+        }
     }
+
+    useEffect(()=>{
+        const bounce = async () => {
+            setTimeout(() => {
+                setPos({...gap})
+            }, 100);
+        }
+        bounce()
+    },[gap])
 
     return(
         <>
