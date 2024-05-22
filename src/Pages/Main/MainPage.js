@@ -1,9 +1,10 @@
 import React from "react";
+import SearchModal from "../Search/SearchModal";
 
 function MainPage () {
     return(
         <>
-            메인페이지 입니다.
+            <SearchModal/>
         </>
     )
 }

@@ -3,13 +3,13 @@ import { allAxiosData, axiosData} from '../../Components/axiosData';
 import sidoData from '../../Datas/sidoData'
 import sggData from '../../Datas/sggData';
 import './styles/SearchPage.css'
-import OptionFilter from "./OptionFilter";
+import { MemoOptionFilter } from "./OptionFilter";
 import classNames from "classnames";
 import PageBtn from "../../Components/PageBtn";
 
 function SearchPage () {
     const [allData, setAllData] = useState([]) // 전체 데이터
-    const [localData, setLocalData] = useState([]) // 검색한 데이터 범위
+    const [localData, setLocalData] = useState([]) // 검색한 데이터 범위(지역 검색)
     const [filterData, setFilterData] = useState([]) // 검색한 결과 
     const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
 
@@ -19,7 +19,7 @@ function SearchPage () {
 
     // 지역 선택 토글
     const [openLocal, setOpenLocal] = useState(false)
-    const codeRef = useRef({sido: 11, sgg: 11140}) // 시/도, 시/군/구 코드
+    const codeRef = useRef({sido: 0, sgg: 0}) // 시/도, 시/군/구 코드
 
     const openLocalOption = () => { // 지역선택 열기/닫기
         setOpenLocal(!openLocal)
@@ -29,7 +29,6 @@ function SearchPage () {
         setOpenLocal(!openLocal)
         setFilterData([])
         const {sido, sgg} = codeRef.current
-
         if(sido === 0){ // searchData가 0이되면 allData를 불러옴
             return setLocalData([])
         }
@@ -45,27 +44,38 @@ function SearchPage () {
     }
 
     // 지역 옵션 선택 & 시/도, 시/군/구 code 선택
-    const [active, setActive] = useState({sido : 0, sgg : 0}) // 선택된 active
-    const [selectLocal, setSelectLocal] = useState({})
+    const [active, setActive] = useState({sido : 0, sgg : 0}) // 선택된 시/도 시/군/구
+    const [selectLocal, setSelectLocal] = useState({}) // 지역 선택 부분
     const valueExtractor = (e, name, idx) => {
-        if(idx!==0){
-            if(name === 'sido'){
-                setSelectLocal({[name] : e.target.innerText})
+
+        if(name === 'sido'){
+            if(idx === 0){ // 전체 초기화
+                codeRef.current = {sido: 0, sgg: 0} // 전체 초기화
+                setSelectLocal({}) // 전체 선택
             }else{
-                setSelectLocal({...selectLocal, [name] : e.target.innerText})
+                codeRef.current = {...codeRef.current, [name]: e.target.value, sgg: 0}
+                setSelectLocal({[name] : e.target.innerText})
             }
-        }else{
-            setSelectLocal({})
+        }else{ // name === sgg
+            if(idx === 0){ // 시/군/구 초기화
+                codeRef.current = {...codeRef.current, sgg: 0}
+                setSelectLocal({...selectLocal, [name] : ''})
+            }else{
+                codeRef.current = {...codeRef.current, [name]: e.target.value}
+                if(e.target.innerText !== '세종특별자치시'){
+                    setSelectLocal({...selectLocal, [name] : e.target.innerText})
+                }
+            }
         }
 
-        codeRef.current = {...codeRef.current, [name]: e.target.value}
         if(name === 'sido'){ // 시/도 선택시 시/군/구 전체로 전환
             setActive({...active, [name]: idx, sgg: 0})
         }else{
             setActive({...active, [name]: idx})
         }
+
     }
-    
+
     // 검색 기능
     const searchRef = useRef()
     const searchKinder = () => {
@@ -75,10 +85,10 @@ function SearchPage () {
             })
         }
 
-        if(localData.length>0){ // 검색 기록이 있는 경우
+        if(localData.length>0){ // 지역 검색 기록이 있는 경우
             const result = filtering(localData)
             if(result.length>0) return setFilterData(result)
-        }else{ // 검색하지 않은 경우
+        }else{ // 지역 검색을 하지 않은 경우
             const result = filtering(allData)
             if(result.length>0) return setFilterData(result)
         }
@@ -122,11 +132,11 @@ function SearchPage () {
 
         const viewerDataSelector = () => {
             if(filterData.length > 0){
-                return [...filterData]
+                return filterData
             }else if(localData.length > 0){
-                return [...localData]
+                return localData
             }else{
-                return [...allData]
+                return allData
             }
         }
 
@@ -135,18 +145,19 @@ function SearchPage () {
             
     }, [pagesCnt, itemsCnt, allData, localData, filterData])
 
-    const [filterOption, setFilterOption] = useState({})
+    const [checkboxOption, setCheckboxOption] = useState({})
     useEffect(()=>{
         
-        let keys = Object.keys(filterOption)
+        let keys = Object.keys(checkboxOption)
         
         let newData = []
-        localData.length>0 ? newData = JSON.parse(JSON.stringify(localData)) 
-        : newData = JSON.parse(JSON.stringify(allData))
+        localData.length>0 ? // 지역 검색한 기록이 있다면
+        newData = JSON.parse(JSON.stringify(localData)) : // 로컬에서 검색
+        newData = JSON.parse(JSON.stringify(allData)) // 없다면 전체에서 검색
 
         const filterOptionData = () => { // 체크박스 옵션에 따른 데이터 검색
             keys.forEach(key => {
-                let fkey = filterOption[key]
+                let fkey = checkboxOption[key]
                 if(key === '설립 유형'){
                     newData = newData.filter(data => {
                         return fkey.includes(data.establish) 
@@ -176,19 +187,19 @@ function SearchPage () {
                         })
                     }
                 }
-            })
-            if(allData.length>0){
-                if(newData.length>0){
+            }) //filtering 종료
+
+            if(allData.length>0){ // 전체 데이터 로딩 성공
+                if(newData.length>0){ // 체크박스 검색 결과가 있는가?
                     setFilterData(newData)
                 }else{
-                    alert('일치하는 데이터가 없습니다.')
+                    alert('검색 결과가 없습니다.')
                 }
             } 
         }
-
         filterOptionData()
         
-    },[filterOption])
+    },[checkboxOption])
 
     return(
         <div className="Search">
@@ -201,7 +212,7 @@ function SearchPage () {
                         <nav>
                             <ul>
                                 <p>시/도</p>
-                                <li value={'all'} onClick={e=>valueExtractor(e, 'sido', 0)}
+                                <li onClick={e=>valueExtractor(e, 'sido', 0)}
                                 className={classNames({on : 0 === +active['sido']})}>전체</li>
                                 {sidoData && sidoData.map((option, idx)=>{
                                 const { city, code } = option
@@ -211,20 +222,13 @@ function SearchPage () {
                             </ul>
                             <ul>
                                 <p>시/군/구</p>
-                                {active.sido === 0 ? 
-                                <li value={'all'} onClick={e=>valueExtractor(e, 'sgg', 0)}
-                                className={classNames({on : 0 === +active['sgg']})}>전체</li> : 
-                                <>
-                                    <li value={'all'} onClick={e=>valueExtractor(e, 'sgg', 0)}
-                                    className={classNames({on : 0 === +active['sgg']})}>전체</li>
-                                    {sggFilterData.map((data, idx) => {
-                                        const {sgg, code} = data
-                                        return  <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sgg', idx+1)}
-                                                className={classNames({on : idx+1 === +active['sgg']})}>{sgg}</li>
-                                    })}
-                                
-                                </>
-                                }
+                                <li onClick={e=>valueExtractor(e, 'sgg', 0)}
+                                className={classNames({on : 0 === +active['sgg']})}>전체</li>
+                                {active.sido !==0 && sggFilterData.map((data, idx) => {
+                                    const {sgg, code} = data
+                                    return  <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sgg', idx+1)}
+                                            className={classNames({on : idx+1 === +active['sgg']})}>{sgg}</li>
+                                })}
                             </ul>
                         </nav>
                         <div className="btn-box">
@@ -241,16 +245,16 @@ function SearchPage () {
             </div>
 
             <div className="search-filter">
-                <OptionFilter setResult={setFilterOption}/>
+                {<MemoOptionFilter setResult={setCheckboxOption} reloader={localData}/>}
             </div>
 
             <div className="search-viewer">
                 <div className="search-result">
                     <p className="list">
                         검색 목록 <span>{
-                        filterData.length>0 ? filterData.length : localData.length>0 ? localData.length : 
-                        allData ? allData.length : '로딩'}
-                        
+                        filterData.length>0 ? filterData.length : 
+                        localData.length>0 ? localData.length : 
+                        allData.length>0 ? allData.length : 0 }
                         </span>
                     </p>
                     <div onClick={openListOption} className={classNames('option', {on : listOption.isActive})}>
@@ -262,6 +266,7 @@ function SearchPage () {
                         </ul>
                     </div>
                 </div>
+
 
                 <div className="search-datas">
                 {viewData.length>0 && viewData.map((data, id)=> {
@@ -278,10 +283,11 @@ function SearchPage () {
                 })}
                 </div>
                 <div className="pages-btns">
-                    {allData && <PageBtn 
+                    {allData.length>0 && <PageBtn 
                     allLength={
                         filterData.length>0 ? filterData.length : 
-                        localData.length>0 ? localData.length : allData.length } 
+                        localData.length>0 ? localData.length : 
+                        allData.length>0 ? allData.length : 0 } 
                     dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
                 </div>
             </div>

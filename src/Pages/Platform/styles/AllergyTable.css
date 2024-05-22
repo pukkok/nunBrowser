@@ -1,0 +1,86 @@
+.allergy-table{
+    user-select: none;
+    border: solid 1px #5172df;
+    width: 400px;
+}
+
+.allergy-option{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.allergy-option .btn-box{
+    margin-left: auto;
+    display: flex;
+    gap: 5px;
+    padding-right: 10px;
+}
+.allergy-option .btn-box button{
+    border: solid 1px grey;
+    padding: 5px 10px;
+}
+.allergy-option .btn-box button:hover{
+    background-color: #5172df;
+    color: #fff;
+}
+
+.allergy-table h2{
+    padding: 10px;
+}
+
+.allergy{
+    border-bottom: solid 1px #5172df;
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.allergy:hover{
+    background-color: pink;
+}
+
+.allergy button{
+    margin-left: auto;
+    border: solid 1px grey;
+    display: none;
+}
+.allergy button.on{
+    display: block;
+}
+
+.add-allergy{
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    border: solid 1px grey;
+    padding: 10px;
+    display: none;
+}
+
+.add-allergy.on{
+    display: block;
+    width: 280px;
+    height: 200px;
+    background-color: #fff;
+    transition: .2s;
+}
+.add-allergy p{
+    border: solid 1px grey;
+    width: fit-content;
+    margin-bottom: 20px;
+    cursor:default;
+    user-select: none;
+}
+.add-allergy .input-box{
+    display: flex;
+}
+
+.add-allergy input{
+    padding: 5px;
+}
+
+.add-allergy button{
+    border: solid 1px grey;
+    padding: 5px 10px;
+}

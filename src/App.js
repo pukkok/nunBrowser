@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { MainPage, NotFoundPage, SearchPage } from './Pages'
 import './App.css'
+import PlatformPage from './Pages/Platform/PlatformPage';
 
 function App() {
 
@@ -8,8 +9,9 @@ function App() {
     <div className="App">
       
       <Routes>
-        <Route exact path='/' element={<MainPage></MainPage>}/>
-        <Route exact path='/search' element={<SearchPage></SearchPage>}/>
+        <Route exact path='/' element={<MainPage/>}/>
+        <Route exact path='/search' element={<SearchPage/>}/>
+        <Route exact path='/kinder' element={<PlatformPage/>}/>
         <Route exact path='*' element={<NotFoundPage />}/>
       </Routes>
     </div>

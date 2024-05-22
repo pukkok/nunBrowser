@@ -10,7 +10,7 @@ const optionBox = [
     { title : '통학차량 운영여부', options: ['운영', '미운영']}
 ]
 
-function OptionFilter ({ setResult }) {
+export function OptionFilter ({ setResult, reloader}) {
 
     const mainRef = useRef({})
     const subRef = useRef({})
@@ -131,6 +131,15 @@ function OptionFilter ({ setResult }) {
         }
     }
 
+    useEffect(()=>{
+        for(let prop in mainRef.current){
+            mainRef.current[prop].forEach(input => input.checked = false)
+        }
+        for(let prop in subRef.current){
+            subRef.current[prop].forEach(input => input.checked = false)
+        }
+    },[reloader])
+
     return(
         <section className="option-filter">
             {optionBox && optionBox.map((data, idx1)=>{
@@ -234,4 +243,4 @@ function OptionFilter ({ setResult }) {
         </section>
     )
 }
-export default OptionFilter
+export const MemoOptionFilter = React.memo(OptionFilter)
