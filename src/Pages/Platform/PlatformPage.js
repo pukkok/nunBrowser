@@ -1,12 +1,14 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import AllergyTable from "./AllergyTable";
-
+import './styles/PlatformPage.css'
+import MenuTable from "./MenuTable";
 function PlatformPage () {
 
     return(
-        <>
-            <AllergyTable/>
-        </>
+        <section className="platform-page" >
+            <MenuTable/>
+            {/* <AllergyTable/> */}
+        </section>
     )
 }
 
