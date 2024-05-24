@@ -1,0 +1,88 @@
+.Calendar{
+    width: fit-content;
+    text-align: center;
+}
+
+/* 전체 폼 그리드 옵션 */
+.Calendar .table{
+    display: grid;
+    grid-template-areas: 
+    't t t t t t'
+    'x h h h h h'
+    's m m m m m'
+    's m m m m m';
+}
+.Calendar .table .title{
+    grid-area: t;
+}
+.Calendar .side-option{
+    grid-area: s;
+}
+.Calendar .table header{
+    grid-area: h;
+}
+.Calendar .table main{
+    grid-area: m;
+}
+
+/* 타이틀 */
+.Calendar .table .title{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.Calendar .table .title button{
+    border: solid 1px grey;
+}
+
+/* 사이드 옵션 */
+.Calendar .side-option .option-box{
+    margin-top: 21px;
+    box-sizing: border-box;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+.Calendar .side-option .option-box:nth-last-child(1){
+    border-bottom: none;
+}
+
+/* 셀 한칸 */
+.Calendar .table main .week .day{
+    width: 200px;
+    float: left;
+}
+.Calendar .table main .week .day.blank{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* 메뉴 */
+.Calendar .table main .week .day:not(.blank) .menu{
+    min-height: 100px;
+    float: left;
+    width: 100%;
+}
+
+.Calendar .side-option .option-box,
+.Calendar .table main .menu{
+    display: grid;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Calendar .option{
+    min-height: 100px;
+    float: left;
+    /* height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    /* align-items: center; */
+}
+
+.Calendar .option p{
+    height: 20px;
+}
+
+.Calendar .table .option:not(:nth-last-of-type(1)){
+    border-bottom: dotted 1px red;
+}
