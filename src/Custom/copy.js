@@ -6,7 +6,7 @@ import './styles/Calendar.css'
 const weekdays = ['일', '월', '화', '수', '목', '금', '토']
 
 /** (어떤 요일을 지우고싶나요?) wantDeleteYOIL : ['요일', '요일', ...] */
-function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick, menuInfo={title:'',date:'', idx:0}, merge}) {
+function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions, dayClick, menuInfo={title:'',date:'', idx:0}, merge}) {
     const today = dayjs()
     const todayD = today.date() // 오늘 몇일?
     const todayYM = today.format('YYYY년 M월')
@@ -83,7 +83,7 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
         },
         grid : {
             display: 'grid',
-            gridTemplateColumns: `repeat(${sideOptions.length>0 ? result.yoils.length+1 : result.yoils.length}, 1fr)`,
+            gridTemplateColumns: `repeat(${sideOptions ? result.yoils.length+1 : result.yoils.length}, 1fr)`,
         },
         header: {
             minHeight: '50px',
@@ -101,16 +101,16 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
         mainBorder: {
             border: `1px solid ${borderColor}`
         },
-        bBottom: {
+        bottomLineBorder: {
             borderBottom: `1px solid ${borderColor}`
         },
-        lastBBottom: {
+        lastWeekBorder: {
             borderBottom: 'none'
         },
-        bRight: {
+        dayBorder: {
             borderRight: `1px solid ${borderColor}`
         },
-        lastBRight: {
+        lastDayBorder: {
             borderRight: 'none'
         },
         
@@ -131,6 +131,16 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
         }
     }
 
+    const [optCount, setOptCount] = useState(0)
+    
+    useEffect(()=>{
+        if(sideOptions){
+            setOptCount(sideOptions.length)
+        }
+    })
+    
+    console.log(menuInfo)
+
     return(
         <section className="Calendar">
             <div>
@@ -141,63 +151,58 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                         <h3>{YM}</h3>
                         <button className="next-btn" onClick={()=>moveMonth('next')}>다음 달 →</button>
                     </div>
-                    
+                    <div className="side-option" style={styles.sideOption}>
+                        {sideOptions && Array(result.nalzzas.length).fill(0).map((_, idx1)=>{
+                            return (
+                                <div className="option-box" key={idx1}>
+                                    {sideOptions.map((option, idx2)=> {
+                                        return <p key={idx2} className="option">{option}</p>
+                                    })}
+                                </div>
+                            )
+                        })}
+                    </div>
+                    {/* header 월 ~ 토 표시 */}
                     <header style={{...styles.header, ... styles.grid}}>
-                        {sideOptions.length>0 && <div className="blank"></div>}
-                        {result.yoils.map((day, idx)=>{ // 일 ~ 토 표시
-                            return <div key={`header${idx}`}>{day}</div>
+                        {sideOptions && <div className="blank"></div>}
+                        {result.yoils.map((day, idx)=>{
+                            return <div key={idx} className="yoil">{day}</div>
                         })}
                     </header>
-
                     <main style={styles.mainBorder} ref={mainRef}>
-                        
                         {result.nalzzas.map((weekArr, idx)=>{
                             return(
-                            <div key={`nalzzas${idx}`} className="week">
-                                <div className="week-rows" style={{...styles.bBottom, ...styles.grid}}>
+                                <div key={idx} className="week" 
+                                style={
+                                    idx!==result.nalzzas.length-1 ? // 마지막 border-bottom
+                                    {...styles.bottomLineBorder, ...styles.grid} : 
+                                    {...styles.lastWeekBorder, ...styles.grid}}>
 
-                                    {sideOptions.length>0 && <div className="blank"></div>}
+                                    {weekArr.map((day, idx)=>{
+                                    return (<div className={classNames("day", { blank : !day })} key={idx}
+                                    style={
+                                        todayYM===YM && day===todayD ? styles.today : // 오늘인가?
+                                        (idx+1)%weekArr.length===0 ? // 마지막 border-right
+                                        styles.lastDayBorder : styles.dayBorder}>
 
-                                    {weekArr.map((day, idx)=>{ // 날짜 입력 (일)
-                                    return (
-                                        <div className={classNames("day", { blank : !day })} key={`day${idx}`}
-                                        style={
-                                            todayYM===YM && day===todayD ? styles.today : // 오늘인가?
-                                            (idx+1)%weekArr.length===0 ? // 마지막 border-right
-                                            styles.lastBRight : styles.bRight}>
+                                        <p className="nalzza" style={styles.bottomLineBorder}>{day===0 ? '' : day}</p>
 
-                                            <p className="nalzza">{day===0 ? '' : day}</p>
-                                        </div>)
-                                    })}
+                                        {day !==0 && 
+                                            optCount!==0 && Array(optCount).fill(0).map((_, keyIdx)=>{
+                                                
+                                                return <div key={keyIdx} className={`option option-${keyIdx+1}`} onClick={(e)=>dayClickHandler(e, day)}>
 
-                                </div>
+                                                    {menuInfo.map((info, index)=>{
+                                                    return (info.date === standardDay.set('D', day).format('YYYY-MM-DD') &&
+                                                    <p key={index}>{+info.idx === keyIdx+1 && info.title}</p>)
+                                                    })}
 
-                                {sideOptions.length>0 ? sideOptions.map((option, keyIdx)=>{
-                                    return (<div className="week-rows" key={`menus${keyIdx}`} 
-                                    style={{...styles.bBottom, ...styles.grid}}>
-                                        {/* 사이드 셀 */}
-                                        <div className="side-option cell" style={styles.bRight}> 
-                                            <p className="option">{option}</p>
-                                        </div>
-
-                                        {weekArr.map((day, idx)=> { // 컨텐츠 추가 셀
-                                            return <div className={`day-${day} coord${keyIdx+1}-${idx+1} cell`} 
-                                            key={`menu${idx}`}
-                                            style={ (idx+1)%weekArr.length===0 ? styles.lastBRight : styles.bRight}
-                                            >{keyIdx}</div>              
-                                        })}
+                                                </div>
+                                            })
+                                        }
                                     </div>)
-                                }) : // 사이드 옵션이 없다면
-                                <div className="week-rows" style={(idx+1)%result.nalzzas.length===0 ? {...styles.lastBBottom, ...styles.grid} : {...styles.bBottom, ...styles.grid}}>
-                                    {weekArr.map((day, idx)=> { // 컨텐츠 추가 셀
-                                        return <div className={`day-${day} no-side cell`} 
-                                        key={`menu${idx}`}
-                                        style={(idx+1)%weekArr.length===0 ? styles.lastBRight : styles.bRight}>
-                                        컨텐츠 </div>              
-                                    })}
-                                </div>}
-
-                            </div>
+                                })}
+                                </div>
                             )
                         })}
                     </main>
