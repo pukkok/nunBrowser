@@ -1,5 +1,5 @@
 .date-modal{
-    position: absolute;
+    position: fixed;
     box-sizing: border-box;
     width : 300px;
     height : 300px;

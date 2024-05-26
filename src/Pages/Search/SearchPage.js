@@ -1,5 +1,5 @@
 import React , { useEffect, useRef, useState }from "react";
-import { allAxiosData, axiosData} from '../../Components/axiosData';
+import { axiosKinderAllData, axiosKinderData} from '../../Components/axiosData';
 import sidoData from '../../Datas/sidoData'
 import sggData from '../../Datas/sggData';
 import './styles/SearchPage.css'
@@ -15,7 +15,7 @@ function SearchPage () {
     const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
 
     useEffect(()=>{ // 초기 랜더링
-        allAxiosData(sggData, setAllData) // 전체 데이터 불러오기
+        axiosKinderAllData(sggData, setAllData) // 전체 데이터 불러오기
     },[])
 
     // 지역 선택 토글
@@ -35,12 +35,12 @@ function SearchPage () {
         }
 
         if(sgg!==0){
-            axiosData(sido, sgg, setLocalData)
+            axiosKinderData(sido, sgg, setLocalData)
         }else{ // 시/도 선택 시/군/구 전체
             const list = sggData.filter(data => {
                 return data.sidoCode === sido
             })
-            allAxiosData(list, setLocalData)
+            axiosKinderAllData(list, setLocalData)
         }
     }
 
@@ -273,7 +273,9 @@ function SearchPage () {
                 {viewData.length>0 ? viewData.map((data, id)=> {
                     const { addr, establish, kindername, edate, opertime, } = data 
                     return(
-                        <div key={id} className="search-data">
+                        <div key={id} className="search-data" onClick={()=>{
+                            console.log(data)
+                        }}>
                             <p>주소 : {addr}</p>
                             <p>유치원 명 : {kindername}</p>
                             <p>설립일 : {edate}</p>

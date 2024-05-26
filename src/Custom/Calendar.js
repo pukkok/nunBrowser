@@ -120,11 +120,10 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
     }
     
     const optionRef = useRef([])
-    const dayClickHandler = (e, info) => {
+    const dayClickHandler = (e, info , optionIndex) => {
         if(info===0) return
         
-        const dayInfo = standardDay.set('D',info)
-        const optionIndex = e.target.className.split('option-')[1]
+        const dayInfo = standardDay.set('D', info)
         
         if(dayClick){
             dayClick({day : dayInfo, idx : optionIndex})
@@ -175,16 +174,24 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                                 {sideOptions.length>0 ? sideOptions.map((option, keyIdx)=>{
                                     return (<div className="week-rows" key={`menus${keyIdx}`} 
                                     style={{...styles.bBottom, ...styles.grid}}>
-                                        {/* 사이드 셀 */}
+                                        
                                         <div className="side-option cell" style={styles.bRight}> 
                                             <p className="option">{option}</p>
                                         </div>
 
                                         {weekArr.map((day, idx)=> { // 컨텐츠 추가 셀
-                                            return <div className={`day-${day} coord${keyIdx+1}-${idx+1} cell`} 
+                                            return <div className={`day-${day} option${keyIdx+1} cell`} 
                                             key={`menu${idx}`}
                                             style={ (idx+1)%weekArr.length===0 ? styles.lastBRight : styles.bRight}
-                                            >{keyIdx}</div>              
+                                            onClick={(e)=> dayClickHandler(e, day, keyIdx+1)}
+                                            >
+                                                {/* {day}일 / 옵션({keyIdx+1}) */}
+                                                {menuInfo.map((info, index)=>{
+                                                    return (info.date === standardDay.set('D', day).format('YYYY-MM-DD') &&
+                                                    <p key={index}>{+info.idx === keyIdx+1 && info.title}</p>)
+                                                })}
+
+                                            </div>              
                                         })}
                                     </div>)
                                 }) : // 사이드 옵션이 없다면
@@ -192,8 +199,16 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                                     {weekArr.map((day, idx)=> { // 컨텐츠 추가 셀
                                         return <div className={`day-${day} no-side cell`} 
                                         key={`menu${idx}`}
-                                        style={(idx+1)%weekArr.length===0 ? styles.lastBRight : styles.bRight}>
-                                        컨텐츠 </div>              
+                                        style={(idx+1)%weekArr.length===0 ? styles.lastBRight : styles.bRight}
+                                        onClick={(e)=> dayClickHandler(e, day, day)}
+                                        >
+
+                                            {menuInfo.map((info, index)=>{
+                                                return (info.date === standardDay.set('D', day).format('YYYY-MM-DD') &&
+                                                <p key={index} className="menu">{+info.idx === day && info.title}</p>)
+                                            })}
+
+                                        </div>              
                                     })}
                                 </div>}
 

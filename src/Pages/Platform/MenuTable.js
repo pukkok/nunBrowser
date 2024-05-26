@@ -20,7 +20,7 @@ function MenuTable () {
     },[sendData])
 
     const deleteYOIL = ['토', '일']
-    // const sideOptions = ['오늘의 한상', 'kcal/단백질(g)', '간식']
+    const sideOptions = ['오늘의 한상', 'kcal/단백질(g)', '간식']
 
     const openDay = (info) => {
         const date = info.day.format('YYYY-MM-DD')
@@ -31,11 +31,10 @@ function MenuTable () {
 
     return(
         <div>
-            <Calendar wantDeleteYOIL={deleteYOIL}
-            //  sideOptions={sideOptions}
-              dayClick={openDay}
-             menuInfo={menu}
+            <Calendar wantDeleteYOIL={deleteYOIL} menuInfo={menu}
+             sideOptions={sideOptions} dayClick={openDay} 
              />
+             
             <DateModal dateInfo={selectDateInfo} isOpen={openModal}
              handleClick={()=>setOpenModal(false)} setSendData={setSendData}
              modalPosition={modalPosition}
