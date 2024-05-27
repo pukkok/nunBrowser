@@ -10,9 +10,9 @@ function ServiceIntroduce () {
     return(
         <>
             <div className="title">
-                <h3>공시항목 소개
+                <h2>공시항목 소개
                 <ImgBox src="./btn-icon-print.png" alt="print" addClass={'print'} handleClick={printPage}/>
-                </h3>
+                </h2>
                 <h5>
                 <ImgBox src="./icon-breadcrumb-home.png" alt="홈"/>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>

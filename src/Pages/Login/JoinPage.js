@@ -28,7 +28,7 @@ function JoinPage () {
 
     const [ step2Input, setStep2Input ] = useState({})
     const [certificateData, setCertificateData] = useState({})
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(0)
     
     // 인증서 확인
     const certificate = async (e, step1) => { 
@@ -76,14 +76,14 @@ function JoinPage () {
 
     return(
         <div id="Join">
-            <h1>회원 가입</h1>
-            <Agreement/>
+            {/* <h1>회원 가입</h1>
             <nav>
                 <ul>
                     <li>교직원</li>
                     <li>학부모</li>
                 </ul>
-            </nav>
+            </nav> */}
+            <Agreement/>
             {step===1 && 
             <>
                 <LabelBox handleChange={step1InputExtractor} 

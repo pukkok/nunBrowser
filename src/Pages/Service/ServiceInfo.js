@@ -10,9 +10,9 @@ function ServiceInfo () {
     return(
         <>
         <div className="title">
-            <h3>서비스 안내
+            <h2>서비스 안내
                 <ImgBox src="./btn-icon-print.png" alt="print" addClass={'print'} handleClick={printPage}/>
-            </h3>
+            </h2>
             <h5>
                 <ImgBox src="./icon-breadcrumb-home.png" alt="홈"/>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>
