@@ -19,7 +19,7 @@ function MenuTable () {
         }
     },[sendData])
 
-    const deleteYOIL = ['토', '일']
+    const deleteYOIL = ['일', '토']
     const sideOptions = ['오늘의 한상', 'kcal/단백질(g)', '간식']
 
     const openDay = (info) => {

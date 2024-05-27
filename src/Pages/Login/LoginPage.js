@@ -1,24 +1,35 @@
 import React, {useState} from "react";
 import './styles/LoginPage.css'
+import axios from "axios";
 
 function LoginPage () {
 
-    const BASE_URL = 'http://localhost:4002'
+    const BASE_URL = 'http://localhost:5000'
 
     const [input, setInput] = useState({})
 
-    const login = async (userId, password) => {
-        const userJSON = await fetch(`${BASE_URL}/api/users/login`, {
-            headers : {
-                'Content-Type' : 'application/json'
-            },
-            method : 'POST',
-            body : JSON.stringify({
+    const [switchType, setSwitchType] = useState('teacher')
+
+    const [result, setResult] = useState()
+
+    const login = async (e, input) => {
+        e.preventDefault()
+        const {userId, password} = input
+        const { data } = await axios.post(`${BASE_URL}/${switchType}/login`, {
                userId, password
-            })
         })
-        const user = await userJSON.json()
-       return user
+
+        if(data.code === 200){
+            localStorage.setItem('token', JSON.stringify(data.token))
+            localStorage.setItem('admin', JSON.stringify(data.data.isAdmin))
+            localStorage.setItem('user', JSON.stringify(data.data.userId))
+            alert('로그인 되었습니다.')
+            window.close() // 본인 닫기
+            window.opener.location.reload() // 열었던 창 리로드
+        }else{
+            alert(data.msg)
+        }
+
     }
 
     const valueExtractor = (e) => {
@@ -26,25 +37,9 @@ function LoginPage () {
         setInput({...input, [name] : value })
     }
 
-    const starter = async (e) => {
-        e.preventDefault()
-        const { id, password } = input
-        
-        let success = await login(id, password)
-        if(success.code === 200){
-            localStorage.setItem('token', JSON.stringify(success.token))
-            localStorage.setItem('admin', JSON.stringify(success.isAdmin))
-            localStorage.setItem('user', JSON.stringify(success.userId))
-            alert('로그인 되었습니다.')
-            window.close() // 본인 닫기
-            window.opener.location.reload() // 열었던 창 리로드
-        }else{
-            alert(success.msg)
-        }
-    }
-
-
-
+    useState(()=>{
+        console.log(result)
+    },[result])
 
     return(
         <div className="login-box">
@@ -52,12 +47,12 @@ function LoginPage () {
                 <h1>LOGIN</h1>
                 <p>로그인 이후 플랫폼 이용이 가능합니다.</p>
             </header>
-            <form method="post">
+            <form>
                 <div>
-                    <input type="text" placeholder="아이디"/>
-                    <input type="password" placeholder="비밀번호"/>
+                    <input type="text" placeholder="아이디" name="userId" onChange={valueExtractor}/>
+                    <input type="password" placeholder="비밀번호" name="password" onChange={valueExtractor}/>
                 </div>
-                <button type="submit">로그인 →</button>
+                <button type="submit" onClick={e=>login(e, input)}>로그인 →</button>
             </form>
             <div className="small-box">
                 <div>

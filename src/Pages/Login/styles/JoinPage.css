@@ -1,0 +1,21 @@
+#Join{
+    border: solid 1px blue;
+
+}
+
+.step-1-form{
+    border: solid 1px red;
+}
+
+.step-1-form,
+.step-2-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.step-2-form label{
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+
+}

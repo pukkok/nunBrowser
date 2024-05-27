@@ -23,4 +23,6 @@ async function axiosKinderAllData (allData, setFunc) {
 
 }
 
+
+
 export {axiosKinderData, axiosKinderAllData}
