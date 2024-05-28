@@ -68,6 +68,7 @@
 .input-info .join-table table .table-list.on li{
     display: block;
 }
+.input-info .join-table table .table-list.on li.active,
 .input-info .join-table table .table-list.on li:hover{
     background-color: #004898;
     color: #fff;

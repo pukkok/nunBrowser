@@ -17,10 +17,64 @@ function InputInfo ({type, info}) {
         setActiveOption({...activeOption, [option] : e.target.innerText})
         
         option === 'phoneOption' ? phoneRef.current['head'] = e.target.innerText : emailRef.current[''] = ''
-
+        
     }
-    const selectAddrress = () => {
-        // activeOption
+    
+    const [selectNum, setSelectNum] = useState({})
+    const selectPhoneRef = useRef([])
+    const selectEmailRef = useRef([])
+    const selectOptionKeyBoard = (e, option) => {
+        if(e.code === 'ArrowDown'){
+            if(!openList[option]){
+                setOpenList({...openList, [option] : true})
+                if(!selectNum[option]){
+                    setSelectNum({...selectNum, [option] : 0})
+                }
+            }else{
+                if(selectNum[option] < e.target.children.length-1){
+                    setSelectNum({...selectNum, [option] : selectNum[option]+1})
+                }else{
+                    setSelectNum({...selectNum, [option] : 0})
+                }
+            }
+        }
+        
+        if(e.code === 'ArrowUp'){
+            if(openList[option]){
+                if(selectNum[option] < 1){
+                    setSelectNum({...selectNum, [option] : e.target.children.length-1})
+                }else{
+                    setSelectNum({...selectNum, [option] : selectNum[option]-1})
+                }
+            }
+        }
+        
+        if(e.code === 'Enter'){
+            if(openList[option]){
+                setOpenList({...openList, [option] : false})
+            }
+        }
+    }
+
+    useEffect(()=>{
+        let keys = Object.keys(selectNum)
+        keys.forEach(key => {
+            key === 'phoneOption' ?
+            setActiveOption({
+                ...activeOption, 
+                [key] : selectPhoneRef.current[selectNum[key]].innerText
+            }) :
+            setActiveOption({
+                ...activeOption, 
+                [key] : selectEmailRef.current[selectNum[key]].innerText
+            })
+        })
+    },[selectNum])
+
+
+    const selectAddrress = (e) => {
+        console.log(e)
+        activeOption['emailOption'] = e.target.value
     }
 
     const inputRefs = useRef({})
@@ -28,7 +82,7 @@ function InputInfo ({type, info}) {
     const emailRef = useRef({})
 
     useEffect(()=>{
-        console.log(phoneRef.current)
+        // console.log(phoneRef.current)
     })
 
     const inputInfo = () => {
@@ -96,7 +150,7 @@ function InputInfo ({type, info}) {
                             <td colSpan={3}>
                                 <div>
                                     <input type="text" ref={el => inputRefs.current['userId'] = el}/>
-                                    <button onClick={duplicateCheck}>중복 확인</button>
+                                    <button onClick={duplicateCheck} tabIndex={-1}>중복 확인</button>
                                     <span>아이디는 영문, 숫자, 특수문자의 조합으로 입력해주세요.</span>
                                 </div>
                             </td>
@@ -121,9 +175,11 @@ function InputInfo ({type, info}) {
                             <th>휴대폰 번호</th>
                             <td colSpan={3}>
                                 <div>
-                                    <ul className={classNames("table-list", {on : openList.phoneOption})} onClick={(e)=>selectOption(e, 'phoneOption')}>
+                                    <ul className={classNames("table-list", {on : openList.phoneOption})} tabIndex={0} onClick={(e)=>selectOption(e, 'phoneOption')} onKeyDown={(e)=>selectOptionKeyBoard(e, 'phoneOption')}>
                                     {phoneOptions.map((option, idx)=>{
-                                        return <li key={option+idx} className={classNames({active : activeOption.phoneOption===option})}>{option}</li>
+                                        return <li key={option+idx} 
+                                        ref={el => !selectPhoneRef.current.includes(el) && el !==null && selectPhoneRef.current.push(el) } 
+                                        className={classNames({active : activeOption.phoneOption===option})}>{option}</li>
                                     })}
                                     </ul>
                                     <p>-</p>
@@ -140,9 +196,11 @@ function InputInfo ({type, info}) {
                                     <input ref={el => emailRef.current['email'] = el}/>
                                     <p>@</p>
                                     <input onChange={selectAddrress} ref={el => emailRef.current['addrress'] = el}/>
-                                    <ul className={classNames("table-list", {on : openList.emailOption})} onClick={(e)=>selectOption(e, 'emailOption')}>
+                                    <ul className={classNames("table-list", {on : openList.emailOption})} tabIndex={0} onClick={(e)=>selectOption(e, 'emailOption')} onKeyDown={(e)=>selectOptionKeyBoard(e, 'emailOption')}>
                                         {emailOptions.map((option, idx)=>{
-                                            return <li key={option+idx} className={classNames({active: activeOption.emailOption===option})}>{option}</li>
+                                            return <li key={option+idx} 
+                                            ref={el => !selectEmailRef.current.includes(el) && el !==null && selectEmailRef.current.push(el) }
+                                            className={classNames({active: activeOption.emailOption===option})}>{option}</li>
                                         })}
                                     </ul>
                                 </div>
