@@ -154,7 +154,7 @@ export function OptionFilter ({ setResult, reloader}) {
                                 return(
                                     <div className={'label-box'} key={option+idx}>
                                         <div className={classNames({'main-label' : ['국공립', '사립'].includes(option)})}>
-                                        <CheckBox inputValue={option} innerP={option}
+                                        <CheckBox inputValue={option}
                                         inputRef={(el)=>{
                                             if(el !== null){
                                                 if(mainRef.current[title]){
@@ -166,14 +166,14 @@ export function OptionFilter ({ setResult, reloader}) {
                                                 }
                                             }
                                         }}
-                                        handleClick={(e)=>getCheckBoxValue(e, title)}/>
+                                        handleClick={(e)=>getCheckBoxValue(e, title)}>{option}</CheckBox>
                                         {['국공립', '사립'].includes(option) && <button onClick={()=>toggleSubOption(option)} className="icon"></button>}
                                         </div>
 
                                         {option === '국공립' && // 설립 옵션 1
                                         <>
                                         {optionBox[0].subOption1.map((ob, idx)=>{
-                                            return(<CheckBox key={ob+idx} inputValue={ob} innerP={ob}
+                                            return(<CheckBox key={ob+idx} inputValue={ob}
                                             inputRef={(el)=>{
                                                 if(el !== null){
                                                     if(subRef.current[option]){
@@ -186,14 +186,14 @@ export function OptionFilter ({ setResult, reloader}) {
                                                 }
                                             }}
                                             addClass={classNames('sub-label', {on : openSub[option]})}
-                                            handleClick={(e)=>getCheckBoxValue(e, title)}/>)
+                                            handleClick={(e)=>getCheckBoxValue(e, title)}>{ob}</CheckBox>)
                                         })}
                                         </>}
 
                                         {option === '사립' && // 설립 옵션 2
                                         <>
                                         {optionBox[0].subOption2.map((ob, idx) => {
-                                            return(<CheckBox key={ob+idx} inputValue={ob} innerP={ob}
+                                            return(<CheckBox key={ob+idx} inputValue={ob}
                                             inputRef={(el)=>{
                                                 if(el !== null){
                                                     if(subRef.current[option]){
@@ -207,14 +207,14 @@ export function OptionFilter ({ setResult, reloader}) {
                                             }}
                                             addClass={classNames('sub-label', {on : openSub[option]})}
                                             handleClick={(e)=>getCheckBoxValue(e, title)}
-                                            />)
+                                            >{ob}</CheckBox>)
                                         })}
                                         </>}
 
                                         {option === '방과후과정' && // 제공 서비스 옵션
                                         <>
                                         {optionBox[1].subOption1.map((ob, idx) => {
-                                            return(<CheckBox key={ob+idx} inputValue={ob} innerP={ob}
+                                            return(<CheckBox key={ob+idx} inputValue={ob}
                                             inputRef={(el)=>{
                                                 if(el !== null){
                                                     if(subRef.current[option]){
@@ -228,7 +228,7 @@ export function OptionFilter ({ setResult, reloader}) {
                                             }}
                                             addClass={'sub-label on'}
                                             handleClick={(e)=>getCheckBoxValue(e, title)}
-                                            />)
+                                            >{ob}</CheckBox>)
                                         })}
                                         </>}
 

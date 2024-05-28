@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import LabelBox from "../../Components/LabelBox";
-import axios from "axios";
+import React, { useEffect, useState, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import './styles/JoinPage.css'
-import Agreement from "./Agreement";
+import LabelBox from "../../Components/LabelBox";
+import ImgBox from '../../Components/ImgBox'
+import Container from '../../Components/Container'
 
-const step1Arr = [
-    { id: 'key', type: 'text', name : 'key'},
-    { id: 'password', type: 'password', name : 'password'}
-]
+import axios from "axios";
+import classNames from "classnames";
+
+import Agreement from "./Agreement";
+import SelectJoinType from "./SelectJoinType";
+import Certificate from "./Certificate";
+import InputInfo from "./InputInfo";
+
 
 const arr1 = [
     { id: 'step2-email' , type: 'text', name : 'email', kr: '이메일'},
@@ -19,32 +24,11 @@ const arr1 = [
 
 const BASE_URL = 'http://localhost:5000'
 
+const agreeSteps = ['약관동의', '회원구분', '본인확인', '정보입력', '가입완료']
 function JoinPage () {
-    const [step1Input, setStep1Input] = useState({})
-    const step1InputExtractor = (e) => { // 1단계 처리하기 (인증처리)
-        let {name, value} = e.target
-        setStep1Input({...step1Input, [name] : value})
-    }
 
-    const [ step2Input, setStep2Input ] = useState({})
-    const [certificateData, setCertificateData] = useState({})
+    const [step2Input, setStep2Input] = useState({})
     const [step, setStep] = useState(0)
-    
-    // 인증서 확인
-    const certificate = async (e, step1) => { 
-        const {key, password} = step1
-        e.preventDefault()
-        const { data } = await axios.post(`${BASE_URL}/teacher/join/step1`, {
-            key, password
-        })
-        if(data.code === 200){
-            alert(data.msg)
-            setCertificateData(data.data)
-            setStep(2)
-        }else{
-            alert(data.msg)
-        }
-    }
 
     // 인증 후 회원가입
     const join = async (e, step2) => {
@@ -63,36 +47,82 @@ function JoinPage () {
         }
     }
 
-    useEffect(()=>{
-        if(step === 3){
-            setCertificateData({})
-        }
-    },[step])
-
     const valueExtractor = (e) => {
         let {name, value} = e.target
         setStep2Input({...step2Input, [name] : value})
     }
 
+    const [agreeCheck, setAgreeCheck] = useState([]) // 스텝0 : 동의
+    const navigate = useNavigate()
+
+    const [joinType, setJoinType] = useState('') // 스텝1 : 타입선택
+    useEffect(()=>{
+        if(joinType){
+            setStep(step+1)
+        }
+    },[joinType])
+
+    const [certificateData, setCertificateData] = useState({}) // 스텝2 : 인증 완료
+    useEffect(()=>{
+        if(Object.values(certificateData).length>0){
+            setStep(step+1)
+        }
+    },[certificateData])
+
+    const moveStep = (e) => {
+        const key = e.target.innerText
+        if(key === '이전'){
+            setStep(step-1)  
+        }else if(key === '다음'){ // 스텝 0 => 1
+            if(agreeCheck.length === 2){
+                setStep(step+1)
+                setAgreeCheck([])
+            }else{
+                alert('모두 동의해야 가입이 가능합니다.')
+            }
+        }else if(key === '회원가입'){ // 취소 (메인으로 돌아가기)
+            alert('회원가입하러가기')
+        }else{
+            navigate('/')
+        }
+    }
+
+    useEffect(()=>{
+        if(step === 1){ // 이전버튼으로 되돌아 왔을 경우
+            setJoinType('') // 선택 초기화
+        }
+    },[step])
+
     return(
-        <div id="Join">
-            {/* <h1>회원 가입</h1>
-            <nav>
-                <ul>
-                    <li>교직원</li>
-                    <li>학부모</li>
-                </ul>
-            </nav> */}
-            <Agreement/>
-            {step===1 && 
-            <>
-                <LabelBox handleChange={step1InputExtractor} 
-                handleClick={(e)=>certificate(e, step1Input)}
-                addClass={'step-1-form'} arr={step1Arr}>
-                    완료
-                </LabelBox>
-            </>}
-            {step===2 &&
+        <div id="Join" className="join">
+            <h1>회원가입</h1>
+            <Container width={1240}>
+            <div className="join-wrap">
+                <div className="step-box">
+                    {agreeSteps.map((order,idx)=>{
+                        return (
+                            <Fragment key={idx}>
+                                <div className="step">
+                                    <ImgBox addClass={classNames('img-box', {active : step===idx})} src={`./agreement/img_joinStep${idx+1}.png`}/>
+                                    <p>STEP 0{idx+1}</p>
+                                    <strong>{order}</strong>
+                                </div>
+                                {idx !== agreeSteps.length -1 && <div className="arrow"></div>}
+                            </Fragment>
+                        )
+                    })}
+                </div>
+                {step === 0 && <Agreement setFunc={setAgreeCheck}/> }
+                {step === 1 && <SelectJoinType setFunc={setJoinType}/> }
+                {step === 2 && <Certificate type={joinType} setFunc={setCertificateData}/> }
+                {step === 3 && <InputInfo info={certificateData} type={joinType}/> }
+                <div className="btn-box">
+                    <button className={classNames({active : step!==0 })} onClick={moveStep}>{step===0 ? '취소' : step===3 ? '회원가입' : '이전'}</button>
+                    <button className={classNames({active : step===0 })} onClick={moveStep}>{step===0 ? '다음' : step===3 ? '이전' :'취소'}</button>
+                </div>
+            </div>
+            </Container>
+            {step===6 &&
             <>
                 {Object.values(certificateData).length>0 &&
                     <div>
@@ -105,11 +135,7 @@ function JoinPage () {
                 addClass={'step-2-form'} arr={arr1} >완료</LabelBox>
             </>
             }
-            {step===3 &&
-            <>
-                <p>회원가입 완료</p>
-            </>
-            }
+            
         </div>
 
     )

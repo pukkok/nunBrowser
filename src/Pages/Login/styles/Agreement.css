@@ -1,95 +1,24 @@
-.agreement{
-    background-color: #004898;
-    height: max-content;
-}
-
-.agreement h1{
-    padding: 60px 0 45px;
-    text-align: center;
-    font-size: 35px;
-    color: #fff;
-}
-
-.agreement .join-wrap{
-    padding: 30px;
-    border-radius: 60px;
-    height: fit-content;
-    background-color: #fff;
-}
-
-.agreement .order-box{
-    margin: 0 auto;
-    width: 85%;
-    border-radius: 30px;
-    padding: 20px;
-    border: 1px dashed #c4c4c4;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    text-align: center;
-}
-
-.agreement .order-box .step-box{
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.agreement .order-box .arrow{
-    background-image: url('./arr_joinG.png');
-    background-repeat: no-repeat;
-    width: 13px;
-    height: 22px;
-}
-
-.agreement .order-box .img-box{
-    position: relative;
-    width: 125px;
-    height: 125px;
-    border : 2px solid #004898;
-    box-shadow: 2px 6px 2px #d4e4f6;
-    padding: 10px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-.agreement .order-box .img-box img{
-    position: absolute;
-    background-color: #f7f7f7;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-}
-
-.agreement .order-box .order strong{
-    color: #004898;
-}
-
-.agreement .text-box{
-    text-align: center;
-}
-.agreement .text-box h2{
-    padding: 32px;
-}
-.agreement .text-box h4{
-    font-weight: 400;
-}
-
+/* 체크박스 옵션 */
 .agreement .agree-all{
-    padding: 60px 0 20px;
+    padding-top: 60px;
     font-weight: bold;
+    border-bottom: 1px dashed #c4c4c4;
+    padding-bottom: 15px;
 }
 .agreement .agree-input{
     padding: 20px 0 10px;
 }
-
+.agreement label{
+    display: flex;
+    gap: 8px;
+    user-select: none;
+}
 .agreement label span{
+    padding-left: 5px;
     color: #ff0000;
 }
 
+/* 약관동의 */
 .agreement .agree-box{
     background-color: #fcfcfc;
     border: solid 1px #ddd;
@@ -97,13 +26,11 @@
     height: 250px; 
     overflow: scroll;
 }
-
 .agreement .agree-box h3,
 .agreement .agree-box h4{
     padding-top: 10px;
     font-weight: 400;
 }
-
 .agreement .agree-box h5{
     font-weight: 400;
     line-height: 22px;
