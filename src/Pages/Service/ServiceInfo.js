@@ -1,5 +1,6 @@
 import React from "react";
 import ImgBox from "../../Components/ImgBox";
+import { useNavigate } from 'react-router-dom'
 
 function ServiceInfo () {
 
@@ -7,14 +8,16 @@ function ServiceInfo () {
         window.print()
     }
 
+    const navigate = useNavigate()
+
     return(
         <>
         <div className="title">
             <h2>서비스 안내
-                <ImgBox src="./btn-icon-print.png" alt="print" addClass={'print'} handleClick={printPage}/>
+                <ImgBox src={`${origin}/btn-icon-print.png`} alt="print" addClass={'print'} handleClick={printPage}/>
             </h2>
             <h5>
-                <ImgBox src="./icon-breadcrumb-home.png" alt="홈"/>
+                <ImgBox src={`${origin}/icon-breadcrumb-home.png`} alt="홈" handleClick={()=>{navigate('/')}}/>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>
                 <span>유치원 모으미란</span>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>
@@ -24,7 +27,7 @@ function ServiceInfo () {
         <h4>공시 개요</h4>
         <div className="info-box">
             <div className="info">
-                <ImgBox src="icon-summary-thumb.png" alt="공시 개요"/>
+                <ImgBox src={`${origin}/icon-summary-thumb.png`} alt="공시 개요"/>
                 <div className="text-box">
                     <h4>유치원 전반의 주요 정보를 객관적이고 투명하게 공개하는 제도로, 학부모의 알권리를 보장하고 유치원의 실태를 정확하게 파악하여 유아 교육의 질을 높이기 위한 제도입니다.</h4>
                     <h5>유치원 학부모의 선택권 강화 : 유치원별 다양한 장점 등의 정보를 제공하여 학부모의 선택권을 강화하며 유치원 관련 국가통계 확보함에 있습니다.</h5>

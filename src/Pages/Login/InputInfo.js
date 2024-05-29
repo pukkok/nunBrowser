@@ -14,13 +14,10 @@ function InputInfo ({type, info}) {
 
     const selectOption = (e, option) => { // ul list 열기
         setOpenList({...openList, [option] : !openList[option]})
-        setActiveOption({...activeOption, [option] : e.target.innerText})
-        
-        option === 'phoneOption' ? phoneRef.current['head'] = e.target.innerText : emailRef.current[''] = ''
-        
+        setActiveOption({...activeOption, [option] : e.target.innerText})    
     }
     
-    const [selectNum, setSelectNum] = useState({})
+    const [selectNum, setSelectNum] = useState({ phoneOption: 0, emailOption : 0})
     const selectPhoneRef = useRef([])
     const selectEmailRef = useRef([])
     const selectOptionKeyBoard = (e, option) => {
@@ -57,18 +54,13 @@ function InputInfo ({type, info}) {
     }
 
     useEffect(()=>{
-        let keys = Object.keys(selectNum)
-        keys.forEach(key => {
-            key === 'phoneOption' ?
-            setActiveOption({
-                ...activeOption, 
-                [key] : selectPhoneRef.current[selectNum[key]].innerText
-            }) :
-            setActiveOption({
-                ...activeOption, 
-                [key] : selectEmailRef.current[selectNum[key]].innerText
-            })
+
+        setActiveOption({
+            ...activeOption, 
+            phoneOption : selectPhoneRef.current[selectNum['phoneOption']].innerText,
+            emailOption : selectEmailRef.current[selectNum['emailOption']].innerText
         })
+        
     },[selectNum])
 
 
@@ -100,7 +92,9 @@ function InputInfo ({type, info}) {
         inputInfo()
     },[info])
     
-    async function duplicateCheck () {
+    // id 중복확인
+    async function duplicateCheck (e) {
+        e.preventDefault()
         const userId = inputRefs.current['userId'].value
         let url = ''
         if(type === '교직원') url = `${BASE_URL}/teacher/join/id-check`
@@ -149,8 +143,10 @@ function InputInfo ({type, info}) {
                             <th><span className="essential">*</span>아이디</th>
                             <td colSpan={3}>
                                 <div>
-                                    <input type="text" ref={el => inputRefs.current['userId'] = el}/>
-                                    <button onClick={duplicateCheck} tabIndex={-1}>중복 확인</button>
+                                    <form>
+                                        <input type="text" ref={el => inputRefs.current['userId'] = el}/>
+                                        <button onClick={duplicateCheck} tabIndex={-1}>중복 확인</button>
+                                    </form>
                                     <span>아이디는 영문, 숫자, 특수문자의 조합으로 입력해주세요.</span>
                                 </div>
                             </td>

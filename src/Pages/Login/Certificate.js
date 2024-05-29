@@ -9,11 +9,11 @@ function Certificate ({type, setFunc}) {
         return(
             <div className="certificate-btn-box">
                 <button className="blue">
-                    <ImgBox src="./agreement/selfChk_phone.png"/>
+                    <ImgBox src={`${origin}/agreement/selfChk_phone.png`}/>
                     <h3>휴대전화 본인인증</h3>
                 </button>
                 <button className="grey">
-                    <ImgBox src="./agreement/selfChk_ipin.png"/>
+                    <ImgBox src={`${origin}/agreement/selfChk_ipin.png`}/>
                     <h3>아이핀 본인인증</h3>
                 </button>
             </div>
@@ -76,7 +76,7 @@ function Certificate ({type, setFunc}) {
                     <h2>2차인증(교직원 인증)</h2>
                     <div className="certificate-btn-box">
                         <button className="grey" onClick={openDemoModal}>
-                            <ImgBox src="./agreement/selfChk_ipin.png"/>
+                            <ImgBox src={`${origin}/agreement/selfChk_ipin.png`}/>
                             <h3>교직원 인증서</h3>
                         </button>
                     </div>

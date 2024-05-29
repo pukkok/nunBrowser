@@ -146,7 +146,7 @@ export function OptionFilter ({ setResult, reloader}) {
                 const { title, options } = data
                 return(
                     <div key={`data${idx1}`}>
-                        <div className="option-title" onClick={()=>toggleLabel(idx1)}>
+                        <div className={classNames("option-title", {close : close.includes(idx1)})} onClick={()=>toggleLabel(idx1)}>
                             <p>{title}</p>
                         </div>
                         <div className={classNames(`option-label`, {off : close.includes(idx1)} )}>

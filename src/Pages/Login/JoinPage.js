@@ -13,7 +13,6 @@ import SelectJoinType from "./SelectJoinType";
 import Certificate from "./Certificate";
 import InputInfo from "./InputInfo";
 
-
 const arr1 = [
     { id: 'step2-email' , type: 'text', name : 'email', kr: '이메일'},
     { id: 'step2-phone' , type: 'text', name : 'phone', kr: '연락처'},
@@ -103,7 +102,7 @@ function JoinPage () {
                         return (
                             <Fragment key={idx}>
                                 <div className="step">
-                                    <ImgBox addClass={classNames('img-box', {active : step===idx})} src={`./agreement/img_joinStep${idx+1}.png`}/>
+                                    <ImgBox addClass={classNames('img-box', {active : step===idx})} src={`${origin}/agreement/img_joinStep${idx+1}.png`}/>
                                     <p>STEP 0{idx+1}</p>
                                     <strong>{order}</strong>
                                 </div>

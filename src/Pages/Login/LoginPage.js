@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import './styles/LoginPage.css'
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function LoginPage () {
 
@@ -41,12 +42,18 @@ function LoginPage () {
         console.log(result)
     },[result])
 
+    const moveJoinPage = () => {
+        window.close()
+        console.log(window.opener.location.replace('/user/join'))
+        
+    }
+
     return(
         <div className="login-box">
-            <header>
+            <div className="header">
                 <h1>LOGIN</h1>
                 <p>로그인 이후 플랫폼 이용이 가능합니다.</p>
-            </header>
+            </div>
             <form>
                 <div>
                     <input type="text" placeholder="아이디" name="userId" onChange={valueExtractor}/>
@@ -56,9 +63,9 @@ function LoginPage () {
             </form>
             <div className="small-box">
                 <div>
-                    <h2>통합 회원이 아니신가요?</h2>
-                    <h3> 회원가입을 하시면 하나의 계정으로 <br/> 다양한 서비스를 이용하실수 있습니다.</h3>
-                    <button>회원가입 →</button>
+                    <h2>아직 회원이 아니신가요?</h2>
+                    <h3> 회원가입을 하시면 유치원에 대한 정보와 <br/> 다양한 서비스를 이용하실수 있습니다.</h3>
+                    <button onClick={moveJoinPage}>회원가입 →</button>
                 </div>
                 <div>
                     <h2>아이디/비밀번호를 잊으셨나요?</h2>

@@ -1,14 +1,10 @@
 import React from "react";
-import SearchModal from "../Search/SearchModal";
-
-import Header from "../Common/Header";
 
 function MainPage () {
 
     return(
         <>
-            <Header/>
-            <SearchModal/>
+            메인페이지 입니다.
         </>
     )
 }

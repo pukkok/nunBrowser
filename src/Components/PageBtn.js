@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+import './styles/PageBtn.css'
 
 function PageBtn ({ allLength, dividedValue, setFunc }) {
     const page = Math.ceil(allLength / dividedValue)
@@ -35,17 +36,16 @@ function PageBtn ({ allLength, dividedValue, setFunc }) {
     },[active, setFunc])
 
     return(
-        <>
-        <button onClick={counter} value={'first'}>맨앞</button>
-        <button onClick={counter} value={'prev'}>prev</button>
-            {pageBtns.map((_, idx)=>{
-                return <button key={idx} value={idx+1} onClick={counter} 
-                className={classNames('page-btn', {active : idx+1 === +active}, { on : (viewCnt-5 <= idx ) && idx < viewCnt })}>{idx+1}</button>
-            })}
-            {page>5 && <span>...</span>}
-        <button onClick={counter} value={'next'}>next</button>
-        <button onClick={counter} value={'final'}>맨뒤</button>
-        </>
+        <div className="pages-btns">
+            <button onClick={counter} className="first-btn" value={'first'}></button>
+            <button onClick={counter} className="prev-btn" value={'prev'}></button>
+                {pageBtns.map((_, idx)=>{
+                    return <button key={idx} value={idx+1} onClick={counter} 
+                    className={classNames('page-btn', {active : idx+1 === +active}, { on : (viewCnt-5 <= idx ) && idx < viewCnt })}>{idx+1}</button>
+                })}
+            <button onClick={counter} className="next-btn" value={'next'}></button>
+            <button onClick={counter} className='last-btn' value={'final'}></button>
+        </div>
     )
 }
 

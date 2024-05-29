@@ -3,24 +3,34 @@
 
 
 .allergy-table{
+    position: fixed;
+    top: 0;
+    right: -400px;
     user-select: none;
+    background-color: #fff;
     border: solid 1px #5172df;
     width: 400px;
+    z-index: 100;
+    transition: .8s;
+}
+.allergy-table.pull{
+    right: 0;
 }
 
-.allergy-list{
+/* 상단 */
+.allergy-header{
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    height: 50px;
 }
-
-.allergy-list .btn-box{
+.allergy-header .btn-box{
     margin-left: auto;
     display: flex;
     gap: 5px;
     padding-right: 10px;
 }
-.allergy-list .btn-box button:nth-child(1) span{
+.allergy-header .btn-box button:nth-child(1) span{
     background-image: url('./free-icon-edit-button.png');
     background-position: center;
     background-size: cover;
@@ -29,23 +39,30 @@
     height: 32px;
     transition: .2s;
 }
-.allergy-list .btn-box button:nth-child(1) span:hover{
+.allergy-header .btn-box button:nth-child(1) span:hover{
     filter: opacity(0.5) drop-shadow(0 0 0 #5172df);
     scale: 1.1;
 }
-.allergy-list .btn-box button:nth-child(2){
+.allergy-header .btn-box button:nth-child(2){
     border: solid 1px grey;
     padding: 5px 10px;
 }
-
-.allergy-list h2{
+.allergy-header h2{
     padding: 10px;
+}
+
+.allergy-list{
+    height: calc(100vh - 50px);
+    overflow: scroll;
+}
+.allergy-list.resizing{
+    height: calc(100vh - 100px);
 }
 
 /* 알러지 1개 아이템 */
 .allergy-item{
     border-top: solid 1px #5172df;
-    min-height: 60px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -54,7 +71,7 @@
 }
 
 .allergy-item.active{
-    background-color: rgba(245, 110, 216, .5);
+    background-color: rgba(49, 65, 202, 0.5);
 }
 
 .allergy-item p{
@@ -100,35 +117,16 @@
 
 /* 리모컨 */
 .remote-allergy{
-    position: fixed;
-    top: 20%;
-    right: 10%;
-
-    border: solid 1px grey;
+    border-top: solid 1px grey;
     padding: 10px;
-    width: 280px;
-    height: 200px;
+    height: 50px;
     background-color: #fff;
-
     display: none;
 }
 
 .remote-allergy.on{
-    display: block;
-}
-
-.remote-allergy p{
-    background-image: url('./free-icon-move-option.png');
-    background-size: cover;
-    background-position: center;
-    width: 20px;
-    height: 20px;
-    margin-bottom: 20px;
-    cursor:grab;
-    user-select: none;
-}
-.remote-allergy .input-box{
     display: flex;
+    gap: 5px;
 }
 
 .remote-allergy input{

@@ -1,55 +1,48 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './styles/SearchModal.css'
-const {kakao} = window // 카카오 맵 사용
+import KakaoMap from "../../Components/KakaoMap";
+import ImgBox from "../../Components/ImgBox";
 
-function SearchModal () {
+function SearchModal ({ data, setClose }) {
+    console.log(data)
 
-    const mapRef = useRef()
-    const markerRef = useRef()
-
-    useEffect(()=>{
-        const container = mapRef.current
-
-        const options = {
-            center: new kakao.maps.LatLng(0,0), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
+    const closeModal = (e) =>{
+        if(e.target.className === 'search-modal'){
+            setClose(false)
         }
-        const map = new kakao.maps.Map(container, options); 
+    }
 
-        const geocoder = new kakao.maps.services.Geocoder();
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch('세종특별자치시 나리로 38', function(result, status) {
-
-    // 정상적으로 검색이 완료됐으면 
-    if (status === kakao.maps.services.Status.OK) {
-        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        const marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        const infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">자기 집</div>'
-            // content: markerRef.current
-        });
-        infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-    } 
-    });    
-    }, [])
-
-
-
+    const [homepage, setHomePage] = useState()
+    
     return(
-        <>
-            <div id="map" ref={mapRef}></div>
-            <div ref={markerRef} style={{width:'100px', textAlign: 'center', padding:'4px 0'}}>자기 집</div>
-        </>
+        <section className="search-modal" onClick={closeModal}>
+            <div className="detail">
+                <div className="description">
+                    <div className="title">
+                        <h2><span>{data.establish}</span>{data.kindername}</h2>
+                    </div>
+                    <div className="info">
+                        <h4><ImgBox src={`${origin}/search/icon-summary-base.png`}/>기본정보</h4>
+                        <p><span>전화번호</span> {data.telno}</p>
+                        <p><span>운영시간</span> {data.opertime}</p>
+                        <p><span>대표자명</span> {data.rppnname}</p>
+                        <p><span>원장명</span> {data.ldgrname}</p>
+                        <p><span>설립일</span> {data.edate.slice(0,4)+'-'+data.edate.slice(4,6)+'-'+data.edate.slice(6,8)}</p>
+                        <p><span>개원일</span> {data.odate.slice(0,4)+'-'+data.odate.slice(4,6)+'-'+data.odate.slice(6,8)}</p>
+                        <p><span>관할행정기관</span> {data.officeedu} / {data.subofficeedu}</p>
+                        <p><span>주소</span> {data.addr}</p>
+                        <p><span>홈페이지</span> {homepage ? homepage : '등록된 홈페이지가 없습니다.'} </p>
+                    </div>
+                    <div className="info one-data">
+                        <h4><ImgBox src={`${origin}/search/icon-summary-base.png`}/>통학차량</h4>
+                        <span>운영</span>
+                    </div>
+                </div>
+                <>
+                </>
+                <KakaoMap addr={data.addr} pinName={data.kindername}/>
+            </div>
+        </section>
     )
 }
 

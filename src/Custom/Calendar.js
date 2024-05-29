@@ -141,12 +141,12 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                         <button className="next-btn" onClick={()=>moveMonth('next')}>다음 달 →</button>
                     </div>
                     
-                    <header style={{...styles.header, ... styles.grid}}>
+                    <div className="header" style={{...styles.header, ... styles.grid}}>
                         {sideOptions.length>0 && <div className="blank"></div>}
                         {result.yoils.map((day, idx)=>{ // 일 ~ 토 표시
                             return <div key={`header${idx}`}>{day}</div>
                         })}
-                    </header>
+                    </div>
 
                     <main style={styles.mainBorder} ref={mainRef}>
                         
@@ -216,7 +216,7 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                             )
                         })}
                     </main>
-                    <footer></footer>
+                    <div className="footer"></div>
 
                 </div>}
                 <div></div>

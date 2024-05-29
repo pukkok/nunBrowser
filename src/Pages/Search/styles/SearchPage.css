@@ -1,21 +1,20 @@
 .Search{
     position: relative;
     display: grid;
-    width: 100vw;
-    height: fit-content;
+    padding: 5vh 0;
+    column-gap: 10px;
     grid-template-areas: 
     "a a a a a a a"
     "b c c c c c c"
     "b c c c c c c";
     grid-template-columns: 250px repeat(6, 1fr);
-    grid-template-rows: 100px 200px repeat(2, 1fr);
+    grid-template-rows: 100px 200px 1fr;
 }
 .search-local{
     grid-area: a;
 }
 .search-filter{
-    position: sticky;
-    top: 0;
+    grid-area: b;
 }
 .search-viewer{
     grid-area: c;
@@ -160,11 +159,11 @@
 /* 뷰어 */
 .search-viewer {
     width: 100%;
+    height: fit-content;
 }
 
 .search-viewer .search-result {
     display: flex;
-    padding: 10px;
     height: 44px;
     align-items: center;
     justify-content: flex-start;
@@ -178,6 +177,7 @@
     color: #e9525a;
 }
 
+/* 페이지 보여주는 개수 옵션 */
 .search-viewer .search-result .option{
     margin-left: auto;
     width: 140px;
@@ -185,6 +185,7 @@
     padding: 0 10px;
     border: solid 1px #cddaee;
     position: relative;
+    z-index: 10;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -192,7 +193,6 @@
 .search-viewer .search-result .option.on{
     border: 1px solid #5172df;
 }
-
 .search-viewer .search-result .option::after{
     content: "";
     width: 0;
@@ -203,7 +203,6 @@
     top: 50%;
     right: 10px;
 }
-
 .search-viewer .search-result .option ul{
     width: 100%;
     cursor: pointer;
@@ -214,7 +213,6 @@
     overflow: hidden;
     transition: .2s;
     background-color: #fff;
-    
 }
 .search-viewer .search-result .option.on ul{
     display: block;
@@ -222,7 +220,6 @@
     padding: 5px 0;
     border: solid 1px #cddaee;
 }
-
 .search-viewer .search-result ul li{
     top: 0;
     display: flex;
@@ -236,37 +233,61 @@
     color: #fff;
 }
 
+/* 검색된 데이터 */
 .search-datas{
     position: relative;
     min-width: 100%;
     min-height: 600px;
 }
-
+.search-viewer .search-data:nth-child(1){
+    border-top: solid 1px #e5e5e5;
+}
 .search-viewer .search-data{
-    padding: 10px;
-    border: solid 1px grey;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-bottom: solid 1px #e5e5e5;
+    cursor: pointer;
+}
+.search-viewer .search-data p{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 700;
+}
+.search-viewer .search-data p span{
+    color: #5172df;
+    font-size: 13px;
+    border: solid 1px #5172df;
+    padding: 3px;
+}
+.search-viewer .search-data h5{
+    font-weight: 400;
+}
+.search-viewer .search-data h5 span{
+    padding: 0 2px;
 }
 
 .search-datas .search-data:nth-child(10n){
-    background-color: violet;
+    border-bottom: 2px solid #ddd;
 }
 
-.pages-btns{
-    width: 100%;
-    padding-top: 10px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
 
+
+/* 페이지 버튼 추가 옵션 */
 .pages-btns .page-btn{
     display: none;
 }
-
 .pages-btns .page-btn.on{
-    display: block;
+    display: flex;
 }
-
 .pages-btns .page-btn.active{
     font-weight: bold;
+}
+.pages-btns .page-btn.active{
+    background-color: #5172df;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px;
 }

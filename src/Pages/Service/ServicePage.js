@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import ServiceInfo from "./ServiceInfo";
 import './styles/ServicePage.css'
 import ServiceIntroduce from "./ServiceIntroduce";
+import Container from '../../Components/Container'
+import { Link, useParams } from "react-router-dom";
+
 function ServicePage () {
 
-    const [pick, setPick] = useState(0)
-
-    const pickService = (e) => {
-        setPick(e.target.value)
-    }
+    const {serviceName} = useParams()
 
     return (
         <section className="service-info">
-            <nav onClick={pickService}>
-                <li value={0}>서비스 안내</li>
-                <li value={1}>공시항목 소개</li>
-            </nav>
-            {pick===0  && <ServiceInfo/>}
-            {pick===1 && <ServiceIntroduce/>}
+            <Container>
+                <nav>
+                    <ul>
+                        <li><Link to={`/service/info`}>서비스 안내</Link></li>
+                        <li><Link to={'/service/introduce'}>공시항목 소개</Link></li>
+                    </ul>
+                </nav>
+                {serviceName === 'info' && <ServiceInfo/>}
+                {serviceName === 'introduce' && <ServiceIntroduce/>}
+            </Container>
         </section>
     )
 }

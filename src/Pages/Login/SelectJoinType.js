@@ -18,14 +18,14 @@ function SelectJoinType ({ setFunc }) {
             </div>
             <div className="select-type">
                 <div className="type">
-                    <ImgBox src="./agreement/ico_joinParnt.png"/>
+                    <ImgBox src={`${origin}/agreement/ico_joinParnt.png`}/>
                     <h2>학부모</h2>
                     <p>휴대폰 인증 및<br/>
                         아이핀인증을 진행합니다.</p>
                     <button onClick={()=>nextStep('학부모')}>가입하기</button>
                 </div>
                 <div className="type">
-                    <ImgBox src="./agreement/ico_joinStaff.png"/>
+                    <ImgBox src={`${origin}/agreement/ico_joinStaff.png`}/>
                     <h2>교직원</h2>
                     <p>EPKI 인증을 진행합니다.<br/>
                         인증서를 준비하여 주시기 바랍니다.</p>

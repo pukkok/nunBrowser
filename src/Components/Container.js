@@ -1,13 +1,13 @@
 import React from "react";
 
-function Container ({width=1280 ,children}) {
+function Container ({width=1240 ,children}) {
     const containerStyle = {
         width: width+'px',
         margin: '0 auto'
     }
 
     return(
-        <div style={containerStyle}>
+        <div className="container" style={containerStyle}>
             {children}
         </div>
     )

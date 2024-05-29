@@ -1,9 +1,8 @@
 .service-info{
-    border: solid 1px red;
     padding: 20px;
 }
 
-.service-info > h4{
+.service-info .container > h4{
     padding-top: 40px;
     padding-bottom: 10px;
 }
@@ -12,7 +11,8 @@
     display: flex;
     gap: 20px;
 }
-.service-info .title h3{
+
+.service-info .title h2{
     display: flex;
     align-items: center;
     gap: 10px;
@@ -34,9 +34,10 @@
     display: flex;
     align-items: center;
 }
+
 .service-info .title h5 .material-symbols-outlined{
     font-size: 10px;
-    padding: 0 5px;
+    padding: 3px 5px 0;
 }
 
 .service-info .info-box{
@@ -100,6 +101,7 @@
 }
 
 .service-info .info-table .introduce tbody th{
+    padding-left: 20px;
     background-color: #fbfcfe;
     text-align: left;
 }

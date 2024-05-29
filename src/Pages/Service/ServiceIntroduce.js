@@ -11,10 +11,10 @@ function ServiceIntroduce () {
         <>
             <div className="title">
                 <h2>공시항목 소개
-                <ImgBox src="./btn-icon-print.png" alt="print" addClass={'print'} handleClick={printPage}/>
+                <ImgBox src={`${origin}/btn-icon-print.png`} alt="print" addClass={'print'} handleClick={printPage}/>
                 </h2>
                 <h5>
-                <ImgBox src="./icon-breadcrumb-home.png" alt="홈"/>
+                <ImgBox src={`${origin}/icon-breadcrumb-home.png`} alt="홈"/>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>
                 <span>유치원 모으미란</span>
                 <span className="material-symbols-outlined">arrow_forward_ios</span>

@@ -7,6 +7,8 @@ import { MemoOptionFilter } from "./OptionFilter";
 import classNames from "classnames";
 import PageBtn from "../../Components/PageBtn";
 import Loading from '../../Components/Loading'
+import Container from "../../Components/Container";
+import SearchModal from "./SearchModal";
 
 function SearchPage () {
     const [allData, setAllData] = useState([]) // 전체 데이터
@@ -202,7 +204,15 @@ function SearchPage () {
         
     },[checkboxOption])
 
+    const [openModal, setOpenModal] = useState(false)
+    const [kinderData, setKinderData] = useState({})
+    const openDetailDataModal = (data) =>{
+        setOpenModal(!openModal)
+        setKinderData(data)
+    }
+
     return(
+        <Container>
         <div className="Search">
             <div className="search-local">
                 <div className="local-select" >
@@ -268,33 +278,37 @@ function SearchPage () {
                     </div>
                 </div>
 
-
+                {/* 데이터 보여주는 곳 */}
                 <div className="search-datas">
                 {viewData.length>0 ? viewData.map((data, id)=> {
-                    const { addr, establish, kindername, edate, opertime, } = data 
+                    const { addr, establish, kindername, edate, opertime, telno} = data 
+                    const newEdata = edate.slice(0,4)+'-'+edate.slice(4,6)+'-'+edate.slice(6,8)+' 설립'
+                    const afterSchool = opertime.split('~')[1].slice(0,2)
                     return(
-                        <div key={id} className="search-data" onClick={()=>{
-                            console.log(data)
-                        }}>
-                            <p>주소 : {addr}</p>
-                            <p>유치원 명 : {kindername}</p>
-                            <p>설립일 : {edate}</p>
-                            <p>설립유형 : {establish}</p>
-                            <p>운영시간 : {opertime}</p>
+                        <div key={id} className="search-data" onClick={()=>openDetailDataModal(data)}>
+                            <p><span>{establish}</span> {kindername}</p>
+                            <h5>{newEdata}<span>·</span>{telno}<span>·</span>{addr}</h5>
+                            <h5>{afterSchool >= 15 ? '방과후과정(운영)' : '방과후과정(미운영)'}</h5>
                         </div>
                     )
                 }):<Loading/>}
                 </div>
-                <div className="pages-btns">
-                    {allData.length>0 && <PageBtn 
-                    allLength={
-                        filterData.length>0 ? filterData.length : 
-                        localData.length>0 ? localData.length : 
-                        allData.length>0 ? allData.length : 0 } 
-                    dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
-                </div>
+
+                {openModal && <div className="detail-data">
+                    <SearchModal data={kinderData} setClose={setOpenModal}/>
+                </div>}
+
+                {/* 페이지 버튼 */}
+                {allData.length>0 && <PageBtn 
+                allLength={
+                    filterData.length>0 ? filterData.length : 
+                    localData.length>0 ? localData.length : 
+                    allData.length>0 ? allData.length : 0 } 
+                dividedValue={itemsCnt} setFunc={setPagesCnt}/>}
+                
             </div>
         </div>
+        </Container>
     )
 }
 
