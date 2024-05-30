@@ -41,7 +41,7 @@ function Certificate ({type, setFunc}) {
     return(
         <section className="certificate">
             <button onClick={()=>{
-                setFunc('다음으로 넘어가요')
+                setFunc('건너뛰기')
             }}
             style={{border: '1px solid red'}}>임시 다음 버튼</button>
             {type === '학부모' && 

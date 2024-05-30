@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import './styles/JoinPage.css'
-import LabelBox from "../../Components/LabelBox";
 import ImgBox from '../../Components/ImgBox'
 import Container from '../../Components/Container'
 
@@ -26,30 +25,7 @@ const BASE_URL = 'http://localhost:5000'
 const agreeSteps = ['약관동의', '회원구분', '본인확인', '정보입력', '가입완료']
 function JoinPage () {
 
-    const [step2Input, setStep2Input] = useState({})
-    const [step, setStep] = useState(0)
-
-    // 인증 후 회원가입
-    const join = async (e, step2) => {
-        e.preventDefault()
-        const {name, isDirector, organization, organizationCode} = certificateData
-        const {email, phone, id: userId, password, confirmPassword} = step2
-        const { data } = await axios.post(`${BASE_URL}/teacher/join/step2`, {
-            name, isDirector, organization, organizationCode,
-            email, phone, userId, password, confirmPassword
-        })
-        if(data.code === 200){
-            alert(data.msg)
-            setStep(3)
-        }else{
-            alert(data.msg)
-        }
-    }
-
-    const valueExtractor = (e) => {
-        let {name, value} = e.target
-        setStep2Input({...step2Input, [name] : value})
-    }
+    const [step, setStep] = useState(0) // 회원가입 절차
 
     const [agreeCheck, setAgreeCheck] = useState([]) // 스텝0 : 동의
     const navigate = useNavigate()
@@ -68,23 +44,43 @@ function JoinPage () {
         }
     },[certificateData])
 
-    const [isClick, setIsClick] = useState(false)
+    const [inputValues, setInputValues] = useState({ // 회원가입 정보 입력
+        name: '', isDirector: false, organization: '', kinderCode: '',
+        email: '', phone: '', userId: '', password: '', confirmPassword: ''
+    })
 
+    // 인증 후 회원가입
+    const join = async (e, step2) => {
+        e.preventDefault()
+        // 인증했다 === 교사다
+        if(certificateData){
+            const {name, isDirector, organization, kinderCode} = certificateData
+            const { email, phone, userId, password, confirmPassword} = step2
+            const { data } = await axios.post(`${BASE_URL}/teacher/join/step2`, {
+                name, isDirector, organization, kinderCode,
+                email, phone, userId, password, confirmPassword
+            })
+            alert(data.msg)
+            if(data.code === 200){
+                setStep(step+1)
+            }
+        }
+    }
+
+    // 버튼 클릭시!
     const moveStep = (e) => {
         const key = e.target.innerText
         if(key === '이전'){
             setStep(step-1)  
         }else if(key === '다음'){ // 스텝 0 => 1
-            if(agreeCheck.length === 2){
+            if(agreeCheck.length === 2){ // 둘다 체크 되었는가?
                 setStep(step+1)
                 setAgreeCheck([])
             }else{
                 alert('모두 동의해야 가입이 가능합니다.')
             }
         }else if(key === '회원가입'){ // 취소 (메인으로 돌아가기)
-            alert('회원가입하러가기')
-            // 클릭했다
-            setIsClick(true)
+            join(e, inputValues) // 회원가입 시도
         }else{
             navigate(-1)
         }
@@ -95,13 +91,6 @@ function JoinPage () {
             setJoinType('') // 선택 초기화
         }
     },[step])
-
-    const [inputValues, setInputValues] = useState({
-        name:'', isDirector:false, organization:'', kinderCode:'',
-        email:'', phone:'', userId:'', password:'', confirmPassword:''
-    })
-
-    console.log(inputValues)
 
     return(
         <div id="Join" className="join">
@@ -125,26 +114,18 @@ function JoinPage () {
                 {step === 0 && <Agreement setFunc={setAgreeCheck}/> }
                 {step === 1 && <SelectJoinType setFunc={setJoinType}/> }
                 {step === 2 && <Certificate type={joinType} setFunc={setCertificateData}/> }
-                {step === 3 && <InputInfo info={certificateData} type={joinType} isClick={isClick} setFunc={setInputValues} inputValues={inputValues}/> }
+                {step === 3 && <InputInfo info={certificateData} type={joinType} setFunc={setInputValues} inputValues={inputValues}/> }
+                {step === 4 && 
+                <div className="text-box dashed">
+                    <h2>회원가입 완료</h2>
+                    <h4>로그인 후다양한 서비스를 이용해 보세요</h4>
+                </div>}
                 <div className="btn-box">
-                    <button className={classNames({active : step!==0 })} onClick={moveStep}>{step===0 ? '취소' : step===3 ? '회원가입' : '이전'}</button>
-                    <button className={classNames({active : step===0 })} onClick={moveStep}>{step===0 ? '다음' : step===3 ? '이전' :'취소'}</button>
+                    <button className={classNames({active : step!==0 })} onClick={moveStep}>{step===0 ? '취소' : step===3 ? '회원가입' : step === 4 ? '홈으로 돌아가기' : '이전' }</button>
+                    {step !== 4 && <button className={classNames({active : step===0 })} onClick={moveStep}>{step===0 ? '다음' : step===3 ? '이전' : '취소'}</button>}
                 </div>
             </div>
             </Container>
-            {step===6 &&
-            <>
-                {Object.values(certificateData).length>0 &&
-                    <div>
-                        <p>이름 : {certificateData.name}</p>
-                        <p>소속 : {certificateData.organization}</p>
-                        <p>원장 : {certificateData.isDirector ? 'O': 'X'}</p>
-                    </div>
-                }
-                <LabelBox handleClick={(e)=>join(e, step2Input)} handleChange={valueExtractor}
-                addClass={'step-2-form'} arr={arr1} >완료</LabelBox>
-            </>
-            }
             
         </div>
 

@@ -3,12 +3,19 @@ import './styles/InputInfo.css'
 import classNames from "classnames";
 import axios from "axios";
 
+
+const phoneOptions = ['선택', '010', '011', '016', '017', '018', '019']
+const emailOptions = ['선택', 'naver.com', 'nate.com', 'gmail.com', 'daum.net']
 const BASE_URL = 'http://localhost:5000'
+
 function InputInfo ({type, info, setFunc, inputValues}) {
 
-    const phoneOptions = ['선택', '010', '011', '016', '017', '018', '019']
-    const emailOptions = ['선택', 'naver.com', 'nate.com', 'gmail.com', 'daum.net']
-    
+    useEffect(()=>{ // 인증서 통과시
+        if(info){
+            setFunc({...inputValues, ...info})
+        }
+    },[info])
+
     const [activeOption, setActiveOption] = useState({ phoneOption: '선택', emailOption: '선택'})
     const [openList, setOpenList] = useState({ phoneOption : false, emailOption : false})
 
@@ -17,9 +24,9 @@ function InputInfo ({type, info, setFunc, inputValues}) {
         setActiveOption({...activeOption, [option] : e.target.innerText})    
     }
 
-    const [selectNum, setSelectNum] = useState({ phoneOption: 0, emailOption : 0})
-    const selectPhoneRef = useRef([])
-    const selectEmailRef = useRef([])
+    const [selectNum, setSelectNum] = useState({ phoneOption: 0, emailOption : 0}) // li index번호
+    const selectPhoneRef = useRef([]) // 폰번호 선택 리스트
+    const selectEmailRef = useRef([]) // 이메일 선택 리스트
     const selectOptionKeyBoard = (e, option) => {
         if(e.code === 'ArrowDown'){
             if(!openList[option]){
@@ -53,9 +60,7 @@ function InputInfo ({type, info, setFunc, inputValues}) {
         }
     }
 
-
     useEffect(()=>{
-
         setActiveOption({
             ...activeOption, 
             phoneOption : selectPhoneRef.current[selectNum['phoneOption']].innerText,
@@ -64,42 +69,70 @@ function InputInfo ({type, info, setFunc, inputValues}) {
         
     },[selectNum])
 
-    const selectAddrress = (e) => {
-        activeOption['emailOption'] = e.target.value
-    }
+    useEffect(()=>{ // 셀렉트 박스 바뀔때
 
-    const inputRefs = useRef({})
-    const phoneRef = useRef({})
-    const emailRef = useRef({})
+        const phoneHead = selectPhoneRef.current.filter(li => {
+            return li.classList.contains('active') 
+        })[0].innerText
 
-    useEffect(()=>{
-        if(info){
-            setFunc({...inputValues, ...info})
+        if(phoneHead !== '선택'){
+            const extra = phoneRef.current.map(input => input.value)
+            const phone = phoneHead + '-' + extra.join('-')
+            setFunc({...inputValues, phone})
         }
-    },[info])
+
+        const emailHead = selectEmailRef.current.filter(li => {
+            return li.classList.contains('active')
+        })[0].innerText
+
+        if(emailHead !== '선택'){
+            emailRef.current[1].value = emailHead
+            const email = emailRef.current.map(input => input.value).join('@')
+            setFunc({...inputValues, email})
+        }
+        
+    },[activeOption])
+
+    const phoneRef = useRef([])
+    const emailRef = useRef([])
 
     const inputInfo = (e) => { // 교사 데이터를 불러왔다면 소속기관, 이름 입력
-        if(!info[e.target.name]){
+        if(e.target.name.includes('phone')){
+            const head = selectPhoneRef.current.filter(li => {
+                return li.classList.contains('active') 
+            })[0].innerText
+            if(head !== '선택'){
+                const extra = phoneRef.current.map(input => input.value)
+                let phone = head + '-' + extra.join('-')
+                return setFunc({...inputValues, phone})
+            }
+        }
+
+        if(e.target.name.includes('email')){
+            const email = emailRef.current.map(input => input.value).join('@')
+            return setFunc({...inputValues, email})
+        }
+
+        if(e.target.name)
+
+        if(!info[e.target.name]){ // 불러온 교사 데이터가 있다면 수정 불가
             setFunc({...inputValues, [e.target.name]: e.target.value })
         }else{
             alert('잘못된 접근입니다.')
         }
     }
-    
+
     // id 중복확인
     async function duplicateCheck (e) {
         e.preventDefault()
-        const userId = inputRefs.current['userId'].value
+        const userId = inputValues.userId
         let url = ''
         if(type === '교직원') url = `${BASE_URL}/teacher/join/id-check`
         const { data } = await axios.post(url, {
             userId
         })
-
-        if(data) alert(data.msg)
-        
+        alert(data.msg)    
     }
-
 
     return(
         <section className="input-info">
@@ -173,9 +206,9 @@ function InputInfo ({type, info, setFunc, inputValues}) {
                                     })}
                                     </ul>
                                     <p>-</p>
-                                    <input ref={el=> phoneRef.current['body'] = el}/>
+                                    <input onChange={inputInfo} name="phone-body" ref={el=> phoneRef.current[0] = el}/>
                                     <p>-</p>
-                                    <input ref={el=> phoneRef.current['tail'] = el}/>
+                                    <input onChange={inputInfo} name="phone-tail" ref={el=> phoneRef.current[1] = el}/>
                                 </div>
                             </td>
                         </tr>
@@ -183,9 +216,9 @@ function InputInfo ({type, info, setFunc, inputValues}) {
                             <th>이메일</th>
                             <td colSpan={3}>
                                 <div>
-                                    <input ref={el => emailRef.current['email'] = el}/>
+                                    <input ref={el => emailRef.current[0] = el} onChange={inputInfo} name="email-nick"/>
                                     <p>@</p>
-                                    <input onChange={selectAddrress} ref={el => emailRef.current['addrress'] = el}/>
+                                    <input onChange={inputInfo} ref={el => emailRef.current[1] = el} name="email-address"/>
                                     <ul className={classNames("table-list", {on : openList.emailOption})} tabIndex={0} onClick={(e)=>selectOption(e, 'emailOption')} onKeyDown={(e)=>selectOptionKeyBoard(e, 'emailOption')}>
                                         {emailOptions.map((option, idx)=>{
                                             return <li key={option+idx} 
