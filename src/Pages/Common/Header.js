@@ -39,16 +39,25 @@ function Header () {
                         <button onClick={()=>{navigate('/')}}> 홈 버튼 </button>
                     </div>
                     <ul className="depth1">
-                        <li><Link to={'service'}>유치원 모으미란</Link>
+                        <li><Link to={'service/info'}>유치원 모으미란</Link>
                             <ul className="depth2">
                                 <li><Link to={'/service/info'}>서비스 안내</Link></li>
                                 <li><Link to={'/service/introduce'}>공시항목 소개</Link></li>
-                                <li>홍보자료</li>
+                                <li><Link>홍보자료</Link></li>
                             </ul>
                         </li>
+                        <li><Link to={'search'}>유치원 검색</Link></li>
                         <li><Link>공지사항</Link></li>
                         <li><Link>커뮤니티</Link></li>
-                        <li><Link to={'search'}>유치원 검색</Link></li>
+                        <li><Link>교사채용</Link>
+                            <ul className="depth2">
+                                <li><Link>면접경험</Link></li>
+                                <li><Link>필기경험</Link></li>
+                                <li><Link>상담코너</Link></li>
+                                <li><Link>교사채용</Link></li>
+                                <li><Link>채용준비</Link></li>
+                            </ul>
+                        </li>
                         <li><Link to={'kinder'}>유치원 홈페이지</Link></li>
                     </ul>
                     {!isLogin ? 

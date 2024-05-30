@@ -68,6 +68,8 @@ function JoinPage () {
         }
     },[certificateData])
 
+    const [isClick, setIsClick] = useState(false)
+
     const moveStep = (e) => {
         const key = e.target.innerText
         if(key === '이전'){
@@ -81,8 +83,10 @@ function JoinPage () {
             }
         }else if(key === '회원가입'){ // 취소 (메인으로 돌아가기)
             alert('회원가입하러가기')
+            // 클릭했다
+            setIsClick(true)
         }else{
-            navigate('/')
+            navigate(-1)
         }
     }
 
@@ -91,6 +95,13 @@ function JoinPage () {
             setJoinType('') // 선택 초기화
         }
     },[step])
+
+    const [inputValues, setInputValues] = useState({
+        name:'', isDirector:false, organization:'', kinderCode:'',
+        email:'', phone:'', userId:'', password:'', confirmPassword:''
+    })
+
+    console.log(inputValues)
 
     return(
         <div id="Join" className="join">
@@ -114,7 +125,7 @@ function JoinPage () {
                 {step === 0 && <Agreement setFunc={setAgreeCheck}/> }
                 {step === 1 && <SelectJoinType setFunc={setJoinType}/> }
                 {step === 2 && <Certificate type={joinType} setFunc={setCertificateData}/> }
-                {step === 3 && <InputInfo info={certificateData} type={joinType}/> }
+                {step === 3 && <InputInfo info={certificateData} type={joinType} isClick={isClick} setFunc={setInputValues} inputValues={inputValues}/> }
                 <div className="btn-box">
                     <button className={classNames({active : step!==0 })} onClick={moveStep}>{step===0 ? '취소' : step===3 ? '회원가입' : '이전'}</button>
                     <button className={classNames({active : step===0 })} onClick={moveStep}>{step===0 ? '다음' : step===3 ? '이전' :'취소'}</button>

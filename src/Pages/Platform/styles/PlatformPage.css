@@ -1,4 +1,122 @@
-.platform-page{
+.platform{
     min-height: 100vh;
-    height: fit-content;
+}
+
+.platform .nav{
+    background-color: #fff;
+    border: solid 1px red;
+    height: 100%;
+}
+
+.platform .nav ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.platform .bg{
+    border: solid 1px red;
+    min-height: 450px;
+    margin-bottom: 120px;
+    position: relative;
+}
+
+.platform .bg .img-box{
+    position: absolute;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.platform .bg .img-box img{
+    min-width: 1240px;
+    width: 100%;
+    height: 100%;
+}
+
+.platform .bg .content{
+    position: absolute;
+    top: 0;
+}
+
+.platform .main-box{
+    display: grid;
+    grid-template-areas: 
+    'a a a a b b b b'
+    'c c c c d d d d'
+    'e e e e f f f f';
+}
+
+.main-box > div{
+    min-height: 400px;
+}
+
+.platform .date-info-box{
+    border: solid 1px red;
+    grid-area: a;
+}
+
+.platform .menu-box{
+    border: solid 1px red;
+    grid-area: b;
+}
+
+.platform .photo-box{
+    border: solid 1px red;
+    grid-area: d;
+}
+.platform .notice{
+    border: solid 1px red;
+    grid-area: c;
+}
+
+.platform .imsi2{
+    border: solid 1px red;
+    grid-area: e;
+}
+.platform .imsi3{
+    border: solid 1px red;
+    grid-area: f;
+}
+
+
+.platform .preview-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.platform .preview-bg img{
+    width: 100%;
+    height: 100%;
+}
+
+.platform .normal-bg{
+    position: absolute;
+    display: flex;
+    top: 450px;
+    background-color: #ddd;
+    align-items: center;
+}
+.platform .normal-bg .sample{
+    padding: 10px;
+    width: 250px;
+    height: 120px;
+}
+
+.platform .normal-bg .sample img{
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border: solid 1px blue;
+}
+.platform .normal-bg button{
+    width: 80px;
+    height: 40px;
+    background-color: #fff;
+    border: solid 1px black;
 }

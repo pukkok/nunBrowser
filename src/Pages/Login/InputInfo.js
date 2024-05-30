@@ -4,7 +4,7 @@ import classNames from "classnames";
 import axios from "axios";
 
 const BASE_URL = 'http://localhost:5000'
-function InputInfo ({type, info}) {
+function InputInfo ({type, info, setFunc, inputValues}) {
 
     const phoneOptions = ['선택', '010', '011', '016', '017', '018', '019']
     const emailOptions = ['선택', 'naver.com', 'nate.com', 'gmail.com', 'daum.net']
@@ -16,7 +16,7 @@ function InputInfo ({type, info}) {
         setOpenList({...openList, [option] : !openList[option]})
         setActiveOption({...activeOption, [option] : e.target.innerText})    
     }
-    
+
     const [selectNum, setSelectNum] = useState({ phoneOption: 0, emailOption : 0})
     const selectPhoneRef = useRef([])
     const selectEmailRef = useRef([])
@@ -53,6 +53,7 @@ function InputInfo ({type, info}) {
         }
     }
 
+
     useEffect(()=>{
 
         setActiveOption({
@@ -63,9 +64,7 @@ function InputInfo ({type, info}) {
         
     },[selectNum])
 
-
     const selectAddrress = (e) => {
-        console.log(e)
         activeOption['emailOption'] = e.target.value
     }
 
@@ -74,23 +73,18 @@ function InputInfo ({type, info}) {
     const emailRef = useRef({})
 
     useEffect(()=>{
-        // console.log(phoneRef.current)
-    })
-
-    const inputInfo = () => {
         if(info){
-            const keys = Object.keys(info)
-            keys.forEach((key)=>{
-                if(inputRefs.current[key]){
-                    inputRefs.current[key].value = info[key]
-                }
-            })
+            setFunc({...inputValues, ...info})
+        }
+    },[info])
+
+    const inputInfo = (e) => { // 교사 데이터를 불러왔다면 소속기관, 이름 입력
+        if(!info[e.target.name]){
+            setFunc({...inputValues, [e.target.name]: e.target.value })
+        }else{
+            alert('잘못된 접근입니다.')
         }
     }
-
-    useEffect(()=>{
-        inputInfo()
-    },[info])
     
     // id 중복확인
     async function duplicateCheck (e) {
@@ -126,7 +120,7 @@ function InputInfo ({type, info}) {
                             <th><span className="essential">*</span>소속기관</th>
                             <td colSpan={3}>
                                 <div>
-                                    <input ref={el=> inputRefs.current['organization'] = el} placeholder={'유치원 명'} onChange={inputInfo}/>
+                                    <input name="organization" placeholder={'유치원 명'} onChange={inputInfo} value={inputValues.organization}/>
                                     <p>{info.isDirector ? '(원장)' : ''}</p>
                                 </div>
                             </td>
@@ -135,7 +129,7 @@ function InputInfo ({type, info}) {
                             <th><span className="essential">*</span>이름</th>
                             <td colSpan={3}>
                                 <div>
-                                    <input ref={el=> inputRefs.current['name'] = el}/>
+                                    <input onChange={inputInfo} name="name" value={inputValues.name}/>
                                 </div>
                             </td>
                         </tr>
@@ -144,7 +138,7 @@ function InputInfo ({type, info}) {
                             <td colSpan={3}>
                                 <div>
                                     <form>
-                                        <input type="text" ref={el => inputRefs.current['userId'] = el}/>
+                                        <input type="text" onChange={inputInfo} name="userId" value={inputValues.userId} />
                                         <button onClick={duplicateCheck} tabIndex={-1}>중복 확인</button>
                                     </form>
                                     <span>아이디는 영문, 숫자, 특수문자의 조합으로 입력해주세요.</span>
@@ -155,14 +149,14 @@ function InputInfo ({type, info}) {
                             <th><span className="essential">*</span>비밀번호</th>
                             <td>
                                 <div>
-                                    <input type="password" ref={el => inputRefs.current['password'] = el}/>
+                                    <input type="password" onChange={inputInfo} name="password" value={inputValues.password}/>
                                     <span>비밀번호는 문자,숫자,특수문자의 조합으로 9~16자리로 입력해주세요.</span>
                                 </div>
                             </td>
                             <th><span className="essential">*</span>비밀번호 확인</th>
                             <td>
                                 <div>
-                                    <input type="password" ref={el => inputRefs.current['confirmPassword'] = el}/>
+                                    <input type="password" onChange={inputInfo} name="confirmPassword" value={inputValues.confirmPassword}/>
                                     <span>비밀번호와 동일하게 입력해주세요.</span>
                                 </div>
                             </td>

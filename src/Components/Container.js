@@ -2,7 +2,7 @@ import React from "react";
 
 function Container ({width=1240 ,children}) {
     const containerStyle = {
-        width: width+'px',
+        maxWidth: width+'px',
         margin: '0 auto'
     }
 

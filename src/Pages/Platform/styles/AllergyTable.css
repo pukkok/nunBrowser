@@ -11,7 +11,7 @@
     border: solid 1px #5172df;
     width: 400px;
     z-index: 100;
-    transition: .8s;
+    transition: .6s;
 }
 .allergy-table.pull{
     right: 0;

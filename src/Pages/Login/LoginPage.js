@@ -45,7 +45,6 @@ function LoginPage () {
     const moveJoinPage = () => {
         window.close()
         console.log(window.opener.location.replace('/user/join'))
-        
     }
 
     return(
