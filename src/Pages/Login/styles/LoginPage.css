@@ -2,7 +2,7 @@
     box-sizing: border-box;
     color:#777;
     font-size:13px;
-    width: 570px;
+    width: 580px;
     height: 550px;
     padding: 40px 35px 20px;
 }
@@ -10,7 +10,7 @@
 .login-box .header {
     text-align: center;
     height: fit-content;
-    margin-bottom: 35px;
+    margin-bottom: 10px;
 }
 
 .login-box .header h1{
@@ -23,6 +23,19 @@
 .login-box .header p{
     color: #666;
     font-size: 13px;
+}
+
+.login-box .login-type{
+    font-size: 15px;
+    padding: 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.login-box .login-type label{
+    padding: 2px 1px;
 }
 
 .login-box form {
@@ -61,6 +74,7 @@
     display: flex;
     padding-top: 30px;
     border-top: 1px solid #e1e1e1;
+    /* text-align: center; */
 }
 
 .login-box .small-box div{

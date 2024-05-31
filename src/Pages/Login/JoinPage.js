@@ -12,17 +12,9 @@ import SelectJoinType from "./SelectJoinType";
 import Certificate from "./Certificate";
 import InputInfo from "./InputInfo";
 
-const arr1 = [
-    { id: 'step2-email' , type: 'text', name : 'email', kr: '이메일'},
-    { id: 'step2-phone' , type: 'text', name : 'phone', kr: '연락처'},
-    { id: 'step2-userId' , type: 'text', name : 'id', kr: '아이디'},
-    { id: 'r-pw' , type: 'password', name : 'password', kr: '패스워드'},
-    { id: 'r-cpw' , type: 'password', name : 'confirmPassword', kr: '패스워드 확인'},
-]
-
 const BASE_URL = 'http://localhost:5000'
-
 const agreeSteps = ['약관동의', '회원구분', '본인확인', '정보입력', '가입완료']
+
 function JoinPage () {
 
     const [step, setStep] = useState(0) // 회원가입 절차
@@ -56,9 +48,17 @@ function JoinPage () {
         if(certificateData){
             const {name, isDirector, organization, kinderCode} = certificateData
             const { email, phone, userId, password, confirmPassword} = step2
+            let bodyData = {name, isDirector, organization, kinderCode, email, phone, userId, password, confirmPassword}
+
+            if(email === ''){
+                delete bodyData.email
+            }
+            if(phone === ''){
+                delete bodyData.phone
+            }
+
             const { data } = await axios.post(`${BASE_URL}/teacher/join/step2`, {
-                name, isDirector, organization, kinderCode,
-                email, phone, userId, password, confirmPassword
+                ...bodyData
             })
             alert(data.msg)
             if(data.code === 200){

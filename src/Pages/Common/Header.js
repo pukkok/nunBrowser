@@ -16,7 +16,7 @@ function Header () {
         window.open(
             e.target.href,
             '_blank',
-            `width=550 height=500
+            `width=580 height=550
             top=100 left=150`
         )
     }

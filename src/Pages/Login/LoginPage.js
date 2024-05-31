@@ -9,13 +9,16 @@ function LoginPage () {
 
     const [input, setInput] = useState({})
 
-    const [switchType, setSwitchType] = useState('teacher')
+    const [switchType, setSwitchType] = useState('parent')
 
-    const [result, setResult] = useState()
+    const typeChecker = (e) =>{
+        setSwitchType(e.target.value)
+    }
 
     const login = async (e, input) => {
         e.preventDefault()
         const {userId, password} = input
+        
         const { data } = await axios.post(`${BASE_URL}/${switchType}/login`, {
                userId, password
         })
@@ -38,10 +41,6 @@ function LoginPage () {
         setInput({...input, [name] : value })
     }
 
-    useState(()=>{
-        console.log(result)
-    },[result])
-
     const moveJoinPage = () => {
         window.close()
         console.log(window.opener.location.replace('/user/join'))
@@ -52,6 +51,14 @@ function LoginPage () {
             <div className="header">
                 <h1>LOGIN</h1>
                 <p>로그인 이후 플랫폼 이용이 가능합니다.</p>
+            </div>
+            <div className="login-type">
+                <label>
+                    <input type="radio" name="type" value={'parent'} onClick={typeChecker} defaultChecked={true}/>학부모
+                </label>
+                <label>
+                    <input type="radio" name="type" value={'teacher'} onClick={typeChecker} defaultChecked={false}/>교직원
+                </label>
             </div>
             <form>
                 <div>

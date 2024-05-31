@@ -1,0 +1,80 @@
+.template{
+    display: grid;
+    height: 100%;
+    grid-template-areas: 
+    'n n n n n'
+    'b b b b b'
+    'c c c c c'
+    'c c c c c';
+    grid-template-rows: 60px 300px 1fr;
+    background-color: #fff;
+}
+
+/* 공통 옵션 */
+.template .nav{
+    grid-area: n;
+}
+.template .bg{
+    grid-area: b;
+}
+.template .content{
+    grid-area: c;
+}
+.template .default-option{
+    border: solid 1px grey;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+}
+.template .default-option:nth-last-child(1){
+    border-bottom: 1px solid grey;
+}
+.template button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border: solid 1px grey;
+}
+.template .no-border{
+    border: none;
+    padding: 2px;
+}
+.template .no-padding{
+    padding: 2px;
+}
+
+/* 네비게이션 */
+.template .nav{
+    gap: 30px;
+}
+.template .nav button:nth-child(1){
+    width: 120px;
+}
+.template .nav button:nth-child(2){
+    width: 100%;
+}
+
+/* 로고 박스 */
+.template .logo-box{
+    width: 120px;
+    height: 40px;
+}
+.template .logo-box img{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.template .preview-bg{
+    width: 100%;
+    height: 100%;
+}
+.template .preview-bg img{
+    width: 100%;
+    height: 100%;
+}

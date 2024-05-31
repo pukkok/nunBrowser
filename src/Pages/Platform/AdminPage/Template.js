@@ -1,30 +1,43 @@
 import React, { useEffect, useRef, useState } from "react";
-import './styles/PlatformPage.css'
+import './styles/Template.css'
+import ImgBox from "../../../Components/ImgBox";
 
+import classNames from "classnames";
 
-
-function PlatformPage ({ adminMode, area }) {
+function Template ({ logo }) {
 
     return(
-        <section className={"platform"} >
+        <section className={"template"} >
+            
             <div className="nav default-option">
-                <button>로고 올리기</button>
-                <button>네비게이션 만들기</button>
+                <button className={logo && 'no-border'}>
+                    {logo ? <ImgBox addClass={'logo-box'} src={logo}/> : '로고'}
+                </button> 
+                <button>네비게이션</button>
             </div>
-            <div className="bg default-option">
-                <button>배경 업로드 하기</button>
+
+            <div className={classNames("bg", 'default-option')}>
+                <button>
+                    {/* {bg ? <ImgBox addClass={'preview-bg'} 
+                    src={ sampleBgs.includes(bg) ? `${origin}/platform/${bg}`: bg} /> : 
+                    '배경 업로드 하기'} */}
+                    배경업로드
+                </button>
             </div>
             <div className="content default-option">
                 <button>컨텐츠 추가</button>
             </div>
 
+            
+
+            
             {/* <div className="nav">
                 <Container>
                 <ul>
                     <button onClick={uploadLogo}>로고올리기</button>
-                    <div><img src={logo}/></div>
-                    <button onClick={()=>{logoRef.current.click()}}>파일선택</button>
-                    <input hidden type="file" onChange={getLogo} ref={logoRef}/>
+                    
+                    
+                    
                     <li>logo위치</li>
                     {sampleNav.map((list, idx)=>{
                         return <li key={idx}>{list}</li>
@@ -81,4 +94,4 @@ function PlatformPage ({ adminMode, area }) {
     )
 }
 
-export default PlatformPage
+export default Template

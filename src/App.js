@@ -5,6 +5,7 @@ import PlatformPage from './Pages/Platform/PlatformPage';
 import ServicePage from './Pages/Service/ServicePage';
 import Header from './Pages/Common/Header';
 import Footer from './Pages/Common/Footer';
+import AdminPage from './Pages/Platform/AdminPage/AdminPage';
 
 function App() {
 
@@ -24,13 +25,14 @@ function App() {
         <Route element={<UseCommon/>}>
           <Route exact path='/' element={<MainPage/>}/>
           <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
-          <Route exact path='search' element={<SearchPage/>}/>
-          <Route exact path='kinder' element={<PlatformPage/>}/>
+          <Route exact path='/search' element={<SearchPage/>}/>
+          <Route exact path='/kinder' element={<PlatformPage/>}/>
         </Route>
         <Route path='user'>
           <Route exact path='login' element={<LoginPage/>}/>
           <Route exact path='join' element={<JoinPage/>}/>
         </Route>
+        <Route path='admin' element={<AdminPage/>}/>
         <Route exact path='*' element={<NotFoundPage />}/>
       </Routes>
     </div>

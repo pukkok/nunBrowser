@@ -1,0 +1,140 @@
+.admin-page{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+    'l h h h h'
+    'l c c c c'
+    'l c c c c'
+    'l c c c c';
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 50px 1fr;
+}
+.admin-page .l{
+    grid-area: l;
+    width: 300px;
+    background-color: #edf1fe;
+}
+.admin-page .h{
+    grid-area: h;
+    width: 100%;
+}
+.admin-page .c{
+    grid-area: c;
+}
+
+/* 헤더바 파트 */
+.admin-page .header-bar{
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+}
+.admin-page .header-bar ul{
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.admin-page .header-bar ul button{
+    background-color: #5172df;
+    border: 1px solid #004898;
+    padding: 5px 15px;
+    color: white;
+}
+.admin-page .header-bar ul button:hover{
+    background-color: #004898;
+}
+.admin-page .header-bar ul button.out{
+    background-color: #bbb;
+    border: 1px solid #ddd;
+}
+.admin-page .header-bar ul button.out:hover{
+    background-color: #696969;
+}
+
+/* 사이드바 파트 */
+.admin-page .side-bar{
+    padding: 0 20px;
+}
+.admin-page .side-bar .title{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #004898;
+    margin-bottom: 20px;
+}
+
+.box-option{
+    padding: 20px;
+    height: auto;
+    border: solid 1px #ddd;
+    background-color: #f0f0f0;
+}
+.admin-page .side-bar .ctrl h3{
+    padding-bottom: 20px;
+}
+
+.admin-page .side-bar .ctrl ul li{
+    display: flex;
+    padding-bottom: 15px;
+}
+.admin-page .side-bar .ctrl .btn-box{
+    margin-left: auto;
+}
+
+.admin-page .side-bar .ctrl button{
+    border: solid 1px #004898;
+    margin-left: 3px;
+    font-size: 14px;
+    width: 40px;
+    text-align: center;
+    padding: 1px 2px
+}
+
+
+.ctrl-modal{
+    position: fixed;
+    border: solid 1px red;
+    /* width: 100vw;
+    height: 100vh; */
+    top: 0;
+}
+
+.ctrl-modal .bg-list{
+    position: absolute;
+    grid-template-rows: auto;
+    top: 450px;
+    background-color: #f7f7f7;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.ctrl-modal .bg-list .sample-box{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.ctrl-modal .bg-list .sample{
+    padding: 10px;
+    width: 250px;
+    height: 120px;
+}
+.ctrl-modal .bg-list .sample img{
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border: solid 1px #ddd;
+}
+
+.ctrl-modal .bg-list .btn-box{
+    display: flex;
+    gap: 10px;
+}
+
+.ctrl-modal .bg-list button{
+    height: 30px;
+    background-color: #fff;
+    border: solid 1px black;
+}
