@@ -1,0 +1,40 @@
+/* 사이드바 파트 */
+.admin-page .side-bar{
+    padding: 0 20px;
+}
+.admin-page .side-bar .title{
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: solid 1px #004898;
+}
+.admin-page .side-bar .ctrl{
+    width: 200px;
+}
+
+.admin-page .side-bar .ctrl h3{
+    padding-bottom: 20px;
+}
+.admin-page .side-bar .ctrl ul li{
+    display: flex;
+    padding-bottom: 15px;
+}
+.admin-page .side-bar .ctrl ul li:hover p{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.admin-page .side-bar .ctrl ul li{
+    display: flex;
+}
+.admin-page .side-bar .ctrl ul li button{
+    margin-left: auto;
+    width: fit-content;
+    font-size: 13px;
+}
+
+.admin-page .side-bar .ctrl ul li button:hover{
+    font-weight: bold;
+}

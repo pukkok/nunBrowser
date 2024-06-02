@@ -1,74 +1,86 @@
-import React, { useState, useRef } from "react";
-import PlatformPage from '../PlatformPage'
+import React, { useState } from "react";
 import './styles/AdminPage.css'
+import classNames from "classnames";
+
 import SideBar from "./SideBar";
 import HeaderBar from "./HeaderBar";
-import Template from "./Template";
+import Preview from "./Preview";
 
-import ImgBox from "../../../Components/ImgBox";
+import LogoEditor from "./Editor/LogoEditor";
+import BackgroundEditor from "./Editor/BackgroundEditor";
 
 function AdminPage () {
 
-    const [logo, setLogo] = useState()
-    const [openBg, setOpenBg] = useState(false)
-    // 배경 업로드 부분
-    
-    const BGList = () => {
-        const sampleBgs = [
-            'sample-bg1.png','sample-bg2.jpg','sample-bg3.png',
-            'sample-bg4.png','sample-bg5.png',
-        ]
-
-        const bgRef =useRef()
-        const [bg, setBg] = useState() // 미리보기 배경
-        const [addBgs, setAddBgs] = useState([]) // 새로 추가된 배경
-        
-        const getBg = (e) => {
-            setAddBgs([...addBgs, e.target.files[0]])
-            setBg(URL.createObjectURL(e.target.files[0]))
-        }
-
-        const bgSelector = (bg) => {
-            setBg(bg)
-        }
-        
-        return(
-            <div className="bg-list">
-                <div className="sample-box">
-                    {sampleBgs.map((bg, idx)=>{
-                        let src = `${origin}/platform/${bg}`
-                        return <ImgBox handleClick={()=>bgSelector(bg)} addClass={'sample'} key={idx} src={src}></ImgBox>
-                    })}
-                    {addBgs.length>0 && addBgs.map((bg, idx)=>{
-                        let src = URL.createObjectURL(bg)
-                        return <ImgBox handleClick={()=>bgSelector(src)} addClass={'sample'} src={src}/>
-                    })}
-                </div>
-                <div className="btn-box">
-                    <button onClick={()=>bgRef.current.click()}>배경 추가하기</button>
-                    <button>배경 등록</button>
-                    <button onClick={()=>setAddBgs([])}>추가 목록 초기화</button>
-                    <button onClick={()=>setOpenBg(false)}>닫기</button>
-                </div>
-                {/* 배경 추가 옵션 열기 */}
-                <input hidden type="file" onChange={getBg} ref={bgRef}/>
-            </div>
-        )
+    // 그리드 사이즈 지정 (사이드바 접고 펼칠때 사용)
+    const [gridSize, setGridSize] = useState(250)
+    const gridTemplate = {
+        gridTemplateColumns : `${gridSize}px 1fr`
     }
 
+    // 탭 이동
+    const [tabs, setTabs] = useState([])
+    const [selectedTab, setSelectedTab] = useState('')
+
+    const closeTab = (e, checkValue) => {
+        e.stopPropagation()
+        console.log(tabs[tabs.length-1].value)
+        console.log(checkValue)
+        if(tabs[tabs.length-1].value === checkValue){
+            if(tabs.length===1){ // 탭이 1개 열려 있을때
+                setSelectedTab('')
+            }else{ // 마지막탭 하나 전 탭으로 액티브 이동
+                setSelectedTab(tabs[tabs.length-2].value)
+            }
+        }
+        
+        setTabs(tabs.filter(tab=>{
+            return tab.value !== checkValue
+        }))
+    }
+
+    const [logo, setLogo] = useState() // 로고값
+    const [navi, setNavi] = useState()
+    const [bg, setBg] = useState() // 미리보기 배경
+    const [hideContainer, setHideContainer] = useState(false)
+    
+
     return(
-        <section className="admin-page open">
+        <section className="admin-page open" style={gridTemplate}>
             <SideBar area='l' 
-            setLogo={setLogo}
-            setOpenBg={setOpenBg}
+            tabs={tabs} setTabs={setTabs} setSelectedTab={setSelectedTab}
+            hideContainer={hideContainer} setHideContainer={setHideContainer}
             />
-            <HeaderBar area='h'/>
-            <div className="box-option c">
-                <h1>기본 템플릿</h1>
-                <Template logo={logo}/>
-            </div>
-            <div className="ctrl-modal">
-                {openBg && <BGList/>}
+            <HeaderBar area='h' setGridSize={setGridSize}/>
+            <div className="option-part c">
+                <div className="preview-part part">
+                    <p>레이아웃 미리보기 
+                        <span className="red"></span>
+                        <span className="yellow"></span>
+                        <span className="green"></span>
+                    </p>
+                    <Preview active={selectedTab} hideContainer={hideContainer}
+                    logo={logo} bg={bg}
+                    />
+                </div>
+                <div className="part">
+                    <div className="option-btn-box">
+                        {tabs.map((list, idx)=>{
+                            const {value, text} = list
+                            return <div key={idx} 
+                            className={classNames('option-btn',{active : selectedTab === value})}> 
+                                <button className="tab-btn" onClick={()=>setSelectedTab(value)}>{text}</button>
+                                <button className="close-btn" onClick={(e)=>closeTab(e, value)}>
+                                    <span className="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
+                        })}
+                    </div>
+                    <div className="option-window">
+                        {selectedTab === 'logo' && <LogoEditor setLogo={setLogo} logo={logo}/>}
+                        {selectedTab === 'bg' && <BackgroundEditor setBg={setBg}/>}
+                        {selectedTab === 'navigation' && '네비게이션'}
+                    </div>
+                </div>
             </div>
         </section>
     )

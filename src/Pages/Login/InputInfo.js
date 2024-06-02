@@ -105,6 +105,7 @@ function InputInfo ({type, info, setFunc, inputValues}) {
                 const extra = phoneRef.current.map(input => input.value)
                 let phone = head + '-' + extra.join('-')
                 return setFunc({...inputValues, phone})
+
             }
         }
 

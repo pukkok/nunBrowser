@@ -7,12 +7,12 @@
     'l c c c c'
     'l c c c c'
     'l c c c c';
-    grid-template-columns: 300px 1fr;
+    /* grid-template-columns: 300px 1fr; */
     grid-template-rows: 50px 1fr;
+    transition: .4s;
 }
 .admin-page .l{
     grid-area: l;
-    width: 300px;
     background-color: #edf1fe;
 }
 .admin-page .h{
@@ -28,6 +28,7 @@
     display: flex;
     padding: 10px 20px;
     align-items: center;
+    background-color: #fff;
 }
 .admin-page .header-bar ul{
     margin-left: auto;
@@ -52,89 +53,65 @@
     background-color: #696969;
 }
 
-/* 사이드바 파트 */
-.admin-page .side-bar{
-    padding: 0 20px;
-}
-.admin-page .side-bar .title{
-    height: 50px;
-    display: flex;
-    align-items: center;
-    border-bottom: solid 1px #004898;
-    margin-bottom: 20px;
-}
-
-.box-option{
-    padding: 20px;
+/* 옵션 수정 부분 */
+.admin-page .option-part{
     height: auto;
     border: solid 1px #ddd;
     background-color: #f0f0f0;
-}
-.admin-page .side-bar .ctrl h3{
-    padding-bottom: 20px;
-}
-
-.admin-page .side-bar .ctrl ul li{
-    display: flex;
-    padding-bottom: 15px;
-}
-.admin-page .side-bar .ctrl .btn-box{
-    margin-left: auto;
-}
-
-.admin-page .side-bar .ctrl button{
-    border: solid 1px #004898;
-    margin-left: 3px;
-    font-size: 14px;
-    width: 40px;
-    text-align: center;
-    padding: 1px 2px
-}
-
-
-.ctrl-modal{
-    position: fixed;
-    border: solid 1px red;
-    /* width: 100vw;
-    height: 100vh; */
-    top: 0;
-}
-
-.ctrl-modal .bg-list{
-    position: absolute;
-    grid-template-rows: auto;
-    top: 450px;
-    background-color: #f7f7f7;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-.ctrl-modal .bg-list .sample-box{
+    padding: 5px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    grid-template-columns: 50% 50%;
 }
 
-.ctrl-modal .bg-list .sample{
-    padding: 10px;
-    width: 250px;
-    height: 120px;
-}
-.ctrl-modal .bg-list .sample img{
-    object-position: center;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border: solid 1px #ddd;
-}
-
-.ctrl-modal .bg-list .btn-box{
-    display: flex;
+.admin-page .option-part .part{
+    background-color: #fff;
+    display: grid;
+    grid-template-rows: 30px 1fr;
+    padding: 5px 10px;
     gap: 10px;
 }
 
-.ctrl-modal .bg-list button{
-    height: 30px;
+.admin-page .option-part .preview-part p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+}
+/* 버튼부분 */
+.admin-page .option-part .option-btn-box{
+    display: flex;
+}
+.admin-page .option-part .option-btn-box .option-btn{
     background-color: #fff;
-    border: solid 1px black;
+    min-width: 130px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-start;
+}
+.admin-page .option-part .option-btn .tab-btn{
+    width: 90%;
+    padding: 5px;
+}
+.admin-page .option-part .option-btn .close-btn{
+    padding: 5px;
+    margin-left: auto;
+}
+.admin-page .option-part .option-btn span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    padding: 5px;
+    font-size: 13px;
+}
+.admin-page .option-part .option-btn .close-btn:hover span{
+    background-color: #9f9f9f;
+    border: 1px solid #bbb;
+    color: #fff;
+}
+.admin-page .option-part .option-btn.active{
+    color: #5172df;
+    border: 1px solid #5172df;
 }

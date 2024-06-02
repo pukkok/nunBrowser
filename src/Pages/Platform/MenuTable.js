@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import DateModal from "./DateModal";
-import Calendar from "../../../Custom/Calendar";
+import Calendar from "../../Custom/Calendar";
 
 function MenuTable () {
     
