@@ -1,6 +1,6 @@
 header{
     width: 100%;
-    height: 70px;
+    height: 60px;
 }
 header nav{
     position: relative;
@@ -9,28 +9,63 @@ header nav{
     height: 100%;
     align-items: center;
     background-color: #fff;
-    z-index: 10;
-    border: solid 1px red;
+    z-index: 20;
+    border-bottom: #5172df;
+}
+header nav .logo{
+    width: 160px;
+}
+header nav .depth1{
+    flex: 1;
 }
 
 header nav .depth1,
 header nav .user-nav{
     display: flex;
     gap: 10px;
+    justify-content: center;
 }
 
 header nav .user-nav{
     margin-left: auto;
 }
 
+header nav .depth1{
+    height: 100%;
+}
+
+header nav .depth1 > li{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+}
+
 header nav .depth1 > li:hover > a{
     font-weight: bold;
-    color: blue;
+    color: #5172df;
     cursor: pointer;
 }
 
 header nav .depth1 > li > .depth2{
     display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    min-width: 110px;
+    background-color: #fff;
+    border: solid 1px #5172df;
+}
+
+header nav .depth1 > li > .depth2 > li{
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid#5172df;
+}
+header nav .depth1 > li > .depth2 > li:hover{
+    background-color: #004898;
 }
 
 header nav .depth1 > li:hover > .depth2 {
@@ -38,6 +73,7 @@ header nav .depth1 > li:hover > .depth2 {
 }
 
 header nav .depth1 > li:hover > .depth2 > li:hover a {
-    color: blue;
-
+    color: #5172df;
+    color: #fff;
+    
 }

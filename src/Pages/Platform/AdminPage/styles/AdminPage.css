@@ -81,7 +81,19 @@
 /* 버튼부분 */
 .admin-page .option-part .option-btn-box{
     display: flex;
+    border-bottom: 1px solid #ddd;
+    overflow: scroll;
 }
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+.option-btn-box::-webkit-scrollbar {
+    display: none;
+}
+.option-btn-box{
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
 .admin-page .option-part .option-btn-box .option-btn{
     background-color: #fff;
     min-width: 130px;
@@ -90,6 +102,7 @@
     justify-content: flex-start;
 }
 .admin-page .option-part .option-btn .tab-btn{
+    font-size: 14px;
     width: 90%;
     padding: 5px;
 }
@@ -112,6 +125,7 @@
     color: #fff;
 }
 .admin-page .option-part .option-btn.active{
-    color: #5172df;
-    border: 1px solid #5172df;
+    color: #004898;
+    border: 1px solid #004898;
+    font-weight: 600;
 }

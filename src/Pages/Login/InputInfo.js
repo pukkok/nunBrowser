@@ -175,7 +175,7 @@ function InputInfo ({type, info, setFunc, inputValues}) {
                                         <input type="text" onChange={inputInfo} name="userId" value={inputValues.userId} />
                                         <button onClick={duplicateCheck} tabIndex={-1}>중복 확인</button>
                                     </form>
-                                    <span>아이디는 영문, 숫자, 특수문자의 조합으로 입력해주세요.</span>
+                                    <span>아이디는 영문, 숫자의 조합으로 입력해주세요.</span>
                                 </div>
                             </td>
                         </tr>

@@ -35,8 +35,8 @@ function Header () {
         <header className="header">
             <Container>
                 <nav>
-                    <div>
-                        <button onClick={()=>{navigate('/')}}> 홈 버튼 </button>
+                    <div className="logo">
+                        <button onClick={()=>{navigate('/')}}> 유치원 모으미 </button>
                     </div>
                     <ul className="depth1">
                         <li><Link to={'service/info'}>유치원 모으미란</Link>

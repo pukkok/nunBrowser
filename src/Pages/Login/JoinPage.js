@@ -118,7 +118,7 @@ function JoinPage () {
                 {step === 4 && 
                 <div className="text-box dashed">
                     <h2>회원가입 완료</h2>
-                    <h4>로그인 후다양한 서비스를 이용해 보세요</h4>
+                    <h4>로그인 후 다양한 서비스를 이용해 보세요</h4>
                 </div>}
                 <div className="btn-box">
                     <button className={classNames({active : step!==0 })} onClick={moveStep}>{step===0 ? '취소' : step===3 ? '회원가입' : step === 4 ? '홈으로 돌아가기' : '이전' }</button>

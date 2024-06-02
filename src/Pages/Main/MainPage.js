@@ -3,34 +3,39 @@ import './styles/MainPage.css'
 import ImgBox from "../../Components/ImgBox";
 import Container from "../../Components/Container";
 import { Link } from "react-router-dom";
+import MainBg from "./MainBg";
 
 function MainPage () {
 
     return(
-        <section className="Main">
-            <div className="main-bg">
-                <div className="content">
-                    <p>컨텐트를 담을 곳입니다.</p>
+        <section className="main-page">
+            <MainBg>
+                <div className="main-text">
+                    <h1>
+                        어려운 유치원 관리를 위한 첫걸음 <br/>
+                        <span>지금, 유치원 모으미에서</span>
+                    </h1>
+                    <h4></h4>
                 </div>
-                <div className="bg1 bg-item">
-                    <div className="list">
-                        <ImgBox addClass={'img4 img-box'} src={`${origin}/main/visual-bg4.png`}/>
-                        <ImgBox addClass={'img5 img-box'} src={`${origin}/main/visual-bg5.png`}/>
-                        <ImgBox addClass={'img6 img-box'} src={`${origin}/main/visual-bg6.png`}/>
-                        <ImgBox addClass={'img7 img-box'} src={`${origin}/main/visual-bg7.png`}/>
-                        <ImgBox addClass={'img8 img-box'} src={`${origin}/main/visual-bg8.png`}/>
-                        <ImgBox addClass={'img9 img-box'} src={`${origin}/main/visual-bg9.png`}/>
+                <div className="main-chart">
+                    <div>
+                        <h1>2000+</h1>
+                        <p>누적 방문자</p>
+                    </div>
+                    <div>
+                        <h1>1000+</h1>
+                        <p>누적 방문자</p>
+                    </div>
+                    <div>
+                        <h1>50k</h1>
+                        <p>구독자</p>
+                    </div>
+                    <div>
+                        <h1>30+</h1>
+                        <p>파트너</p>
                     </div>
                 </div>
-                <div className="bg2 bg-item">
-                    <div className="list">
-                        <ImgBox addClass={'img2 img-box'} src={`${origin}/main/visual-bg2.png`}/>
-                        <ImgBox addClass={'img3 img-box'} src={`${origin}/main/visual-bg3.png`}/>
-                        <ImgBox addClass={'img11 img-box'} src={`${origin}/main/visual-bg11.png`}/>
-                        <ImgBox addClass={'img12 img-box'} src={`${origin}/main/visual-bg11.png`}/>
-                    </div>
-                </div>
-            </div>
+            </MainBg>
             <Container>
                 <div className="content-go">
                     <div className="main-go">

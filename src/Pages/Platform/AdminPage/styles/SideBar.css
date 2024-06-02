@@ -7,7 +7,7 @@
     height: 50px;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border-bottom: solid 1px #004898;
 }
 .admin-page .side-bar .ctrl{
@@ -15,23 +15,22 @@
 }
 
 .admin-page .side-bar .ctrl h3{
-    padding-bottom: 20px;
-}
-.admin-page .side-bar .ctrl ul li{
-    display: flex;
     padding-bottom: 15px;
-}
-.admin-page .side-bar .ctrl ul li:hover p{
-    font-weight: bold;
-    cursor: pointer;
 }
 
 .admin-page .side-bar .ctrl ul li{
     display: flex;
+    padding-left: 5px;
+    padding-bottom: 12px;
 }
-.admin-page .side-bar .ctrl ul li button{
-    margin-left: auto;
-    width: fit-content;
+.admin-page .side-bar .ctrl ul li:hover{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.admin-page .side-bar .ctrl ul button{
+    float: right;
+    padding-top: 2px;
     font-size: 13px;
 }
 

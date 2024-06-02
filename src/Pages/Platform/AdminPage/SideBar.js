@@ -5,15 +5,23 @@ import './styles/SideBar.css'
 function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideContainer }) {
 
     const sendTabInfo = (e) => {
-        const {title, innerText} = e.target
+        const {className, innerText} = e.target
         const result = tabs.filter(tab =>{
-            return tab.value === title
+            return tab.value === className
         })
         if(result.length===0){ // 포함한 값이 없다.
-            setTabs([...tabs, {value : title, text: innerText}])
+            setTabs([...tabs, {value : className, text: innerText}])
         }
-        setSelectedTab(title)
+        setSelectedTab(className)
     }
+
+    const tabList = [
+        {className: 'logo', text: '로고'},
+        {className: 'navigation', text: '네비게이션'},
+        {className: 'bg', text: '배경'},
+        {className: 'container', text: '컨테이너'},
+        {className: 'content', text: '컨텐츠'},
+    ]
 
     return (
         <section className={classNames("side-bar", area)}>
@@ -23,17 +31,17 @@ function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideCo
             <div className="page-management ctrl">
                 <h3>페이지 관리</h3>
                 <ul onClick={sendTabInfo}>
-                    <li title={'logo'}><p>로고</p></li>
-                    <li title={'navigation'}><p>네비게이션</p></li>
-                    <li title="bg"><p>배경</p></li>
-                    <li title="container"><p>컨테이너</p>
-                        <button onClick={(e)=>{
-                            e.stopPropagation()
-                            setHideContainer(!hideContainer)}
-                        }>{hideContainer ? '보이기' : '숨기기' }</button>
-                    </li>
-                    <li title="content">컨텐츠
-                    </li>
+                    {tabList.map((list, idx) =>{
+                        return (
+                            <React.Fragment key={idx}>
+                                {list.className === 'container' && <button onClick={(e)=>{
+                                e.stopPropagation()
+                                setHideContainer(!hideContainer)}
+                                }>{hideContainer ? '보이기' : '숨기기' }</button>}
+                                <li className={list.className}>{list.text}</li>
+                            </React.Fragment>
+                        )
+                    })}
                     <ul>
                         <li>행사 일정</li>
                         <li>오늘의 식단</li>

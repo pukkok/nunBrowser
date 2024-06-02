@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './styles/Preview.css'
 import ImgBox from "../../../Components/ImgBox";
 import Container from '../../../Components/Container'
@@ -6,7 +6,6 @@ import Container from '../../../Components/Container'
 import classNames from "classnames";
 
 function Preview ({ active='', logo, bg, hideContainer }) {
-
 
     const containerStyle = {
         width: '80%'
