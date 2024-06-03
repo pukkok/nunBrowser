@@ -1,0 +1,32 @@
+.container-edit .container-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: solid 1px #696969;
+    padding: 5px 10px;
+}
+
+.container-edit .switch-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.container-edit .switch-box p{
+    padding-bottom: 10px;
+}
+
+.container-edit .unit-btns{
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+}
+
+/* .container-edit .container-box .summary{
+    display: flex;
+    flex-direction: column;
+} */
+
+.container-edit .unit-btns button{
+    border: solid 1px #696969;
+    padding: 2px 4px;
+}

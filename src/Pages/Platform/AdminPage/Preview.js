@@ -11,6 +11,10 @@ function Preview ({ active='', logo, bg, hideContainer }) {
         width: '80%'
     }
 
+    const navList = [
+        {main : '', sub: ['a','b','c','d']}
+    ]
+
     return(
         <section className={"preview-page"}>
             <div className={classNames("container-grid-viewer", 
@@ -23,16 +27,18 @@ function Preview ({ active='', logo, bg, hideContainer }) {
             <div className={classNames("nav", "default-option", {active : active === 'logo' || active === 'navigation'})}>
             <Container width={800} perWidth={80}>
                 <div className={"nav-bar"}>
-                    <button className={classNames('logo', {active : active === 'logo'})}>
+                    <button className={classNames('logo', {active : active === 'logo'}, {clear: logo})}>
                         {logo ? <ImgBox src={logo}/> : '로고'}
                     </button>
-                    <button className={classNames("navigation", {active : active === 'navigation'})}>네비게이션 바</button>
+                    <button className={classNames("navigation", {active : active === 'navigation'})}>
+                        네비게이션 바
+                    </button>
                 </div>
             </Container>
             </div>
 
             <div className={classNames("bg", 'default-option', {active : active === 'bg'})}>
-                <button className={classNames('bg-preview', {clear : bg!==undefined})}>
+                <button className={classNames('bg-preview', {clear : bg})}>
                     {bg ? <ImgBox src={bg}/> : '배경업로드' }
                 </button>
             </div>

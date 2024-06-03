@@ -8,6 +8,8 @@ import Preview from "./Preview";
 
 import LogoEditor from "./Editor/LogoEditor";
 import BackgroundEditor from "./Editor/BackgroundEditor";
+import NavigationEditor from "./Editor/NavigationEditor";
+import ContainerEditor from "./Editor/ContainerEditor";
 
 function AdminPage () {
 
@@ -23,8 +25,6 @@ function AdminPage () {
 
     const closeTab = (e, checkValue) => {
         e.stopPropagation()
-        console.log(tabs[tabs.length-1].value)
-        console.log(checkValue)
         if(tabs[tabs.length-1].value === checkValue){
             if(tabs.length===1){ // 탭이 1개 열려 있을때
                 setSelectedTab('')
@@ -46,14 +46,14 @@ function AdminPage () {
 
     return(
         <section className="admin-page open" style={gridTemplate}>
-            <SideBar area='l' 
+            <SideBar area='l'
             tabs={tabs} setTabs={setTabs} setSelectedTab={setSelectedTab}
             hideContainer={hideContainer} setHideContainer={setHideContainer}
             />
             <HeaderBar area='h' setGridSize={setGridSize}/>
             <div className="option-part c">
                 <div className="preview-part part">
-                    <p>레이아웃 미리보기 
+                    <p>레이아웃
                         <span className="red"></span>
                         <span className="yellow"></span>
                         <span className="green"></span>
@@ -78,7 +78,8 @@ function AdminPage () {
                     <div className="option-window">
                         {selectedTab === 'logo' && <LogoEditor setLogo={setLogo} logo={logo}/>}
                         {selectedTab === 'bg' && <BackgroundEditor setBg={setBg}/>}
-                        {selectedTab === 'navigation' && '네비게이션'}
+                        {selectedTab === 'navigation' && <NavigationEditor/>}
+                        {selectedTab === 'container' && <ContainerEditor/>}
                     </div>
                 </div>
             </div>

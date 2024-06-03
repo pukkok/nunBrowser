@@ -23,7 +23,7 @@
     grid-area: c;
 }
 
-.preview-page .default-option:not(:nth-child(1)){
+.preview-page .default-option:not(:nth-child(2)){
     border-top: 1px solid #acacac;
 }
 
@@ -53,13 +53,12 @@
     display: none;
 }
 
-
 .preview-page .nav-bar .logo{
-    width: 80px;
+    width: 100px;
+    max-height: 30px;
 }
 
 /* 이미지 크기 박스안에 고정 */
-
 .preview-page .clear{
     width: 100%;
     height: 100%;
@@ -76,7 +75,7 @@
 }
 
 .preview-page .nav-bar .navigation{
-    width: 100%;
+    width: calc(100% - 100px);
 }
 
 .preview-page .nav-bar,
