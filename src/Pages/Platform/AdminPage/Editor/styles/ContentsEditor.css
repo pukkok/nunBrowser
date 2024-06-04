@@ -1,0 +1,48 @@
+.content-edit .row-col-selector{
+    display: flex;
+    gap: 40px;
+    border: solid 1px grey;
+    padding: 10px;
+}
+.content-edit .row-col-selector p{
+    padding-bottom: 10px;
+}
+.content-edit .row-col-selector .row-col label{
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+.content-edit .row-col-selector .row-col{
+    display: flex;
+    flex-direction: column;
+}
+.content-edit .row-col-selector .row-col input{
+    width: 50px;
+}
+
+.content-edit .row-col-selector select{
+    width: 100px;
+    height: 30px;
+}
+
+.mb{
+    margin-bottom: 50px;
+}
+
+/* 셀렉트 타입 */
+.select-type{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: fit-content;
+}
+
+.select-type .type-box{
+    max-width: 450px;
+    border: solid 1px grey;
+    background-color: #f7f7f7;
+    padding: 10px;
+}
+
+.select-type .type-box h1{
+    padding-bottom: 10px;
+}

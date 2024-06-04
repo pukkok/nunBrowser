@@ -3,7 +3,7 @@ import axios from "axios";
 import ImgBox from "../../../../Components/ImgBox";
 import './styles/LogoEditor.css'
 
-function LogoEditor ({logo, setLogo}) {
+function LogoEditor ({logo, setLogo, logoSize, setLogoSize, kinderCode}) {
 
     //로고 부분
     const uploadLogo = async () => {
@@ -12,7 +12,7 @@ function LogoEditor ({logo, setLogo}) {
         const fd = new FormData() // multer 사용시 폼데이터형식으로 보내줘야함
         
         fd.append('logoImg', logoRef.current.files[0]) // 파일 ('필드명',파일)
-        fd.append('kinderCode',kinderCode)
+        fd.append('kinderCode', kinderCode)
         
         const {data} = await axios({
             method:'post',
@@ -20,7 +20,14 @@ function LogoEditor ({logo, setLogo}) {
             data: fd,
         })
         alert(data.msg)
+
+        const kinderData = await axios.post('platform/upload/data', {
+            kinderCode, logoWidth: logoSize.width, logoHeight: logoSize.height
+        })
+        console.log(kinderData)
     }
+    console.log(logoSize)
+
 
     const logoRef= useRef()
     const getLogo = (e) => {
@@ -28,10 +35,6 @@ function LogoEditor ({logo, setLogo}) {
             setLogo(URL.createObjectURL(e.target.files[0]))
         }
     }
-
-    const [currentSize, setCurrentSize] = useState({
-        width:'', height:''
-    })
 
     // 초기값을 담아둔다.
     const [prevSize, setPrevSize] = useState({
@@ -44,10 +47,10 @@ function LogoEditor ({logo, setLogo}) {
         if(logo){
             const width = imgRef.current.offsetWidth
             const height = imgRef.current.offsetHeight
-            setCurrentSize({width, height})
+            setLogoSize({width, height})
             setPrevSize({width, height})
         }else{
-            setCurrentSize({width:'', height:''})
+            setLogoSize({width:'', height:''})
         }
     },[logo])
 
@@ -67,11 +70,11 @@ function LogoEditor ({logo, setLogo}) {
         }
         if(w.value.length === 0) width = prevSize.width
         if(h.value.length === 0) height = prevSize.height
-        setCurrentSize({... currentSize, width, height})
+        setLogoSize({... logoSize, width, height})
     }
 
     const resetImgSize = () => {
-        setCurrentSize({...prevSize})
+        setLogoSize({...prevSize})
         sizeRef.current.w.value = ''
         sizeRef.current.h.value = ''
     }
@@ -91,31 +94,33 @@ function LogoEditor ({logo, setLogo}) {
                 <span>*해당 홈페이지의 사용처는 메인페이지(홈 또는 첫 페이지)로 돌아가는 기능입니다.</span>
             </div>
             <div className="remote-btns">
-                <p>설정</p><span></span>
-                <button title='이미지를 업로드합니다.' onClick={()=>logoRef.current.click()}>업로드</button>
-                <button title="수정된 이미지 옵션을 저장합니다." onClick={()=>{}}>저장</button>
+                <p>로고</p><span></span>
+                <button title='이미지를 업로드합니다.' onClick={()=>logoRef.current.click()}>불러오기</button>
+                <p>업로드</p><span></span>
+                <button title="수정된 이미지 옵션을 저장합니다." onClick={()=>uploadLogo()}>저장</button>
                 <button title="전체 옵션을 초기화합니다" onClick={()=>setLogo('')}>초기화</button>
             </div>
             <div className="upload">
                 <div>
-                    <p>이미지<span>(실제 크기)</span></p>
-                    <ImgBox addClass={'logo-box'} imgSize={currentSize} src={logo} alt="이미지"
+                    <p>로고<span>(실제 크기)</span></p>
+                    <span className="summary">최대 넓이는 250px이며, 최대 높이는 150px입니다.</span>
+                    <ImgBox addClass={'logo-box'} imgSize={logoSize} src={logo} alt="이미지"
                     ref={imgRef}/>
                 </div>
                 <div className="switch-box">
-                    {currentSize.width && 
+                    {logoSize.width && 
                     <>
                     <div>
                         <p>현재 크기</p>  
-                        <p>넓이: {currentSize.width && currentSize.width + 'px'}</p>
-                        <p>높이: {currentSize.height && currentSize.height + 'px'}</p>
+                        <p className="summary">넓이: {logoSize.width && logoSize.width + 'px'}</p>
+                        <p className="summary">높이: {logoSize.height && logoSize.height + 'px'}</p>
                     </div>
                     <div>                            
                         <p>수정</p>
-                        <p>넓이: {currentSize.width && 
+                        <p className="summary">넓이: {logoSize.width && 
                             <><input ref={(el)=>sizeRef.current['w'] = el}/>px</>}
                         </p>
-                        <p>높이: {currentSize.height && 
+                        <p className="summary">높이: {logoSize.height && 
                             <><input ref={(el)=>sizeRef.current['h'] = el}/>px</>}
                         </p>
 

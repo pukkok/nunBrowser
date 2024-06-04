@@ -55,13 +55,14 @@
 
 /* 옵션 수정 부분 */
 .admin-page .option-part{
-    height: auto;
+    height: 100%;
     border: solid 1px #ddd;
     background-color: #f0f0f0;
     padding: 5px;
     display: grid;
     gap: 5px;
     grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
 }
 
 .admin-page .option-part .part{
@@ -70,6 +71,15 @@
     grid-template-rows: 30px 1fr;
     padding: 5px 10px;
     gap: 10px;
+}
+
+.admin-page .option-part .option-window{
+    overflow: scroll;
+    max-height: 100%;
+}
+
+.admin-page .option-part .preview-part{
+    grid-column: 1 / 2;
 }
 
 .admin-page .option-part .preview-part p{
@@ -130,10 +140,9 @@
     font-weight: 600;
 }
 
-
 /* 공통 요약 */
-.admin-page .summary{
-    margin-bottom: 30px;
+.admin-page div.summary{
+    margin-bottom: 20px;
 }
 .admin-page .summary h2{
     padding-bottom: 10px;
@@ -146,6 +155,16 @@
     font-size: 12px;
     color: #696969;
 }
+.admin-page span.summary{
+    padding-bottom: 5px;
+    font-size: 12px;
+    color: #696969;
+}
+.admin-page p.summary{
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
 
 /* 공통 버튼 */
 .admin-page .remote-btns{

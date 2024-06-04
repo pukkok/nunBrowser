@@ -19,6 +19,7 @@
 }
 
 .logo-edit .upload .logo-box{
+    margin-top: 10px;
     box-sizing: content-box;
     border: solid 1px #696969;
     padding: 2px;
@@ -37,14 +38,11 @@
 
 .logo-edit .upload .switch-box{
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-evenly; */
 }
 
-.logo-edit .upload .size-btns{
-    display: flex;
-    align-items: center;
-    width: 100px;
-    height: 100%;
+.logo-edit .upload .switch-box > div{
+    width: 50%;
 }
 
 .logo-edit .upload button{

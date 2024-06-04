@@ -4,11 +4,18 @@ import './styles/SideBar.css'
 
 function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideContainer }) {
 
-    const sendTabInfo = (e) => {
+    const sendTabInfo = (e, title) => {
+
+        if(!e.target.className){ // 이상한 곳 클릭
+            return
+        }
+
         const {className, innerText} = e.target
+
         const result = tabs.filter(tab =>{
             return tab.value === className
         })
+
         if(result.length===0){ // 포함한 값이 없다.
             setTabs([...tabs, {value : className, text: innerText}])
         }
@@ -21,6 +28,10 @@ function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideCo
         {className: 'bg', text: '배경'},
         {className: 'container', text: '컨테이너'},
         {className: 'content', text: '컨텐츠'},
+        {className: 'content', text: '행사일정'},
+        {className: 'content', text: '오늘의 식단'},
+        {className: 'content', text: '포토박스'},
+        {className: 'content', text: '공지사항'},
     ]
 
     return (
@@ -30,7 +41,7 @@ function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideCo
             </div>
             <div className="page-management ctrl">
                 <h3>페이지 관리</h3>
-                <ul onClick={sendTabInfo}>
+                <ul onClick={(e)=>sendTabInfo(e, 'page')}>
                     {tabList.map((list, idx) =>{
                         return (
                             <React.Fragment key={idx}>
@@ -42,13 +53,14 @@ function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideCo
                             </React.Fragment>
                         )
                     })}
-                    <ul>
-                        <li>행사 일정</li>
-                        <li>오늘의 식단</li>
-                        <li>포토박스</li>
-                        <li>공지사항</li>
-                    </ul>
-
+                </ul>
+                <h3>원아 관리</h3>
+                <ul onClick={(e)=>sendTabInfo(e, 'child')}>
+                    <li>원아 기록부</li>
+                </ul>
+                <h3>식단 관리</h3>
+                <ul>
+                    <li>식단표</li>
                 </ul>
             </div>
 

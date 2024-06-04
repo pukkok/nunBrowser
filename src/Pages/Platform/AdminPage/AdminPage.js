@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './styles/AdminPage.css'
 import classNames from "classnames";
 
@@ -10,6 +10,7 @@ import LogoEditor from "./Editor/LogoEditor";
 import BackgroundEditor from "./Editor/BackgroundEditor";
 import NavigationEditor from "./Editor/NavigationEditor";
 import ContainerEditor from "./Editor/ContainerEditor";
+import ContentEditor from "./Editor/ContentsEditor";
 
 function AdminPage () {
 
@@ -22,7 +23,6 @@ function AdminPage () {
     // 탭 이동
     const [tabs, setTabs] = useState([])
     const [selectedTab, setSelectedTab] = useState('')
-
     const closeTab = (e, checkValue) => {
         e.stopPropagation()
         if(tabs[tabs.length-1].value === checkValue){
@@ -39,9 +39,22 @@ function AdminPage () {
     }
 
     const [logo, setLogo] = useState() // 로고값
+    const [logoSize, setLogoSize] = useState({width:'', height:''})
     const [navi, setNavi] = useState()
     const [bg, setBg] = useState() // 미리보기 배경
-    const [hideContainer, setHideContainer] = useState(false)
+    const [hideContainer, setHideContainer] = useState(false) // 컨테이너 보이기/숨기기
+    const [containerSize, setContainerSize] = useState({
+        maxWidth:'1240', width:'1240', minWidth:'1240', unit: 'px' // 디폴트 값
+    }) // 컨테이너 사이즈 변수
+
+    const [previewSize, setPreviewSize] = useState()
+    const [xyCount, setXyCount] = useState({})
+
+    const sizeRef = useRef()
+    useEffect(()=>{
+        setPreviewSize(sizeRef.current.offsetWidth)
+    },[])
+
     
 
     return(
@@ -52,15 +65,18 @@ function AdminPage () {
             />
             <HeaderBar area='h' setGridSize={setGridSize}/>
             <div className="option-part c">
-                <div className="preview-part part">
-                    <p>레이아웃
-                        <span className="red"></span>
-                        <span className="yellow"></span>
-                        <span className="green"></span>
-                    </p>
-                    <Preview active={selectedTab} hideContainer={hideContainer}
-                    logo={logo} bg={bg}
-                    />
+                <div className="preview-part part" ref={sizeRef}>
+                    { 'page' &&
+                    <>
+                        <p>레이아웃
+                            <span className="red"></span>
+                            <span className="yellow"></span>
+                            <span className="green"></span>
+                        </p>
+                        <Preview active={selectedTab} hideContainer={hideContainer}
+                        logo={logo} bg={bg} containerSize={containerSize} previewSize={previewSize}
+                        xyCount={xyCount}/>
+                    </>}
                 </div>
                 <div className="part">
                     <div className="option-btn-box">
@@ -76,10 +92,11 @@ function AdminPage () {
                         })}
                     </div>
                     <div className="option-window">
-                        {selectedTab === 'logo' && <LogoEditor setLogo={setLogo} logo={logo}/>}
+                        {selectedTab === 'logo' && <LogoEditor setLogo={setLogo} logo={logo} logoSize={logoSize} setLogoSize={setLogoSize}/>}
                         {selectedTab === 'bg' && <BackgroundEditor setBg={setBg}/>}
                         {selectedTab === 'navigation' && <NavigationEditor/>}
-                        {selectedTab === 'container' && <ContainerEditor/>}
+                        {selectedTab === 'container' && <ContainerEditor setSizeValues={setContainerSize}/>}
+                        {selectedTab === 'content' && <ContentEditor xyCount={xyCount} setXyCount={setXyCount}/>}
                     </div>
                 </div>
             </div>
