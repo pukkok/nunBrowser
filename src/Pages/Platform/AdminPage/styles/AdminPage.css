@@ -4,8 +4,6 @@
     display: grid;
     grid-template-areas:
     'l h h h h'
-    'l c c c c'
-    'l c c c c'
     'l c c c c';
     /* grid-template-columns: 300px 1fr; */
     grid-template-rows: 50px 1fr;

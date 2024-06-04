@@ -14,6 +14,8 @@ import ContentEditor from "./Editor/ContentsEditor";
 
 function AdminPage () {
 
+    const token = JSON.parse(localStorage.getItem('token'))
+
     // 그리드 사이즈 지정 (사이드바 접고 펼칠때 사용)
     const [gridSize, setGridSize] = useState(250)
     const gridTemplate = {
@@ -53,9 +55,7 @@ function AdminPage () {
     const sizeRef = useRef()
     useEffect(()=>{
         setPreviewSize(sizeRef.current.offsetWidth)
-    },[])
-
-    
+    },[])    
 
     return(
         <section className="admin-page open" style={gridTemplate}>
@@ -92,10 +92,10 @@ function AdminPage () {
                         })}
                     </div>
                     <div className="option-window">
-                        {selectedTab === 'logo' && <LogoEditor setLogo={setLogo} logo={logo} logoSize={logoSize} setLogoSize={setLogoSize}/>}
-                        {selectedTab === 'bg' && <BackgroundEditor setBg={setBg}/>}
+                        {selectedTab === 'logo' && <LogoEditor token={token} setLogo={setLogo} logo={logo} logoSize={logoSize} setLogoSize={setLogoSize}/>}
+                        {selectedTab === 'bg' && <BackgroundEditor token={token} setBg={setBg}/>}
                         {selectedTab === 'navigation' && <NavigationEditor/>}
-                        {selectedTab === 'container' && <ContainerEditor setSizeValues={setContainerSize}/>}
+                        {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
                         {selectedTab === 'content' && <ContentEditor xyCount={xyCount} setXyCount={setXyCount}/>}
                     </div>
                 </div>

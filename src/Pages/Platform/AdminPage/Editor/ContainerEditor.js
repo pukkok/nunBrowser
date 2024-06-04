@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './styles/ContainerEditor.css'
 import axios from "axios";
 
-function ContainerEditor ({setSizeValues}) {
+function ContainerEditor ({setSizeValues, token}) {
 
     const [windowWidth, setWindowWidth] = useState()
     useEffect(()=>{
@@ -22,12 +22,12 @@ function ContainerEditor ({setSizeValues}) {
     const sizeChange = (e) => {
         const {name, value} = e.target
         if(imsi.unit === '%'){
-            if(value>100){
+            if(+value > 100){
                 return alert('100%를 넘길수 없습니다.')
             }
         }
 
-        if(value > windowWidth){
+        if(+value > windowWidth){
             return alert('컨테이너는 화면 전체의 넓이보다 클 수 없습니다.')
         }
         setImsi({...imsi, [name] : value})
@@ -47,13 +47,10 @@ function ContainerEditor ({setSizeValues}) {
     }
 
     const uploadContainer = async () => {
-
-        let kinderCode = 'a02'
-        
-        const kinderData = await axios.post('platform/upload/data', {
-            kinderCode, containerSize: imsi.width
-        })
-        console.log(kinderData)
+        const { data } = await axios.post('platform/upload/data', {
+            containerSize: imsi.width, containerUnit: imsi.unit
+        },{headers : {'Authorization' : `Bearer ${token}`}})
+        alert(data.msg)
     }
 
     return(
@@ -69,14 +66,15 @@ function ContainerEditor ({setSizeValues}) {
             </div>
             <div className="remote-btns">
                 <p>설정</p><span></span>
+                <button onClick={sendContainerSize}>적용</button>
                 <button onClick={uploadContainer}>저장</button>
-                <button>초기화</button>
+                <button onClick={resetContainer}>초기화</button>
             </div>
             <div className="container-box">
                 <div className="switch-box summary">
                     <p>컨테이너 크기 지정(기본 1240px)</p>
                     <span>*설정이 없는경우 기본값으로 등록됩니다.</span>
-                    <p>화면전체 넓이: {windowWidth}px</p> <p>컨테이너 넓이: {imsi.width}{imsi.unit}</p>
+                    <p>화면전체 넓이: {windowWidth}px</p> <p>컨테이너 넓이: {imsi.width + imsi.unit}</p>
                     <label>
                         최대 : <input placeholder="기본값" name="maxWidth" onChange={sizeChange} value={imsi.maxWidth}/>
                     </label>
@@ -95,10 +93,6 @@ function ContainerEditor ({setSizeValues}) {
                         <button onClick={()=>unitChange('px')}>px로 변경</button>
                         <button onClick={()=>unitChange('%')}>%로 변경</button>
                     </div>
-                </div>
-                <div>
-                    <button onClick={sendContainerSize}>적용</button>
-                    <button onClick={resetContainer}>초기화</button>
                 </div>
             </div>
         </section>

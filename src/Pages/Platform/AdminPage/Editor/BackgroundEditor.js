@@ -1,8 +1,9 @@
 import React, {useRef, useState} from "react";
 import ImgBox from "../../../../Components/ImgBox";
 import './styles/BackgroundEditor.css'
+import axios from 'axios'
 
-function BackgroundEditor ({ setBg }) {
+function BackgroundEditor ({ setBg, token }) {
     
         const sampleBgs = [
             'sample-bg1.png','sample-bg2.jpg','sample-bg3.png',
@@ -11,7 +12,7 @@ function BackgroundEditor ({ setBg }) {
 
         const bgRef =useRef()
         const [addBgs, setAddBgs] = useState([]) // 새로 추가된 배경
-        
+    
         const getBg = (e) => {
             if(e.target.files[0]){
                 setAddBgs([...addBgs, e.target.files[0]])
@@ -23,8 +24,20 @@ function BackgroundEditor ({ setBg }) {
             setBg(src)
         }
 
-        const saveBgs = () => {
-
+        const saveBgs = async () => {
+            //content-type: multipart/form-data 로전송
+        
+            const fd = new FormData() // multer 사용시 폼데이터형식으로 보내줘야함
+            
+            fd.append('bgImgs', addBgs) // 파일 ('필드명',파일)
+            
+            const {data} = await axios.post('platform/upload/bg-list', fd, {
+                headers : {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            alert(data.msg)
         }
         
         return(
@@ -37,7 +50,7 @@ function BackgroundEditor ({ setBg }) {
                 <div className="remote-btns">
                     <p>새로운 배경</p><span></span>
                     <button onClick={()=>bgRef.current.click()}>추가</button>
-                    <button title="배경을 저장한 경우 로그인 후 언제나 사용 가능합니다.">저장</button>
+                    <button title="배경을 저장한 경우 로그인 후 언제나 사용 가능합니다." onClick={saveBgs}>저장</button>
                     <button onClick={()=>setAddBgs([])}>초기화</button>
                     <p>업로드</p><span></span>
                     <button>저장</button>

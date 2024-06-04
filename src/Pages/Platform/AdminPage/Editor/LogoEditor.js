@@ -3,30 +3,28 @@ import axios from "axios";
 import ImgBox from "../../../../Components/ImgBox";
 import './styles/LogoEditor.css'
 
-function LogoEditor ({logo, setLogo, logoSize, setLogoSize, kinderCode}) {
+function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
 
     //로고 부분
     const uploadLogo = async () => {
         //content-type: multipart/form-data 로전송
-        let kinderCode = 'a02'
         const fd = new FormData() // multer 사용시 폼데이터형식으로 보내줘야함
         
         fd.append('logoImg', logoRef.current.files[0]) // 파일 ('필드명',파일)
-        fd.append('kinderCode', kinderCode)
         
-        const {data} = await axios({
-            method:'post',
-            url:'platform/upload/logo',
-            data: fd,
+        const {data} = await axios.post('platform/upload/logo', fd, {
+            headers : {
+                'Content-Type': 'multipart/form-data',
+                'Authorization' : `Bearer ${token}`
+            }
         })
         alert(data.msg)
 
         const kinderData = await axios.post('platform/upload/data', {
-            kinderCode, logoWidth: logoSize.width, logoHeight: logoSize.height
-        })
-        console.log(kinderData)
+            logoWidth: logoSize.width, logoHeight: logoSize.height
+        },{headers : {'Authorization' : `Bearer ${token}`}})
+        alert(kinderData.data.msg)
     }
-    console.log(logoSize)
 
 
     const logoRef= useRef()

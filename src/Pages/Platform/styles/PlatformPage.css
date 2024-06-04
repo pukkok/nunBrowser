@@ -1,3 +1,13 @@
 .platform{
     min-height: 80vh;
 }
+
+.first-login{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border: solid 1px #5172df;
+    font-size: 24px;
+}

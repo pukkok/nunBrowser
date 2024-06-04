@@ -10,6 +10,7 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
     const [gridSize, setgridSize] = useState()
     // 윈도우 최대 넓이 : preview 넓이 = 전체 컨테이너 사이즈 : preview 컨테이너 사이즈
     // window.innerWidth : previewSize = containerSize : x
+
     useEffect(()=>{
         if(containerSize.unit === 'px'){
             let x = Math.floor(previewSize * containerSize.width / window.innerWidth) - 20 // padding 20

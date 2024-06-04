@@ -10,6 +10,7 @@ function Header () {
     const navigate = useNavigate()
 
     const userName = JSON.parse(localStorage.getItem('user'))
+    const admin = JSON.parse(localStorage.getItem('admin'))
 
     const openLogin = (e) => {
         e.preventDefault()
@@ -66,7 +67,7 @@ function Header () {
                         <li><Link to={'user/join'}>회원가입</Link></li>
                     </ul>:
                     <ul className="user-nav">
-                        <li>{userName && userName}</li>
+                        <li>{userName && userName}{admin && '(관리자)'}</li>
                         <li onClick={logout}>{isLogin && '로그아웃'}</li>
                     </ul>
                     }
