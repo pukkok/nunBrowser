@@ -1,44 +1,28 @@
-.platform{
-    /* min-height: 80vh; */
-}
-
-.first-login{
-    width: 100%;
-    height: 80vh;
-    font-size: 24px;
-    position: relative;
-}
-.first-login button{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px;
-    border: solid 1px #5172df;
-}
 
 .kinder-page{
-
+    min-height: 80vh;
 }
-
-.kinder-page nav{
+.kinder-page .nav-bar{
     display: flex;
-    border: solid 1px red;
+    height: fit-content;
 }
 
-.kinder-page nav .logo{
+.kinder-page .nav-bar .logo{
     width: 100px;
     height: 100px;
 }
-.kinder-page nav .logo img{
-    border: solid 1px red;
+.kinder-page .nav-bar .logo img{
     width: 100%;
     height: 100%;
 }
+.kinder-page .navigation{
+    min-width: 400px;
+}
 
-.kinder-page nav ul{
+.kinder-page .navigation ul{
     display: flex;
 }
+
 .kinder-page nav ul li{
 
 }

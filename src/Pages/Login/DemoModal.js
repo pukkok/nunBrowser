@@ -46,16 +46,6 @@ function DemoModal ({ setClose, setFunc }) {
                 addClass={'type-a'} arr={step1Arr}>
                 완료
             </LabelBox>
-
-            {/* {Object.values(certificateData).length>0 &&
-                    <div>
-                        <p>이름 : {certificateData.name}</p>
-                        <p>소속 : {certificateData.organization}</p>
-                        <p>원장 : {certificateData.isDirector ? 'O': 'X'}</p>
-                    </div>
-                }
-                <LabelBox handleClick={(e)=>join(e, step2Input)} handleChange={valueExtractor}
-                addClass={'step-2-form'} arr={arr1} >완료</LabelBox> */}
         </section>
     )
 }

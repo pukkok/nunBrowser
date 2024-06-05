@@ -32,10 +32,10 @@ function App() {
   },[userName])
 
 
-  const UseCommon = ({userName, admin, token, kinderUrl}) => {
+  const UseCommon = ({userName, admin, token, kinderUrl, setKinderUrl}) => {
     return(
       <>
-        <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl}/>
+        <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>
         <Outlet/>
         <Footer/>
       </>
@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl}/>}>
+        <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>}>
           <Route exact path='/' element={<MainPage/>}/>
           <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
           <Route exact path='/search' element={<SearchPage/>}/>

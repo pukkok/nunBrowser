@@ -4,28 +4,58 @@ import './styles/Header.css'
 import Container from "../../Components/Container";
 import axios from "axios";
 
-function Header ({userName, admin, token, kinderUrl}) {
-    const [isLogin, setIsLogin] = useState(false)
+function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
+    // 로그인 로그아웃시 이벤트처리
+    const [isLogin, setIsLogin] = useState(false) 
 
+    useEffect(()=>{
+        userName && setIsLogin(true)
+    },[userName])
+
+    const logout = () => {
+        alert('로그아웃 되었습니다.')
+        localStorage.clear()
+        setIsLogin(false)
+    }
+
+    // 관리자 페이지 생성시
+    const [modalOpen, setModalOpen] = useState(false)
     const navigate = useNavigate()
 
     const findKinderCode = async () => {
         if(!isLogin) alert('로그인 후 이용 가능합니다.')
     }
 
+    const toggleModal = () => {
+        setModalOpen(!modalOpen)
+    }
+    const OutSideClick = (e) => {
+        if(e.target.className === 'input-modal-bg'){
+            toggleModal()
+        }
+    }
+
+    // 관리자페이지 url생성하기
+    const [createdUrl, setCreatedUrl] = useState()
+    const urlValue = (e) => {
+        setCreatedUrl(e.target.value)
+    }
+
     const createPage = async () => {
-        const {data} = await axios.post('platform/newpage',{}, {
+        const {data} = await axios.post('platform/newpage',{
+            createdUrl
+        }, {
             headers : {
                 'Authorization' : `Bearer ${token}`
             }
         })
         alert(data.msg)
         if(data.code === 200){
+            setKinderUrl(createdUrl)
             alert('관리자 페이지로 넘어갑니다.')
             navigate('/admin')
         }
     }
-
 
     const openLogin = (e) => {
         e.preventDefault()
@@ -37,15 +67,7 @@ function Header ({userName, admin, token, kinderUrl}) {
         )
     }
 
-    useEffect(()=>{
-        userName && setIsLogin(true)
-    },[userName])
-
-    const logout = () => {
-        alert('로그아웃 되었습니다.')
-        localStorage.clear()
-        setIsLogin(false)
-    }
+    
 
     return(
         <header className="header">
@@ -73,13 +95,17 @@ function Header ({userName, admin, token, kinderUrl}) {
                             </ul>
                         </li>
                         <li><Link to={isLogin ? `/kinder/${kinderUrl}` : '/'} onClick={findKinderCode}>내 유치원</Link></li>
-                        {isLogin && admin && <li><Link to={'/admin'}>관리자 페이지</Link>
+                        {isLogin && admin && <li><Link to={kinderUrl ? '/admin' : '/'} 
+                        onClick={()=>!kinderUrl && alert('페이지 생성을 먼저 해주세요')}>관리자 페이지</Link>
                             <ul className="depth2">
-                                <li><Link onClick={createPage}>페이지 생성</Link></li>
-                                <li><Link to={'/admin'}>페이지 관리</Link></li>
-                                <li><Link to={'/admin'}>원아 관리</Link></li>
-                                <li><Link to={'/admin'}>식단 관리</Link></li>
-
+                                {!kinderUrl && <li><Link onClick={toggleModal}>페이지 생성</Link></li>}
+                                {kinderUrl && 
+                                <>
+                                    <li><Link to={'/admin'}>페이지 관리</Link></li>
+                                    <li><Link to={'/admin'}>원아 관리</Link></li>
+                                    <li><Link to={'/admin'}>식단 관리</Link></li>
+                                </>
+                                }
                             </ul>
                         </li>}
                     </ul>
@@ -95,6 +121,21 @@ function Header ({userName, admin, token, kinderUrl}) {
                     }
                 </nav>
             </Container>
+            {modalOpen &&
+            <section className="input-modal-bg" onClick={OutSideClick}>
+                <div className="input-modal">
+                    <div className="description">
+                        <p>유치원 URL을 생성해주세요</p>
+                        {/* <span>*URL : 사용자에 대한 위치에 대한 이름입니다.</span> */}
+                        <span>*예시 : http://www.kindermoumi.com/ [URL] </span>
+                        <span className="red">걱정마세요! 나중에 다시 수정할 수 있어요! </span>
+                    </div>
+                    <div className="input-box">
+                        <input placeholder={'URL 입력'} onChange={urlValue}/>
+                        <button onClick={createPage}>확인</button>
+                    </div>
+                </div>
+            </section>}
         </header>
     )
 }

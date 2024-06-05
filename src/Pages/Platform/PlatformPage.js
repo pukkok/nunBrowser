@@ -3,6 +3,8 @@ import './styles/PlatformPage.css'
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios'
 import ImgBox from "../../Components/ImgBox";
+import NotFoundPage from "../NotFoundPage";
+import Container from "../../Components/Container";
 
 function PlatformPage ({token}) {
 
@@ -13,11 +15,9 @@ function PlatformPage ({token}) {
         const getPageData = async () => {
             const {data} = await axios.get(`user/kinderData/${kinderUrl}`)
             if(data.code !== 200){
-                alert(data.msg)
+                return alert(data.msg)
             }
             setLoadData(data.result)
-            console.log(data.result.data.navDepth1)
-            console.log(data.result.data.navDepth2)
         }
         getPageData()
     },[])
@@ -25,14 +25,15 @@ function PlatformPage ({token}) {
     return(
         <section className={"platform"}>
             {!loadData && 
-                <div>페이지가 존재하지 않습니다.</div>
+                <NotFoundPage/>
             }
             {loadData && 
             <div className="kinder-page">
-                <div className="nav">
-                    <button className="logo">
+                <Container>
+                <div className="nav-bar">
+                    <div className="logo" style={{width : loadData.data.logoWidth+'px', height: loadData.data.logoHeight+'px'}}>
                         <img src={`http://localhost:5000/${loadData.data.logoPath}`}/>
-                    </button>
+                    </div>
                     <nav className="navigation">
                         <ul>
                         {loadData.data.navDepth1 && loadData.data.navDepth1.map((mainData, mainIdx)=>{
@@ -51,6 +52,7 @@ function PlatformPage ({token}) {
                         </ul>
                     </nav>
                 </div>
+                </Container>
 
                 <div className="bg">
                     <ImgBox src={loadData.data.selectBgSrc}/>

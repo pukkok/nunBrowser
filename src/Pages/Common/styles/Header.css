@@ -83,3 +83,62 @@ header nav .depth1 > li:hover > .depth2 > li:hover a {
     color: #fff;
     
 }
+
+/* 인풋 모달 */
+.input-modal-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(rgba(0,0,0, .2), rgba(0,0,0, .2));
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+}
+
+.input-modal{
+    background-color: #fff;
+    padding: 20px 30px;
+    min-width: 300px;
+    min-height: 200px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.input-modal .description{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-modal p{
+    font-size: 16px;
+}
+.input-modal span{
+    font-size: 14px;
+}
+.input-modal span.red{
+    color: red;
+}
+
+
+.input-modal .input-box{
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.input-modal .input-box input{
+    min-width: 50%;
+}
+.input-modal .input-box button{
+    padding: 5px 10px;
+    background-color:#004898;
+    color: #fff;
+    text-align: center;
+}
