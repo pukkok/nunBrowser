@@ -7,7 +7,7 @@ function ContainerEditor ({setSizeValues, token}) {
     const [windowWidth, setWindowWidth] = useState()
     useEffect(()=>{
         setWindowWidth(window.innerWidth)
-    })
+    },[window.innerWidth])
 
     const [imsi, setImsi] = useState({ // 임시로 담아두기
         width: '', maxWidth: '', minWidth: '', unit: 'px'

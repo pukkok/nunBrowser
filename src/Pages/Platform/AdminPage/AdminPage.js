@@ -11,10 +11,51 @@ import BackgroundEditor from "./Editor/BackgroundEditor";
 import NavigationEditor from "./Editor/NavigationEditor";
 import ContainerEditor from "./Editor/ContainerEditor";
 import ContentEditor from "./Editor/ContentsEditor";
+import axios from "axios";
 
 function AdminPage () {
 
     const token = JSON.parse(localStorage.getItem('token'))
+    
+    const [loadData, setLoadData] = useState({})
+
+    useEffect(()=>{
+        const downloadData = async () => {
+            const {data} = await axios.post('/kinder/download/data', {}, {
+                headers : {'Authorization' : `Bearer ${token}`}
+            })
+            if(data.code === 200){
+                return setLoadData(data.result)
+            }else{
+                console.log(data.msg)
+            }
+        }
+        downloadData()
+    },[])
+
+    useEffect(()=>{
+        if(loadData.logoPath){
+            setLogo('http://localhost:5000/'+loadData.logoPath)
+        }
+        if(loadData.addBgList){
+            const addBgList = loadData.addBgList.map(bg => {
+                return 'http://localhost:5000/'+bg
+            })
+            setLoadBgs([...addBgList])
+        }
+        if(loadData.selectBgSrc){
+            setBg(loadData.selectBgSrc)
+        }
+        if(loadData.navDepth1){
+            setMainMenu(loadData.navDepth1)
+        }
+        if(loadData.navDepth2){
+            setSubMenu(loadData.navDepth2)
+        }
+        // console.log(loadData)
+
+    },[loadData])
+
 
     // 그리드 사이즈 지정 (사이드바 접고 펼칠때 사용)
     const [gridSize, setGridSize] = useState(250)
@@ -42,8 +83,16 @@ function AdminPage () {
 
     const [logo, setLogo] = useState() // 로고값
     const [logoSize, setLogoSize] = useState({width:'', height:''})
-    const [navi, setNavi] = useState()
+
+    // 메인메뉴 옵션(상위)
+    const [mainMenu, setMainMenu] = useState([ //0:{id:1} 1:{id:2}
+        {mainIdx : 0, mainName: '', mainPath: ''}
+    ])
+    // 서브메뉴 옵션(하위)
+    const [subMenu, setSubMenu] = useState({})
+
     const [bg, setBg] = useState() // 미리보기 배경
+    const [loadBgs, setLoadBgs] = useState([])
     const [hideContainer, setHideContainer] = useState(false) // 컨테이너 보이기/숨기기
     const [containerSize, setContainerSize] = useState({
         maxWidth:'1240', width:'1240', minWidth:'1240', unit: 'px' // 디폴트 값
@@ -63,7 +112,7 @@ function AdminPage () {
             tabs={tabs} setTabs={setTabs} setSelectedTab={setSelectedTab}
             hideContainer={hideContainer} setHideContainer={setHideContainer}
             />
-            <HeaderBar area='h' setGridSize={setGridSize}/>
+            <HeaderBar area='h' setGridSize={setGridSize} token={token}/>
             <div className="option-part c">
                 <div className="preview-part part" ref={sizeRef}>
                     { 'page' &&
@@ -93,8 +142,8 @@ function AdminPage () {
                     </div>
                     <div className="option-window">
                         {selectedTab === 'logo' && <LogoEditor token={token} setLogo={setLogo} logo={logo} logoSize={logoSize} setLogoSize={setLogoSize}/>}
-                        {selectedTab === 'bg' && <BackgroundEditor token={token} setBg={setBg}/>}
-                        {selectedTab === 'navigation' && <NavigationEditor/>}
+                        {selectedTab === 'bg' && <BackgroundEditor token={token} bg={bg} setBg={setBg} loadBgs={loadBgs}/>}
+                        {selectedTab === 'navigation' && <NavigationEditor token={token} mainMenu={mainMenu} setMainMenu={setMainMenu} subMenu={subMenu} setSubMenu={setSubMenu}/>}
                         {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
                         {selectedTab === 'content' && <ContentEditor xyCount={xyCount} setXyCount={setXyCount}/>}
                     </div>

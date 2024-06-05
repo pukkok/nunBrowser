@@ -53,7 +53,7 @@
 
 /* 옵션 수정 부분 */
 .admin-page .option-part{
-    height: 100%;
+    height: calc(100vh - 50px);
     border: solid 1px #ddd;
     background-color: #f0f0f0;
     padding: 5px;
@@ -73,7 +73,6 @@
 
 .admin-page .option-part .option-window{
     overflow: scroll;
-    max-height: 100%;
 }
 
 .admin-page .option-part .preview-part{

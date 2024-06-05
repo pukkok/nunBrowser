@@ -64,8 +64,8 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
             <div className={classNames("nav", "default-option", {active : active === 'logo' || active === 'navigation'})}>
             <Container width={containerSize.unit === 'px' && gridSize} perWidth={containerSize.unit === '%' && gridSize}>
                 <div className={"nav-bar"}>
-                    <button className={classNames('logo', {active : active === 'logo'}, {clear: logo})}>
-                        {logo ? <ImgBox src={logo}/> : '로고'}
+                    <button className={classNames('logo', {active : active === 'logo'}, {clear: logo && logo !== 'notFound'})}>
+                        {logo && logo !=='notFound' ? <ImgBox src={logo}/> : '로고'}
                     </button>
                     <button className={classNames("navigation", {active : active === 'navigation'})}>
                         네비게이션 바
@@ -75,8 +75,8 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
             </div>
 
             <div className={classNames("bg", 'default-option', {active : active === 'bg'})}>
-                <button className={classNames('bg-preview', {clear : bg})}>
-                    {bg ? <ImgBox src={bg}/> : '배경업로드' }
+                <button className={classNames('bg-preview', {clear : bg && bg !== 'notFound'})}>
+                    {bg && bg !== 'notFound' ? <ImgBox src={bg}/> : '배경업로드' }
                 </button>
             </div>
 

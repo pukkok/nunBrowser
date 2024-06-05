@@ -67,3 +67,11 @@
     font-size: 12px;
     padding-bottom: 10px;
 }
+
+.navi-edit .main-menu.font-option p{
+    width: 150px;
+}
+
+.navi-edit .font-option input{
+    width: 70px;
+}

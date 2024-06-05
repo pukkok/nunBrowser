@@ -18,7 +18,9 @@ function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
                 'Authorization' : `Bearer ${token}`
             }
         })
-        alert(data.msg)
+        if(data.code !== 200){
+            return alert(data.msg)
+        }
 
         const kinderData = await axios.post('platform/upload/data', {
             logoWidth: logoSize.width, logoHeight: logoSize.height
@@ -42,7 +44,7 @@ function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
     const imgRef = useRef()
 
     useEffect(()=>{
-        if(logo){
+        if(logo && logo!=='notFound'){
             const width = imgRef.current.offsetWidth
             const height = imgRef.current.offsetHeight
             setLogoSize({width, height})
@@ -96,7 +98,7 @@ function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
                 <button title='이미지를 업로드합니다.' onClick={()=>logoRef.current.click()}>불러오기</button>
                 <p>업로드</p><span></span>
                 <button title="수정된 이미지 옵션을 저장합니다." onClick={()=>uploadLogo()}>저장</button>
-                <button title="전체 옵션을 초기화합니다" onClick={()=>setLogo('')}>초기화</button>
+                <button title="전체 옵션을 초기화합니다" onClick={()=>setLogo('notFound')}>초기화</button>
             </div>
             <div className="upload">
                 <div>

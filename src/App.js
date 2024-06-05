@@ -1,3 +1,4 @@
+import React, {useState, useEffect} from 'react';
 import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import { JoinPage, LoginPage, MainPage, NotFoundPage, SearchPage } from './Pages'
 import './App.css'
@@ -7,12 +8,34 @@ import Header from './Pages/Common/Header';
 import Footer from './Pages/Common/Footer';
 import AdminPage from './Pages/Platform/AdminPage/AdminPage';
 
+import axios from "axios";
+
 function App() {
 
-  const UseCommon = () => {
+  const userName = JSON.parse(localStorage.getItem('user'))
+  const admin = JSON.parse(localStorage.getItem('admin'))
+  const token = JSON.parse(localStorage.getItem('token'))
+
+  const [kinderUrl, setKinderUrl] = useState()
+
+  useEffect(()=>{
+    if(userName){
+        const findKinderCode = async () => {
+            const {data} = await axios.post('user/kinderUrl', {},
+            {headers : {'Authorization' : `Bearer ${token}`}})
+            if(data.code === 200){
+                setKinderUrl(data.url)
+            }
+        }
+        findKinderCode()
+    }
+  },[userName])
+
+
+  const UseCommon = ({userName, admin, token, kinderUrl}) => {
     return(
       <>
-        <Header/>
+        <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl}/>
         <Outlet/>
         <Footer/>
       </>
@@ -22,11 +45,12 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<UseCommon/>}>
+        <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl}/>}>
           <Route exact path='/' element={<MainPage/>}/>
           <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
           <Route exact path='/search' element={<SearchPage/>}/>
-          <Route exact path='/kinder' element={<PlatformPage/>}/>
+          <Route path='/kinder/:kinderUrl' element={<PlatformPage/>}/>
+          {/* <Route path='/kinder' element={<PlatformPage/>}/> */}
         </Route>
         <Route path='user'>
           <Route exact path='login' element={<LoginPage/>}/>

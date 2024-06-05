@@ -13,7 +13,13 @@ header nav{
     border-bottom: #5172df;
 }
 header nav .logo{
-    width: 160px;
+    width: 130px;
+    display: flex;
+    align-items: flex-end;
+}
+HEADER NAV .logo img{
+    width: 100%;
+    height: 100%;
 }
 header nav .depth1{
     flex: 1;
