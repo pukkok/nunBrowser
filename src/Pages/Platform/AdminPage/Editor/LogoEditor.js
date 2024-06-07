@@ -18,8 +18,8 @@ function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
                 'Authorization' : `Bearer ${token}`
             }
         })
-        if(data.code !== 200){
-            return alert(data.msg)
+        if(data.code === 200){
+            alert(data.msg)
         }
 
         const kinderData = await axios.post('platform/upload/data', {

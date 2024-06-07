@@ -28,11 +28,6 @@
     font-size: 14px;
 }
 
-/* .container-edit .container-box .summary{
-    display: flex;
-    flex-direction: column;
-} */
-
 .container-edit .unit-btns button{
     border: solid 1px #696969;
     padding: 2px 4px;

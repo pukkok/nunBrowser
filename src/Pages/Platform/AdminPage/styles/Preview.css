@@ -2,11 +2,10 @@
     width: 100%;
     display: grid;
     grid-template-areas: 
-    'n n n n n'
-    'b b b b b'
-    'c c c c c'
-    'c c c c c';
-    grid-template-rows: 60px 200px 1fr;
+    'n'
+    'b'
+    'c';
+    grid-template-rows: 60px 200px 1fr ;
     background-color: #fff;
     border: solid 1px #acacac;
     text-align: center;
@@ -88,6 +87,10 @@
     height: 100%;
 }
 
+.preview-page .content{
+    max-height: fit-content;
+}
+
 .preview-page .active{
     border: 2px solid #5172df !important;
 }
@@ -105,6 +108,17 @@
     width: 100%;
     height: 100%;
 }
+.preview-page .content-box .grid-line .img-box{
+    width: 100%;
+    height: 100%;
+}
+
+.preview-page .content-box .grid-line img{
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
 
 .preview-page .content-box button{
     position:absolute;

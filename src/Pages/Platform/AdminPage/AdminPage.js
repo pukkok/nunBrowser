@@ -91,6 +91,8 @@ function AdminPage () {
     // 서브메뉴 옵션(하위)
     const [subMenu, setSubMenu] = useState({})
 
+
+    
     const [bg, setBg] = useState() // 미리보기 배경
     const [loadBgs, setLoadBgs] = useState([])
     const [hideContainer, setHideContainer] = useState(false) // 컨테이너 보이기/숨기기
@@ -101,6 +103,7 @@ function AdminPage () {
     const [previewSize, setPreviewSize] = useState()
     const [xyCount, setXyCount] = useState({})
 
+    const [gridZone, setGridZone] = useState({}) // 컨텐츠 그리드 구역
     const sizeRef = useRef()
     useEffect(()=>{
         setPreviewSize(sizeRef.current.offsetWidth)
@@ -124,7 +127,7 @@ function AdminPage () {
                         </p>
                         <Preview active={selectedTab} hideContainer={hideContainer}
                         logo={logo} bg={bg} containerSize={containerSize} previewSize={previewSize}
-                        xyCount={xyCount}/>
+                        xyCount={xyCount} gridZone={gridZone}/>
                     </>}
                 </div>
                 <div className="part">
@@ -145,7 +148,7 @@ function AdminPage () {
                         {selectedTab === 'bg' && <BackgroundEditor token={token} bg={bg} setBg={setBg} loadBgs={loadBgs}/>}
                         {selectedTab === 'navigation' && <NavigationEditor token={token} mainMenu={mainMenu} setMainMenu={setMainMenu} subMenu={subMenu} setSubMenu={setSubMenu}/>}
                         {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
-                        {selectedTab === 'content' && <ContentEditor xyCount={xyCount} setXyCount={setXyCount}/>}
+                        {selectedTab === 'content' && <ContentEditor token={token} xyCount={xyCount} setXyCount={setXyCount} gridZone={gridZone} setGridZone={setGridZone}/>}
                     </div>
                 </div>
             </div>

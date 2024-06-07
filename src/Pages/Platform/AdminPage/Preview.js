@@ -5,7 +5,7 @@ import Container from '../../../Components/Container'
 
 import classNames from "classnames";
 
-function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSize, xyCount }) {
+function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSize, xyCount, gridZone }) {
 
     const [gridSize, setgridSize] = useState()
     // 윈도우 최대 넓이 : preview 넓이 = 전체 컨테이너 사이즈 : preview 컨테이너 사이즈
@@ -46,11 +46,12 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
         }
     },[xyCount])
 
-    const userGrid = {
-        gridTemplateColumns: xyCount.col ? `repeat(${xyCount.col}, 1fr)` : '',
-        gridTemplateRows: xyCount.row ? `repeat(${xyCount.row}, 1fr)` : ''
-    }
+    console.log(xyCount)
 
+    const userGrid = {
+        gridTemplateColumns: xyCount.col ? `repeat(${xyCount.col}, ${(gridSize / xyCount.col) + containerSize.unit})` : '1fr',
+        gridTemplateRows: xyCount.row ? `repeat(${xyCount.row}, 1fr)` : '1fr'
+    }
 
     return(
         <section className={"preview-page"} style={{}}>
@@ -81,15 +82,31 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
             </div>
 
             <div className={classNames("content", "default-option", {active : active === 'content'})}>
+            {count && xyCount ? 
             <Container width={containerSize.unit === 'px' && gridSize} perWidth={containerSize.unit === '%' && gridSize}>
                 <div className="content-box" style={userGrid}>
-                    {count && xyCount ? Array(count).fill(0).map((_,idx)=>{
-                        return <div className="grid-line" key={idx}>구역{idx+1}</div>
-                    }):
-                    <button>컨텐츠</button>
-                    }
+                {Array(count).fill(0).map((_,idx)=>{
+                    return <div className="grid-line" key={idx}>
+                        {gridZone && 
+                        gridZone['zone'+(idx+1)] === 'eventDate' && 
+                        gridZone['eventDate'] === 1 ? <ImgBox src={`${origin}/platform/event-date-type1.png`}/> :
+                        gridZone['zone'+(idx+1)] === 'eventDate' && 
+                        gridZone['eventDate'] === 2 ? <ImgBox src={`${origin}/platform/event-date-type2.png`}/> : 
+
+                        gridZone['zone'+(idx+1)] === 'photoBox' &&
+                        gridZone['photoBox'] === 1 ? <ImgBox src={`${origin}/platform/photobox-type1.png`}/>
+                        
+                        : `구역${idx+1}`}
+
+
+                        </div>
+                })}
                 </div>
-            </Container>
+            </Container>:
+            <div className="content-box">
+                <button>컨텐츠</button>
+            </div>
+            }
             </div>
         </section>
     )       

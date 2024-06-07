@@ -1,51 +1,32 @@
 import React from "react";
-import './styles/EventDateBoxType.css'
+import {EventDateBox1, EventDateBox2} from "../../TemplateBox/EventDateBox";
 
-function EventDateEditor () {
+function EventDateEditor ({contentType, setContentType}) {
 
-    const EventDateBox1 = () => {
-        return(
-            <section className="ed-box-type">
-                <div className="type1">
-                    <h1>행사 일정 <span><img src={`${origin}/platform/0007_btn_more03.png`}/></span></h1>
-                    <div className="cal">
-                        <div className="head">
-                            <p>이전</p>
-                            <p className="date">2024.06</p>
-                            <p>다음</p>
-                        </div>
-                        <div className="event">
-                            <p><span>3</span>Event1</p>
-                            <p><span>4</span>Event2</p>
-                            <p><span>8</span>Event3</p>
-                            <p><span>16</span>Event4</p>
-                            <p><span>16</span>Event6</p>
-                            <p><span>16</span>Event8</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        )
+    const sampleData = {
+        eventContents: [
+            {span: 3, p: 'Event1'},
+            {span: 4, p: 'Event2'},
+            {span: 8, p: 'Event3'},
+            {span: 16, p: 'Event4'},
+            {span: 16, p: 'Event6'},
+            {span: 16, p: 'Event8'},
+        ]
     }
-    const EventDateBox2 = () => {
-        return(
-            <section className="ed-box-type small">
-                <div className="type2">
-                    <div className="title">
-                        <h1>월간 일정표</h1>
-                        <img src={`${origin}/platform/sch_bg.png`}/>
-                    </div>
-                    <div className="event">
-                        <p><span>06/08</span>Event1</p>
-                        <p><span>06/13</span>Event2</p>
-                        <p><span>06/15</span>Event3</p>
-                        <p><span>06/16</span>Event4</p>
-                        <p><span>06/16</span>Event6</p>
-                        <p><span>06/16</span>Event8</p>
-                    </div>
-                </div>
-            </section>
-        )
+    
+    const smapleData2 = {
+        eventContents: [
+            {span: '06/08', p: 'Event1'},
+            {span: '06/13', p: 'Event2'},
+            {span: '06/15', p: 'Event3'},
+            {span: '06/16', p: 'Event4'},
+            {span: '06/16', p: 'Event6'},
+            {span: '06/16', p: 'Event8'},
+        ]
+    }
+
+    const sendEventDateType = (e, idx) => {
+        setContentType({...contentType, ['eventDate']: idx})
     }
 
     return(
@@ -55,14 +36,19 @@ function EventDateEditor () {
                 <p>달력 형식으로 일정을 추가하는 컨텐츠 입니다.</p>
                 <span>*행사 일정 탭에서 일정을 추가 할 수있습니다.</span>
             </div>
+            <div className="remote-btns">
+                <p>타입</p><span></span>
+                <button >저장</button>
+                <button >초기화</button>
+            </div>
             <div className="select-type mb">
                 <div className="type-box">
-                    <h1>타입1</h1>
-                    <EventDateBox1/>
+                    <h1>타입1 <button onClick={(e)=>sendEventDateType(e, 1)}>선택</button></h1>
+                    <EventDateBox1 eventContents={sampleData.eventContents}/>
                 </div>
                 <div className="type-box">
-                    <h1>타입2</h1>
-                    <EventDateBox2/>
+                    <h1>타입2 <button onClick={(e)=>sendEventDateType(e, 2)}>선택</button></h1>
+                    <EventDateBox2 eventContents={smapleData2.eventContents}/>
                 </div>
             </div>
         </section>

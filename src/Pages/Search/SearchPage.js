@@ -10,15 +10,11 @@ import Loading from '../../Components/Loading'
 import Container from "../../Components/Container";
 import SearchModal from "./SearchModal";
 
-function SearchPage () {
-    const [allData, setAllData] = useState([]) // 전체 데이터
+function SearchPage ({ allData }) {
+    
     const [localData, setLocalData] = useState([]) // 검색한 데이터 범위(지역 검색)
     const [filterData, setFilterData] = useState([]) // 검색한 결과 
     const [viewData, setViewData] = useState([]) // 화면에 보여주는 데이터
-
-    useEffect(()=>{ // 초기 랜더링
-        axiosKinderAllData(sggData, setAllData) // 전체 데이터 불러오기
-    },[])
 
     // 지역 선택 토글
     const [openLocal, setOpenLocal] = useState(false)
