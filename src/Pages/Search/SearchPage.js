@@ -295,7 +295,7 @@ function SearchPage () {
                 </div>
 
                 {openModal && <div className="detail-data">
-                    <SearchModal data={kinderData} setClose={setOpenModal}/>
+                    <SearchModal kinderData={kinderData} setClose={setOpenModal}/>
                 </div>}
 
                 {/* 페이지 버튼 */}

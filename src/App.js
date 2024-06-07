@@ -50,7 +50,6 @@ function App() {
           <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
           <Route exact path='/search' element={<SearchPage/>}/>
           <Route path='/kinder/:kinderUrl' element={<PlatformPage/>}/>
-          {/* <Route path='/kinder' element={<PlatformPage/>}/> */}
         </Route>
         <Route path='user'>
           <Route exact path='login' element={<LoginPage/>}/>

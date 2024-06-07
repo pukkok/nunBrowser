@@ -1,28 +1,89 @@
 
 .kinder-page{
+    width: 100vw;
     min-height: 80vh;
 }
-.kinder-page .nav-bar{
-    display: flex;
-    height: fit-content;
+
+
+.kinder-page .header{
+    border: 1px solid red;
+    height: 70px;
 }
 
-.kinder-page .nav-bar .logo{
-    width: 100px;
-    height: 100px;
+.kinder-page .nav-bar{
+    padding: 0 10px;
+    height: 100%;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: flex-start;
 }
+
 .kinder-page .nav-bar .logo img{
     width: 100%;
     height: 100%;
 }
 .kinder-page .navigation{
     min-width: 400px;
+    height: 100%;
 }
 
-.kinder-page .navigation ul{
+.kinder-page nav .depth1{
     display: flex;
+    justify-content: space-around;
+    /* gap: 30px; */
+    height: 100%;
+}
+.kinder-page nav .depth1 li{
+    position: relative;
 }
 
-.kinder-page nav ul li{
+.kinder-page nav ul,
+.kinder-page nav ul li,
+.kinder-page nav ul li a{
+    height: 100%;
+}
 
+.kinder-page nav ul li a{
+    display: flex;
+    align-items: center;
+}
+
+.kinder-page nav .depth1 > li:hover > a{
+    font-weight: bold;
+    color: #5172df;
+}
+
+.kinder-page nav .depth1 > li .depth2{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    min-width: 130px;
+    background-color: #fff;
+    height: fit-content;
+    border: solid 1px grey;
+    box-sizing: content-box;
+}
+
+.kinder-page nav .depth1 > li:hover .depth2{
+    display: block;
+}
+
+.kinder-page nav .depth1 > li:hover .depth2 li{
+    padding: 10px 20px 10px 20px;
+    background-color: #fff;
+}
+
+.kinder-page nav .depth1 > li:hover .depth2 li:hover{
+    background-color: #5172df;
+    color: #fff;
+}
+
+
+.kinder-page .bg{
+    width: 100%;
+}
+.kinder-page .bg .img-box img{
+    width: 100%;
 }
