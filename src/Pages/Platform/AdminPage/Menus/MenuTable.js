@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import DateModal from "./DateModal";
-import Calendar from "../../Custom/Calendar";
+import Calendar from "../../../../Custom/Calendar";
 
-function MenuTable () {
+function MenuTable ({deleteYOIL}) {
     
     const [menu, setMenu] = useState([]) // [{title:'' date: ''}]
     const [sendData, setSendData] = useState({})
@@ -19,7 +19,7 @@ function MenuTable () {
         }
     },[sendData])
 
-    const deleteYOIL = ['일', '토']
+    // const deleteYOIL = ['일', '토']
     const sideOptions = ['오늘의 한상', 'kcal/단백질(g)', '간식']
 
     const openDay = (info) => {
@@ -30,7 +30,7 @@ function MenuTable () {
     }
 
     return(
-        <div>
+        <section className="menu-table">
             <Calendar wantDeleteYOIL={deleteYOIL} menuInfo={menu}
              sideOptions={sideOptions} dayClick={openDay} 
              />
@@ -39,7 +39,7 @@ function MenuTable () {
              handleClick={()=>setOpenModal(false)} setSendData={setSendData}
              modalPosition={modalPosition}
              />
-        </div>
+        </section>
     )
 }
 

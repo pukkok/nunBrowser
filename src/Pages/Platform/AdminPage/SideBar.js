@@ -2,13 +2,15 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import './styles/SideBar.css'
 
-function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideContainer }) {
+function SideBar ({area, setTheme, tabs, setTabs, setSelectedTab, hideContainer, setHideContainer }) {
 
     const sendTabInfo = (e, title) => {
 
         if(!e.target.className){ // 이상한 곳 클릭
             return
         }
+
+        setTheme(title)
 
         const {className, innerText} = e.target
 
@@ -59,12 +61,10 @@ function SideBar ({area, tabs, setTabs, setSelectedTab, hideContainer, setHideCo
                     <li>원아 기록부</li>
                 </ul>
                 <h3>식단 관리</h3>
-                <ul>
-                    <li>식단표</li>
+                <ul onClick={(e)=>sendTabInfo(e, 'menus')}>
+                    <li className="menu-table">식단표</li>
                 </ul>
             </div>
-
-            
             
         </section>
     )

@@ -27,6 +27,12 @@
     align-items: center;
     background-color: #fff;
 }
+.admin-page .header-bar .logo{
+    width: 120px;
+}
+.admin-page .header-bar .logo img{
+    width: 100%;
+}
 .admin-page .header-bar ul{
     margin-left: auto;
     display: flex;
@@ -78,15 +84,21 @@
     overflow: scroll;
 }
 
-.admin-page .option-part .preview-part{
+.admin-page .option-part .left-part{
     grid-column: 1 / 2;
 }
+.admin-page .option-part.wide{
+    grid-template-columns: 60% 40%;
+}
 
-.admin-page .option-part .preview-part p{
+.admin-page .option-part .left-part p{
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ddd;
+}
+.admin-page .option-part.wide .left-part p{
+    border: none;
 }
 /* 버튼부분 */
 .admin-page .option-part .option-btn-box{

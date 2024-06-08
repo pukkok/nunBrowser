@@ -79,7 +79,7 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
     const styles = {
         calendar: {
             padding : '10px',
-            border : '1px solid blue'
+            border : '1px solid #004898'
         },
         grid : {
             display: 'grid',

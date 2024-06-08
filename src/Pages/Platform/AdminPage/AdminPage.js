@@ -12,6 +12,8 @@ import NavigationEditor from "./Editor/NavigationEditor";
 import ContainerEditor from "./Editor/ContainerEditor";
 import ContentEditor from "./Editor/ContentsEditor";
 import axios from "axios";
+import MenuTable from "./Menus/MenuTable";
+import MenuEditor from "./Menus/MenuEditor";
 
 function AdminPage () {
 
@@ -63,6 +65,8 @@ function AdminPage () {
         gridTemplateColumns : `${gridSize}px 1fr`
     }
 
+    // 테마 선택
+    const [theme, setTheme] = useState('page')
     // 탭 이동
     const [tabs, setTabs] = useState([])
     const [selectedTab, setSelectedTab] = useState('')
@@ -81,6 +85,8 @@ function AdminPage () {
         }))
     }
 
+    console.log(theme)
+
     const [logo, setLogo] = useState() // 로고값
     const [logoSize, setLogoSize] = useState({width:'', height:''})
 
@@ -91,8 +97,6 @@ function AdminPage () {
     // 서브메뉴 옵션(하위)
     const [subMenu, setSubMenu] = useState({})
 
-
-    
     const [bg, setBg] = useState() // 미리보기 배경
     const [loadBgs, setLoadBgs] = useState([])
     const [hideContainer, setHideContainer] = useState(false) // 컨테이너 보이기/숨기기
@@ -107,18 +111,24 @@ function AdminPage () {
     const sizeRef = useRef()
     useEffect(()=>{
         setPreviewSize(sizeRef.current.offsetWidth)
-    },[])    
+    },[])  
+    
+
+    // 식단표 메뉴 입력 부분
+    const [deleteYOIL, setDelteYoil] = useState([])
+    const [sideOptions, setSideOptions] = useState([])
 
     return(
         <section className="admin-page open" style={gridTemplate}>
             <SideBar area='l'
+            setTheme={setTheme}
             tabs={tabs} setTabs={setTabs} setSelectedTab={setSelectedTab}
             hideContainer={hideContainer} setHideContainer={setHideContainer}
             />
             <HeaderBar area='h' setGridSize={setGridSize} token={token}/>
-            <div className="option-part c">
-                <div className="preview-part part" ref={sizeRef}>
-                    { 'page' &&
+            <div className={classNames("option-part", "c", {wide: theme==='menus'})}>
+                <div className="left-part part" ref={sizeRef}>
+                    {theme === 'page' &&
                     <>
                         <p>레이아웃
                             <span className="red"></span>
@@ -128,6 +138,15 @@ function AdminPage () {
                         <Preview active={selectedTab} hideContainer={hideContainer}
                         logo={logo} bg={bg} containerSize={containerSize} previewSize={previewSize}
                         xyCount={xyCount} gridZone={gridZone}/>
+                    </>}
+                    {theme === 'menus' &&
+                    <>
+                        <p>식단표
+                            <span className="red"></span>
+                            <span className="yellow"></span>
+                            <span className="green"></span>
+                        </p>
+                        <MenuTable deleteYOIL={deleteYOIL}/>
                     </>}
                 </div>
                 <div className="part">
@@ -149,6 +168,7 @@ function AdminPage () {
                         {selectedTab === 'navigation' && <NavigationEditor token={token} mainMenu={mainMenu} setMainMenu={setMainMenu} subMenu={subMenu} setSubMenu={setSubMenu}/>}
                         {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
                         {selectedTab === 'content' && <ContentEditor token={token} xyCount={xyCount} setXyCount={setXyCount} gridZone={gridZone} setGridZone={setGridZone}/>}
+                        {selectedTab === 'menu-table' && <MenuEditor setDelteYoil={setDelteYoil}/>}
                     </div>
                 </div>
             </div>

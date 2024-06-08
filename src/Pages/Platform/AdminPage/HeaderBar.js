@@ -27,7 +27,7 @@ function HeaderBar ({ area, setGridSize, token }) {
 
     return(
         <section className={classNames("header-bar", area)}>
-            <ImgBox src="" alt="유치원 모으미"/>
+            <ImgBox addClass={'logo'} src={`${origin}/main/logo.png`} alt="유치원 모으미"/>
             <ul>
                 <li><button onClick={foldSideBar}>사이드 접기</button></li>
                 <li><button>사용법</button></li>

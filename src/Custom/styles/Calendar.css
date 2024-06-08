@@ -1,13 +1,11 @@
 .Calendar{
-    width: fit-content;
     text-align: center;
-    min-width: 800px;
 }
 
 /* 전체 폼 그리드 옵션 */
 
 .blank{
-    background-color: pink;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .cell{
@@ -51,14 +49,10 @@
 
 .Calendar .table main .day .option{
     width: 100%;
-    min-height: 100px;
+    min-height: 10px;
 }
 
 
 .Calendar .option{
     min-height: 100px;
-}
-
-.Calendar .table .option:not(:nth-last-of-type(1)){
-    border-bottom: dotted 1px red;
 }

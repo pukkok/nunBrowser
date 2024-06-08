@@ -4,11 +4,12 @@ import sidoData from '../../Datas/sidoData'
 import sggData from '../../Datas/sggData';
 import './styles/SearchPage.css'
 import { MemoOptionFilter } from "./OptionFilter";
-import classNames from "classnames";
+import classnames from "classnames";
 import PageBtn from "../../Components/PageBtn";
 import Loading from '../../Components/Loading'
 import Container from "../../Components/Container";
 import SearchModal from "./SearchModal";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 function SearchPage ({ allData }) {
     
@@ -207,7 +208,21 @@ function SearchPage ({ allData }) {
         setKinderData(data)
     }
 
+    const location = useLocation()
+
     return(
+        <>
+        <nav className="common-nav">
+            <h1>유치원 정보</h1>
+            <p>유치원의 정보공시를 조회 할 수 있습니다</p>
+            <Container>
+                <ul>
+                    <li className={classnames({active : location.pathname === '/search'})}><Link to={`/search`}>유치원 조회</Link></li>
+                    <li ><Link >유치원 비교</Link></li>
+                    <li ><Link >정보공시지표</Link></li>
+                </ul>
+            </Container>
+        </nav>
         <Container>
         <div className="Search">
             <div className="search-local">
@@ -215,26 +230,26 @@ function SearchPage ({ allData }) {
                     <button onClick={openLocalOption}>{Object.keys(selectLocal).length>0 ? 
                     <>{selectLocal.sido} {selectLocal.sgg}</> : '지역선택'}
                     </button>
-                    <div className={classNames("local-option", {on : openLocal})}>
+                    <div className={classnames("local-option", {on : openLocal})}>
                         <nav>
                             <ul>
                                 <p>시/도</p>
                                 <li onClick={e=>valueExtractor(e, 'sido', 0)}
-                                className={classNames({on : 0 === +active['sido']})}>전체</li>
+                                className={classnames({on : 0 === +active['sido']})}>전체</li>
                                 {sidoData && sidoData.map((option, idx)=>{
                                 const { city, code } = option
                                 return <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sido', idx+1)}
-                                        className={classNames({on : idx+1 === +active['sido']})}>{city}</li>
+                                        className={classnames({on : idx+1 === +active['sido']})}>{city}</li>
                                 })}
                             </ul>
                             <ul>
                                 <p>시/군/구</p>
                                 <li onClick={e=>valueExtractor(e, 'sgg', 0)}
-                                className={classNames({on : 0 === +active['sgg']})}>전체</li>
+                                className={classnames({on : 0 === +active['sgg']})}>전체</li>
                                 {active.sido !==0 && sggFilterData.map((data, idx) => {
                                     const {sgg, code} = data
                                     return  <li key={idx} value={code} onClick={(e)=>valueExtractor(e, 'sgg', idx+1)}
-                                            className={classNames({on : idx+1 === +active['sgg']})}>{sgg}</li>
+                                            className={classnames({on : idx+1 === +active['sgg']})}>{sgg}</li>
                                 })}
                             </ul>
                         </nav>
@@ -264,7 +279,7 @@ function SearchPage ({ allData }) {
                         allData.length>0 ? allData.length : 0 }
                         </span>
                     </p>
-                    <div onClick={openListOption} className={classNames('option', {on : listOption.isActive})}>
+                    <div onClick={openListOption} className={classnames('option', {on : listOption.isActive})}>
                         <p>{listOption.text}</p>
                         <ul onClick={changeListCnt} >
                             <li value={10}>10개씩 보기</li>
@@ -305,6 +320,7 @@ function SearchPage ({ allData }) {
             </div>
         </div>
         </Container>
+        </>
     )
 }
 

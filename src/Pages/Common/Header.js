@@ -79,10 +79,17 @@ function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
                             <ul className="depth2">
                                 <li><Link to={'/service/info'}>서비스 안내</Link></li>
                                 <li><Link to={'/service/introduce'}>공시항목 소개</Link></li>
+                                <li><Link>관련법령</Link></li>
                                 <li><Link>홍보자료</Link></li>
                             </ul>
                         </li>
-                        <li><Link to={'search'}>유치원 검색</Link></li>
+                        <li><Link to={'search'}>유치원 정보</Link>
+                            <ul className="depth2">
+                                <li><Link to={'search'}>유치원 조회</Link></li>
+                                <li><Link to={'search'}>유치원 비교</Link></li>
+                                <li><Link to={'search'}>정보공시지표</Link></li>
+                            </ul>
+                        </li>
                         <li><Link>공지사항</Link></li>
                         <li><Link>커뮤니티</Link></li>
                         <li><Link>교사채용</Link>
