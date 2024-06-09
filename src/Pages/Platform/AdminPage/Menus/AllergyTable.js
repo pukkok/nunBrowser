@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 const allergies = ['난류', '우유','메밀', '땅콩', '대두', '밀', '고등어', '게', '새우', '돼지고기', '복숭아', '토마토', `아황산포함식품(대부분의 가공식품에 포함되어 따로 표기하지 않음)`, '호두', '닭고기', '소고기', '오징어', '조개류(굴, 전복, 홍합 포함)', '잣', '견과류(아몬드)']
 
-function AllergyTable ({pull}) {
+function AllergyTable () {
 
     const [list, setList] = useState([...allergies])
 
@@ -109,12 +109,12 @@ function AllergyTable ({pull}) {
 
     return(
         <>
-            <div className={classNames("allergy-table", {pull : pull})}>
+            <div className={classNames("allergy-table")}>
                 <div className="allergy-header">
                     <h2>알레르기 표</h2>
                     <div className="btn-box">
                         <button onClick={onDraggable}>{isDrag ? '완료' : <span></span>}</button>
-                        <button onClick={openAddForm}>{isOpenForm ? '완료' : '알레르기 추가'}</button>
+                        <button onClick={openAddForm}>{isOpenForm ? '완료' : '추가'}</button>
                     </div>
                 </div>
                 <form className={`remote-allergy ${isOpenForm && 'on'}`} autoFocus>

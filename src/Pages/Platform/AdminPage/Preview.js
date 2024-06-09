@@ -46,8 +46,6 @@ function Preview ({ active='', logo, bg, hideContainer, containerSize, previewSi
         }
     },[xyCount])
 
-    console.log(xyCount)
-
     const userGrid = {
         gridTemplateColumns: xyCount.col ? `repeat(${xyCount.col}, ${(gridSize / xyCount.col) + containerSize.unit})` : '1fr',
         gridTemplateRows: xyCount.row ? `repeat(${xyCount.row}, 1fr)` : '1fr'

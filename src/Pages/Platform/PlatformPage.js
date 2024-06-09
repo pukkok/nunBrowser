@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import './styles/PlatformPage.css'
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios'
 import ImgBox from "../../Components/ImgBox";
 import NotFoundPage from "../NotFoundPage";
 import Container from "../../Components/Container";
 import { EventDateBox1, EventDateBox2 } from "./TemplateBox/EventDateBox";
+import { PhotoBox1 } from "./TemplateBox/PhotoBox";
+import { TodayMenuBox1 } from "./TemplateBox/TodayMenuBox";
+import { NoticeBox1 } from "./TemplateBox/NoticeBox";
 
-function PlatformPage ({token}) {
+function PlatformPage () {
 
     const { kinderUrl } = useParams()
     const [loadData, setLoadData] = useState()
@@ -23,31 +26,43 @@ function PlatformPage ({token}) {
         getPageData()
     },[])
 
-    console.log(loadData)
-
-    const contentGrid = loadData && loadData.data && {
+    const contentGrid = loadData && loadData.data.gridCoord && {
         gridTemplateColumns: loadData.data.gridCoord.col ? 
-        `repeat(${loadData.data.gridCoord.col}, ${loadData.data.containerSize / loadData.data.gridCoord.col + loadData.data.containerUnit})` : '1fr',
-        gridTemplateRows: loadData.data.gridCoord.row ? 
-        `repeat(${loadData.data.gridCoord.row}, minmax(300px, 1fr))` : '1fr',
-        
+        `repeat(${loadData.data.gridCoord.col}, 1fr)` : '1fr',
+    }
+
+    const Tester = ({item}) => {
+        return(<p>{item}</p>)
     }
 
     return(
         <section className={"platform"}>
+            <Routes>
+                {loadData && loadData.data.navDepth1 && loadData.data.navDepth1.map((mainData, mainIdx)=>{
+                    return (
+                        <Route key={mainIdx} path={`/${mainData.mainPath}/*`}>
+                            {loadData.data.navDepth2 && loadData.data.navDepth2[mainIdx] &&       
+                                loadData.data.navDepth2[mainIdx].map((data, subIdx) => {
+                                    return <Route key={subIdx} path={`${data.subPath}`} element={<Tester item={data.subName}/>}></Route>
+                                })
+                            }
+                        </Route>
+                    )
+                })}
+            </Routes>
             {!loadData && 
                 <NotFoundPage/>
             }
             {loadData && 
             <div className="kinder-page">
                 {/* 헤더 part */}
-                <div className="header"> 
+                <div className="header">
                     <Container 
                     width={loadData.data.containerUnit === 'px' && loadData.data.containerSize}
                     perWidth={loadData.data.containerUnit === '%' && loadData.data.containerSize}>
                     <div className="nav-bar">
                         <div className="logo" style={{width : loadData.data.logoWidth+'px', height: loadData.data.logoHeight+'px'}}>
-                            <Link to={`/kinder/${loadData.data.originUrl}`}>
+                            <Link to={`/kinder/${loadData.originUrl}`}>
                                 <img src={`http://localhost:5000/${loadData.data.logoPath}`}/>
                             </Link>
                         </div>
@@ -56,12 +71,13 @@ function PlatformPage ({token}) {
                             {loadData.data.navDepth1 && loadData.data.navDepth1.map((mainData, mainIdx)=>{
                                 return (
                                     <li key={mainIdx}><Link to={`${mainData.mainPath}`}>{mainData.mainName}</Link>
-                                        {loadData.data.navDepth2 && 
-                                        <ul className="depth2">
-                                            {loadData.data.navDepth2[mainIdx] && loadData.data.navDepth2[mainIdx].map((data, subIdx) => {
+                                        {loadData.data.navDepth2 &&  
+                                            loadData.data.navDepth2[mainIdx] && 
+                                            <ul className="depth2">    
+                                            {loadData.data.navDepth2[mainIdx].map((data, subIdx) => {
                                                 return <li key={subIdx}><Link to={`${mainData.mainPath}/${data.subPath}`}>{data.subName}</Link></li>
                                             })}
-                                        </ul>
+                                            </ul>
                                         }
                                     </li>
                                 )
@@ -86,6 +102,9 @@ function PlatformPage ({token}) {
                             return <div key={idx} className="content-item">
                                 {key === 'eventDate' && type === 1 && <EventDateBox1/>}
                                 {key === 'eventDate' && type === 2 && <EventDateBox2/>}
+                                {key === 'photoBox' && type === 1 && <PhotoBox1/>}
+                                {key === 'todayMenu' && type === 1 && <TodayMenuBox1/>}
+                                {key === 'notice' && type === 1 && <NoticeBox1/>}
                                 </div>
                         })}
                     </div>

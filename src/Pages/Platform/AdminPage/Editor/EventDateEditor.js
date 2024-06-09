@@ -1,18 +1,8 @@
 import React from "react";
 import {EventDateBox1, EventDateBox2} from "../../TemplateBox/EventDateBox";
+import ImgBox from "../../../../Components/ImgBox";
 
 function EventDateEditor ({contentType, setContentType}) {
-
-    const sampleData = {
-        eventContents: [
-            {span: 3, p: 'Event1'},
-            {span: 4, p: 'Event2'},
-            {span: 8, p: 'Event3'},
-            {span: 16, p: 'Event4'},
-            {span: 16, p: 'Event6'},
-            {span: 16, p: 'Event8'},
-        ]
-    }
     
     const smapleData2 = {
         eventContents: [
@@ -30,7 +20,7 @@ function EventDateEditor ({contentType, setContentType}) {
     }
 
     return(
-        <section className="eventdate-edit">
+        <section className="eventdate-edit" id="EventDate">
             <div className="summary">
                 <h2>행사 일정</h2>
                 <p>달력 형식으로 일정을 추가하는 컨텐츠 입니다.</p>
@@ -44,7 +34,7 @@ function EventDateEditor ({contentType, setContentType}) {
             <div className="select-type mb">
                 <div className="type-box">
                     <h1>타입1 <button onClick={(e)=>sendEventDateType(e, 1)}>선택</button></h1>
-                    <EventDateBox1 eventContents={sampleData.eventContents}/>
+                    <ImgBox src={`${origin}/platform/event-date-type1.png`}/>
                 </div>
                 <div className="type-box">
                     <h1>타입2 <button onClick={(e)=>sendEventDateType(e, 2)}>선택</button></h1>

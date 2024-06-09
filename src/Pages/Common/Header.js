@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, json, useNavigate, useParams } from "react-router-dom";
+import { Link, json, useLocation, useNavigate, useParams } from "react-router-dom";
 import './styles/Header.css'
 import Container from "../../Components/Container";
 import axios from "axios";
+import classnames from "classnames";
 
 function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
     // 로그인 로그아웃시 이벤트처리
@@ -17,6 +18,8 @@ function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
         localStorage.clear()
         setIsLogin(false)
     }
+
+    const location = useLocation() // kinder-page체크용도
 
     // 관리자 페이지 생성시
     const [modalOpen, setModalOpen] = useState(false)
@@ -67,10 +70,8 @@ function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
         )
     }
 
-    
-
     return(
-        <header className="header">
+        <header className={classnames("header",{ small : location.pathname.includes('kinder') })}>
             <Container>
                 <nav>
                     <button className="logo" onClick={()=>{navigate('/')}}> <img src={`${origin}/main/logo.png`}/> </button>

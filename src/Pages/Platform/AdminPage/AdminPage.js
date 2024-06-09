@@ -14,6 +14,7 @@ import ContentEditor from "./Editor/ContentsEditor";
 import axios from "axios";
 import MenuTable from "./Menus/MenuTable";
 import MenuEditor from "./Menus/MenuEditor";
+import AllergyEditor from "./Menus/AllergyEditor";
 
 function AdminPage () {
 
@@ -85,8 +86,6 @@ function AdminPage () {
         }))
     }
 
-    console.log(theme)
-
     const [logo, setLogo] = useState() // 로고값
     const [logoSize, setLogoSize] = useState({width:'', height:''})
 
@@ -130,7 +129,7 @@ function AdminPage () {
                 <div className="left-part part" ref={sizeRef}>
                     {theme === 'page' &&
                     <>
-                        <p>레이아웃
+                        <p className="option-name">레이아웃
                             <span className="red"></span>
                             <span className="yellow"></span>
                             <span className="green"></span>
@@ -141,12 +140,12 @@ function AdminPage () {
                     </>}
                     {theme === 'menus' &&
                     <>
-                        <p>식단표
+                        <p className="option-name">식단표
                             <span className="red"></span>
                             <span className="yellow"></span>
                             <span className="green"></span>
                         </p>
-                        <MenuTable deleteYOIL={deleteYOIL}/>
+                        <MenuTable deleteYOIL={deleteYOIL} sideOptions={sideOptions}/>
                     </>}
                 </div>
                 <div className="part">
@@ -168,7 +167,8 @@ function AdminPage () {
                         {selectedTab === 'navigation' && <NavigationEditor token={token} mainMenu={mainMenu} setMainMenu={setMainMenu} subMenu={subMenu} setSubMenu={setSubMenu}/>}
                         {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
                         {selectedTab === 'content' && <ContentEditor token={token} xyCount={xyCount} setXyCount={setXyCount} gridZone={gridZone} setGridZone={setGridZone}/>}
-                        {selectedTab === 'menu-table' && <MenuEditor setDelteYoil={setDelteYoil}/>}
+                        {selectedTab === 'menu-table' && <MenuEditor setDeleteYoil={setDelteYoil} sideOptions={sideOptions} setSideOptions={setSideOptions}/>}
+                        {selectedTab === 'allergy' && <AllergyEditor />}
                     </div>
                 </div>
             </div>

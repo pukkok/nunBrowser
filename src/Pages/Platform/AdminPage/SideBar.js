@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useState } from "react";
 import './styles/SideBar.css'
+import { Link } from "react-router-dom";
 
 function SideBar ({area, setTheme, tabs, setTabs, setSelectedTab, hideContainer, setHideContainer }) {
 
@@ -50,7 +51,10 @@ function SideBar ({area, setTheme, tabs, setTabs, setSelectedTab, hideContainer,
                                 {list.className === 'container' && <button onClick={(e)=>{
                                 e.stopPropagation()
                                 setHideContainer(!hideContainer)}
-                                }>{hideContainer ? '보이기' : '숨기기' }</button>}
+                                }>{hideContainer ? 
+                                    <span className="material-symbols-outlined">visibility_off</span>:
+                                    <span className="material-symbols-outlined">visibility</span>
+                                }</button>}
                                 <li className={list.className}>{list.text}</li>
                             </React.Fragment>
                         )
@@ -63,6 +67,7 @@ function SideBar ({area, setTheme, tabs, setTabs, setSelectedTab, hideContainer,
                 <h3>식단 관리</h3>
                 <ul onClick={(e)=>sendTabInfo(e, 'menus')}>
                     <li className="menu-table">식단표</li>
+                    <li className="allergy">알레르기</li>
                 </ul>
             </div>
             

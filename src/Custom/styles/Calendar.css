@@ -5,7 +5,8 @@
 /* 전체 폼 그리드 옵션 */
 
 .blank{
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.1);
+    /* background-color: #5172df; */
 }
 
 .cell{
@@ -20,20 +21,20 @@
 .Calendar .table .title{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 40px;
 }
+
 .Calendar .table .title button{
-    border: solid 1px grey;
+    color: #fff;
 }
 
-.Calendar .table main .week .day.blank{
-    background-color: rgba(0, 0, 0, 0.2);
+.Calendar .table .title button span{
+    background-color: #5172df;
+    font-size: 30px;
 }
 
 /* 메뉴 */
-.Calendar .table main .week .day:not(.blank) .option{
-    min-height: 100px;
-}
 
 .Calendar .side-option .option-box,
 .Calendar .table main .day{
@@ -52,7 +53,9 @@
     min-height: 10px;
 }
 
-
 .Calendar .option{
-    min-height: 100px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

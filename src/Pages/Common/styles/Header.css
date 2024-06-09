@@ -2,6 +2,39 @@ header{
     width: 100%;
     height: 60px;
 }
+header.small{
+    width: 100%;
+    height: 40px;
+    border-bottom: #5172df;
+    transition: .3s;
+}
+header.small:hover{
+    height: 60px;
+}
+header.small nav{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header.small:hover nav .depth1,
+header.small:hover nav .user-nav{
+    display: flex;
+}
+
+header.small nav .depth1{
+    display: none;
+}
+header.small nav .user-nav{
+    display: none;
+}
+header.small nav .logo{
+    display: block;
+    width: 100px;
+    height: 40px;
+}
+
 header nav{
     position: relative;
     display: flex;

@@ -1,5 +1,6 @@
 import React from "react";
 import { PhotoBox1, PhotoBox2 } from "../../TemplateBox/PhotoBox";
+import ImgBox from "../../../../Components/ImgBox";
 
 function PhotoBoxEditor({contentType, setContentType}) {
 
@@ -23,7 +24,7 @@ function PhotoBoxEditor({contentType, setContentType}) {
                 <div className="select-type mb">
                     <div className="type-box">
                         <h1>타입1 <button onClick={(e)=>sendEventDateType(e, 1)}>선택</button></h1>
-                        <PhotoBox1/>    
+                        <ImgBox src={`${origin}/platform/photobox-type1.png`}/>
                     </div>
                     <div className="type-box">
                         <h1>타입2 <button onClick={(e)=>sendEventDateType(e, 2)}>선택</button></h1>

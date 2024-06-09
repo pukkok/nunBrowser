@@ -4,19 +4,18 @@
     min-height: 80vh;
 }
 
-
 .kinder-page .header{
-    border: 1px solid red;
     height: 70px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .kinder-page .nav-bar{
-    padding: 0 10px;
     height: 100%;
     display: flex;
     gap: 40px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .kinder-page .nav-bar .logo img{
@@ -30,8 +29,7 @@
 
 .kinder-page nav .depth1{
     display: flex;
-    justify-content: space-around;
-    /* gap: 30px; */
+    justify-content: space-between;
     height: 100%;
 }
 .kinder-page nav .depth1 li{
@@ -88,22 +86,26 @@
 }
 .kinder-page .bg .img-box img{
     width: 100%;
+    max-height: 450px;
 }
-
 
 /* 컨텐츠 */
 .kinder-page .content{
     display: grid;
+    column-gap: 50px;
+    row-gap: 80px;
+    justify-content: space-between;
 }
 .kinder-page .content .content-item{
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
-.kinder-page .ed-box-type{
-    border: none;
-    width: 100%;
-    max-width: 500px;
+
+.kinder-page .content .content-item section{
+    min-width: 450px;
+    min-height: 350px;
+    flex: 1;
 }

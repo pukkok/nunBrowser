@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import './styles/EventDateBoxType.css'
 import dayjs from 'dayjs'
 
 const EventDateBox1 = ({ eventContents=[] }) => {
-    const now = dayjs().locale('ko')
-    const YM = now.format('YYYY-MM')
-    
-    const prevMonth = () => {
+    const defaultDay = dayjs().locale('ko')
+    const [standardDay, setStandardDay] = useState(defaultDay)
+    const YM = standardDay.format('YYYY-MM')
+    const month = standardDay.format('M')
 
+    const moveMonth = (move) => {
+        if(move==='prev'){
+            const prevMonth = standardDay.set('M', month-2)
+            setStandardDay(prevMonth)
+        }else{
+            const nextMonth = standardDay.set('M', +month)
+            setStandardDay(nextMonth)
+        }
     }
 
-    const nextMonth = () => {
-
+    const sampleData = {
+        eventContents: [
+            {span: 3, p: 'Event1'},
+            {span: 4, p: 'Event2'},
+            {span: 8, p: 'Event3'},
+            {span: 16, p: 'Event4'},
+            {span: 16, p: 'Event6'},
+            {span: 16, p: 'Event8'},
+        ]
     }
 
 
@@ -21,14 +36,18 @@ const EventDateBox1 = ({ eventContents=[] }) => {
                 <h1>행사 일정 <span><img src={`${origin}/platform/0007_btn_more03.png`}/></span></h1>
                 <div className="cal">
                     <div className="head">
-                        <p onClick={prevMonth}>이전</p>
+                        <button onClick={()=>moveMonth('prev')}><span className="material-symbols-outlined">chevron_left</span></button>
                         <p className="date">{YM}</p>
-                        <p onClick={nextMonth}>다음</p>
+                        <button onClick={()=>moveMonth('next')}><span className="material-symbols-outlined">chevron_right</span></button>
                     </div>
                     <div className="event">
-                        {eventContents.length>0 && eventContents.map((item, idx) => {
+                        {eventContents.length>0 ? eventContents.map((item, idx) => {
                             return <p key={idx}><span>{item.span}</span>{item.p}</p>
-                        })}
+                        }):
+                        sampleData.eventContents.map((item, idx) => {
+                            return <p key={idx}><span>{item.span}</span>{item.p}</p>
+                        })
+                        }
                     </div>
                 </div>
             </div>

@@ -14,20 +14,14 @@ import sggData from './Datas/sggData';
 
 function App() {
 
-  //검색 전체 데이터
-  const [allData, setAllData] = useState([]) // 전체 데이터
-  useEffect(()=>{ // 초기 랜더링
-    axiosKinderAllData(sggData, setAllData) // 전체 데이터 불러오기
-  },[])
-
-  const userName = JSON.parse(localStorage.getItem('user'))
-  const admin = JSON.parse(localStorage.getItem('admin'))
-  const token = JSON.parse(localStorage.getItem('token'))
-
-  const [kinderUrl, setKinderUrl] = useState()
-
-  useEffect(()=>{
-    if(userName){
+    //검색 전체 데이터
+    const [allData, setAllData] = useState([]) // 전체 데이터
+    
+    const userName = JSON.parse(localStorage.getItem('user'))
+    const admin = JSON.parse(localStorage.getItem('admin'))
+    const token = JSON.parse(localStorage.getItem('token'))
+    useEffect(()=>{
+        if(userName){
         const findKinderCode = async () => {
             const {data} = await axios.post('user/kinderUrl', {},
             {headers : {'Authorization' : `Bearer ${token}`}})
@@ -36,36 +30,42 @@ function App() {
             }
         }
         findKinderCode()
+        }
+    },[userName])
+    
+    useEffect(()=>{ // 초기 랜더링
+        axiosKinderAllData(sggData, setAllData) // 전체 데이터 불러오기
+    },[])
+
+
+    const [kinderUrl, setKinderUrl] = useState()
+
+    const UseCommon = ({userName, admin, token, kinderUrl, setKinderUrl}) => {
+        return(
+            <>
+                <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>
+                <Outlet/>
+                <Footer/>
+            </>
+        )
     }
-  },[userName])
-
-
-  const UseCommon = ({userName, admin, token, kinderUrl, setKinderUrl}) => {
-    return(
-      <>
-        <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>
-        <Outlet/>
-        <Footer/>
-      </>
-    )
-  }
 
   return (
     <div className="App">
-      <Routes>
-        <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>}>
-          <Route exact path='/' element={<MainPage/>}/>
-          <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
-          <Route exact path='/search' element={<SearchPage allData={allData}/>}/>
-          <Route path='/kinder/:kinderUrl' element={<PlatformPage/>}/>
-        </Route>
-        <Route path='user'>
-          <Route exact path='login' element={<LoginPage/>}/>
-          <Route exact path='join' element={<JoinPage/>}/>
-        </Route>
-        <Route path='admin' element={<AdminPage/>}/>
-        <Route exact path='*' element={<NotFoundPage />}/>
-      </Routes>
+        <Routes>
+            <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>}>
+                <Route exact path='/' element={<MainPage/>}/>
+                <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
+                <Route exact path='/search' element={<SearchPage allData={allData}/>}/>
+                <Route path='/kinder/:kinderUrl/*' element={<PlatformPage/>}/>
+            </Route>
+            <Route path='user'>
+                <Route exact path='login' element={<LoginPage/>}/>
+                <Route exact path='join' element={<JoinPage/>}/>
+            </Route>
+            <Route path='admin' element={<AdminPage/>}/>
+            <Route exact path='*' element={<NotFoundPage />}/>
+        </Routes>
     </div>
   );
 }

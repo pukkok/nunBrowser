@@ -57,7 +57,6 @@ function ContentEditor ({token, xyCount, setXyCount, gridZone, setGridZone}) {
         }
     }
 
-    console.log(gridZone)
     const saveContent = async () => {
         let {row, col} = xyCount
         if(!row) row = 1
@@ -89,13 +88,19 @@ function ContentEditor ({token, xyCount, setXyCount, gridZone, setGridZone}) {
             </div>
             <div className="row-col-selector mb">
                 <div className="row-col">
-                    <p>개수</p>
-                    <label>
-                        행 개수: <input onChange={(e)=>xyCounter(e, 'row')}/>
-                    </label>
-                    <label>
-                        열 개수: <input onChange={(e)=>xyCounter(e, 'col')}/>
-                    </label>
+                    <p>행 열 개수</p>
+                        <select onChange={(e)=>xyCounter(e, 'row')}>
+                            <option value={0}>행 선택</option>
+                            {Array(5).fill(0).map((_, idx) => {
+                                return <option key={idx} value={idx+1}>{idx+1}행</option>
+                            })}
+                        </select>
+                        <select onChange={(e)=>xyCounter(e, 'col')}>
+                            <option value={0}>열 선택</option>
+                            {Array(5).fill(0).map((_, idx) => {
+                                return <option key={idx} value={idx+1}>{idx+1}열</option>
+                            })}
+                        </select>
                 </div>
                 <div className="item-zone">
                     {count ? Array(count).fill(0).map((_, idx1)=> {

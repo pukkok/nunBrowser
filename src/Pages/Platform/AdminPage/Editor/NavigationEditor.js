@@ -107,11 +107,8 @@ function NavigationEditor ({token, mainMenu, setMainMenu, subMenu, setSubMenu}) 
             <div className="remote-btns">
                 <p>메뉴</p><span></span>
                 <button onClick={addMainMenu}>추가</button>
-                <button >저장</button>
-                <button onClick={()=>setMainMenu([{num : 0, mainName: '', mainPath: ''}])}>초기화</button>
-                <p>업로드</p><span></span>
                 <button onClick={saveNavData}>저장</button>
-                <button>초기화</button>
+                <button onClick={()=>setMainMenu([{num : 0, mainName: '', mainPath: ''}])}>초기화</button>
             </div>
             <div className="input-box">
                 {mainMenu.map((_, idx1)=>{
@@ -122,10 +119,10 @@ function NavigationEditor ({token, mainMenu, setMainMenu, subMenu, setSubMenu}) 
                                 <button onClick={(e)=>deleteMainMenu(e, idx1)}>삭제</button>
                             </div>
                             <label>
-                                <p>메뉴명</p><input placeholder="상위 메뉴명" name="mainName" onChange={(e)=>inputMainValue(e, idx1)} value={mainMenu[idx1].mainName}/>
+                                <p>메뉴명 <span>:</span></p><input placeholder="상위 메뉴명" name="mainName" onChange={(e)=>inputMainValue(e, idx1)} value={mainMenu[idx1].mainName}/>
                             </label>
                             <label>
-                                <p>경로 지정</p><input placeholder='"/" 없이 작성해주세요' name="mainPath" onChange={(e)=>inputMainValue(e, idx1)} value={mainMenu[idx1].mainPath}/>
+                                <p>경로 지정 <span>:</span></p><input placeholder='"/" 없이 작성해주세요' name="mainPath" onChange={(e)=>inputMainValue(e, idx1)} value={mainMenu[idx1].mainPath}/>
                             </label>
                             <div className="sub-btns">
                                 <h4>하위 메뉴</h4>
@@ -135,12 +132,12 @@ function NavigationEditor ({token, mainMenu, setMainMenu, subMenu, setSubMenu}) 
                             {subMenu && subMenu[idx1] && subMenu[idx1].map((check, idx2)=>{
                                 return(
                                     <div className="sub-menu" key={idx2}>
-                                        {idx2===0 && <span>하위 메뉴의 경로는 <br/> "주소 / [상위 경로] / [하위 경로]" 입니다.</span>}
+                                        {idx2===0 && <span className="sub-detail">하위 메뉴의 경로는 <br/> "주소 / [상위 경로] / [하위 경로]" 입니다.</span>}
                                         <label>
-                                            <p>메뉴명</p> <input placeholder="하위 메뉴명" name="subName" onChange={(e)=>inputSubValue(e, idx1, idx2)} value={subMenu[idx1][idx2].subName}/>
+                                            <p>메뉴명 <span>:</span></p> <input placeholder="하위 메뉴명" name="subName" onChange={(e)=>inputSubValue(e, idx1, idx2)} value={subMenu[idx1][idx2].subName}/>
                                         </label>
                                         <label>
-                                            <p>경로 지정</p> <input placeholder='"/" 없이 작성해주세요' name="subPath" onChange={(e)=>inputSubValue(e, idx1, idx2)} value={subMenu[idx1][idx2].subPath}/>
+                                            <p>경로 지정 <span>:</span></p> <input placeholder='"/" 없이 작성해주세요' name="subPath" onChange={(e)=>inputSubValue(e, idx1, idx2)} value={subMenu[idx1][idx2].subPath}/>
                                         </label>
                                     </div>
                                 )

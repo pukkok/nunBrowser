@@ -115,7 +115,8 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
         },
         
         today: {
-            backgroundColor : 'violet'
+            backgroundColor : '#5172df',
+            color: '#fff'
         }
     }
     
@@ -136,9 +137,13 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                 {result &&
                 <div className="table" style={styles.calendar}>
                     <div className="title">
-                        <button className="prev-btn" onClick={()=>moveMonth('prev')}>← 이전 달</button>
+                        <button className="prev-btn" onClick={()=>moveMonth('prev')}>
+                        <span className="material-symbols-outlined">chevron_left</span>
+                        </button>
                         <h3>{YM}</h3>
-                        <button className="next-btn" onClick={()=>moveMonth('next')}>다음 달 →</button>
+                        <button className="next-btn" onClick={()=>moveMonth('next')}>
+                        <span className="material-symbols-outlined">chevron_right</span>
+                        </button>
                     </div>
                     
                     <div className="header" style={{...styles.header, ... styles.grid}}>
@@ -155,7 +160,7 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
                             <div key={`nalzzas${idx}`} className="week">
                                 <div className="week-rows" style={{...styles.bBottom, ...styles.grid}}>
 
-                                    {sideOptions.length>0 && <div className="blank"></div>}
+                                    {sideOptions.length>0 && <div className="blank" style={styles.bRight}></div>}
 
                                     {weekArr.map((day, idx)=>{ // 날짜 입력 (일)
                                     return (
@@ -173,7 +178,8 @@ function Calendar ({wantDeleteYOIL, borderColor='gray', sideOptions=[], dayClick
 
                                 {sideOptions.length>0 ? sideOptions.map((option, keyIdx)=>{
                                     return (<div className="week-rows" key={`menus${keyIdx}`} 
-                                    style={{...styles.bBottom, ...styles.grid}}>
+                                    style={(idx+1) === result.nalzzas.length && (keyIdx+1) === sideOptions.length ? 
+                                    {...styles.lastBBottom, ...styles.grid} : {...styles.bBottom, ...styles.grid}}>
                                         
                                         <div className="side-option cell" style={styles.bRight}> 
                                             <p className="option">{option}</p>
