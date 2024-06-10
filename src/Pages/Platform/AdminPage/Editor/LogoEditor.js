@@ -27,8 +27,7 @@ function LogoEditor ({logo, setLogo, logoSize, setLogoSize, token}) {
         },{headers : {'Authorization' : `Bearer ${token}`}})
         alert(kinderData.data.msg)
     }
-
-
+    
     const logoRef= useRef()
     const getLogo = (e) => {
         if(e.target.files[0]){

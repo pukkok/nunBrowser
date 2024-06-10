@@ -12,7 +12,7 @@ function Certificate ({type, setFunc}) {
                     <ImgBox src={`${origin}/agreement/selfChk_phone.png`}/>
                     <h3>휴대전화 본인인증</h3>
                 </button>
-                <button className="grey">
+                <button className="grey" onClick={()=>setFunc('건너뛰기')}>
                     <ImgBox src={`${origin}/agreement/selfChk_ipin.png`}/>
                     <h3>아이핀 본인인증</h3>
                 </button>
@@ -40,10 +40,6 @@ function Certificate ({type, setFunc}) {
 
     return(
         <section className="certificate">
-            <button onClick={()=>{
-                setFunc('건너뛰기')
-            }}
-            style={{border: '1px solid red'}}>임시 다음 버튼</button>
             {type === '학부모' && 
             <>
                 <div className="text-box dashed">

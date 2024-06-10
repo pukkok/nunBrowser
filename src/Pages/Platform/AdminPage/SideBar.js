@@ -60,6 +60,10 @@ function SideBar ({area, setTheme, tabs, setTabs, setSelectedTab, hideContainer,
                         )
                     })}
                 </ul>
+                <h3>교사 관리</h3>
+                <ul onClick={(e)=>sendTabInfo(e, 'teacher')}>
+                    <li>교사 인적사항</li>
+                </ul>
                 <h3>원아 관리</h3>
                 <ul onClick={(e)=>sendTabInfo(e, 'child')}>
                     <li>원아 기록부</li>

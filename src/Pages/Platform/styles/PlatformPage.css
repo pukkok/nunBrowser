@@ -40,6 +40,8 @@
 .kinder-page nav ul li,
 .kinder-page nav ul li a{
     height: 100%;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .kinder-page nav ul li a{

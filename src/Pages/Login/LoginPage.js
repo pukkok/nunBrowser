@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import './styles/LoginPage.css'
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 function LoginPage () {
 

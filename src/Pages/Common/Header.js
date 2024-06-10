@@ -5,9 +5,9 @@ import Container from "../../Components/Container";
 import axios from "axios";
 import classnames from "classnames";
 
-function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
+function Header ({userName, admin, token, kinderUrl, setKinderUrl, isLogin, setIsLogin}) {
     // 로그인 로그아웃시 이벤트처리
-    const [isLogin, setIsLogin] = useState(false) 
+    // const [isLogin, setIsLogin] = useState(false) 
 
     useEffect(()=>{
         userName && setIsLogin(true)
@@ -124,7 +124,7 @@ function Header ({userName, admin, token, kinderUrl, setKinderUrl}) {
                     </ul>:
                     <ul className="user-nav">
                         <li>{userName && userName}{admin && '(관리자)'}</li>
-                        <li onClick={logout}>{isLogin && '로그아웃'}</li>
+                        <li onClick={logout}><Link>{isLogin && '로그아웃'}</Link></li>
                     </ul>
                     }
                 </nav>

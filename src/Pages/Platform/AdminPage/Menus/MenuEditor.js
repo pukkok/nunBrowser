@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
-function MenuEditor ({ setDeleteYoil, setSideOptions }) {
+function MenuEditor ({token, deleteYOIL, setDeleteYoil, sideOptions, setSideOptions }) {
 
     const weeks = ['월', '화', '수', '목', '금', '토', '일']
     const yoilRef = useRef({})
 
+    // 요일 지우기
     const checkYoilValue = () => {
         let deleteYoils = []
 
@@ -16,6 +18,14 @@ function MenuEditor ({ setDeleteYoil, setSideOptions }) {
 
         setDeleteYoil(deleteYoils)
     }
+
+    const saveYoilValue = async () => {
+        const { data } = await axios.post('platform/menu/yoil', {
+            deleteYOIL : [...deleteYOIL]
+        },{headers : {'Authorization' : `Bearer ${token}`}})
+        alert(data.msg)
+    }
+
 
     const resetYoilValue = () => {
         setDeleteYoil([])
@@ -69,24 +79,34 @@ function MenuEditor ({ setDeleteYoil, setSideOptions }) {
         }))
     }
 
+    const saveSideOptions = async () => {
+        const { data } = await axios.post('platform/menu/side-options', {
+            sideOptions : [...sideOptions]
+        },{headers : {'Authorization' : `Bearer ${token}`}})
+        alert(data.msg)
+        
+    }
+
+
 
     return(
         <section className="menu-edit">
             <div className="summary mb">
                 <h2>식단표 등록</h2>
                 <p>월간 식단표를 입력합니다. 필요한 요일을 삭제 할 수도, 사이드 옵션을 추가하여 관리할 수 있습니다.</p>
-                <span>*특별한 식단표를 만들어 보세요.</span><br/>
+                <span>* 특별한 식단표를 만들어 보세요.</span><br/>
             </div>
             
             <div className="summary">
                 <h2>요일 제외하기</h2>
                 <p>사용하지 않는 요일을 삭제할 수 있습니다.</p>
                 <span>* 주말을 제외하고 싶은 경우 "토", "일" 선택</span><br/>
+                <span>* 적용 클릭 후 저장을 눌러야 제외하는 날짜가 저장됩니다.</span><br/>
             </div>
             <div className="remote-btns">
                 <p>설정</p><span></span>
                 <button onClick={checkYoilValue}>적용</button>
-                <button >저장</button>
+                <button onClick={saveYoilValue}>저장</button>
                 <button onClick={resetYoilValue}>초기화</button>
             </div>
             <div className="mb">
@@ -103,14 +123,15 @@ function MenuEditor ({ setDeleteYoil, setSideOptions }) {
             <div className="summary">
                 <h2>사이드 메뉴 추가하기</h2>
                 <p>식단표를 구분 할 사이드메뉴를 추가 할 수 있습니다.</p>
-                <p>필요한 경우만 추가하여 사용하면 됩니다. (필수 x)</p>
-                <span>*오늘의 한상, kcal/단백질(g), 간식</span><br/>
+                <span>필요한 경우만 추가하여 사용하면 됩니다. (필수 x)</span><br/>
+                <span>* 적용 클릭 후 저장을 눌러야 사이드 메뉴가 저장됩니다.</span><br/>
+                <span>* 오늘의 한상, kcal/단백질(g), 간식</span><br/>
             </div>
             <div className="remote-btns">
                 <p>옵션 설정</p><span></span>
                 <button onClick={addSideOptions}>추가</button>
                 <button onClick={sendSideOptions}>적용</button>
-                <button >저장</button>
+                <button onClick={saveSideOptions}>저장</button>
                 <button >초기화</button>
             </div>
             <div className="mb">

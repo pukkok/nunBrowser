@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DateModal from "./DateModal";
 import Calendar from "../../../../Custom/Calendar";
 
-function MenuTable ({deleteYOIL, sideOptions}) {
+function MenuTable ({deleteYOIL, sideOptions, allergyList}) {
     
     const [menu, setMenu] = useState([]) // [{title:'' date: ''}]
     const [sendData, setSendData] = useState({})
@@ -30,6 +30,7 @@ function MenuTable ({deleteYOIL, sideOptions}) {
         <section className="menu-table">
             <Calendar wantDeleteYOIL={deleteYOIL} menuInfo={menu}
              sideOptions={sideOptions} dayClick={openDay} 
+             footerTitle={'알레르기 정보'} footerList={allergyList}
              />
              
             <DateModal dateInfo={selectDateInfo} isOpen={openModal}

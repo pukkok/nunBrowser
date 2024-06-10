@@ -2,11 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './styles/AllergyTable.css'
 import classNames from "classnames";
 
-const allergies = ['난류', '우유','메밀', '땅콩', '대두', '밀', '고등어', '게', '새우', '돼지고기', '복숭아', '토마토', `아황산포함식품(대부분의 가공식품에 포함되어 따로 표기하지 않음)`, '호두', '닭고기', '소고기', '오징어', '조개류(굴, 전복, 홍합 포함)', '잣', '견과류(아몬드)']
-
-function AllergyTable () {
-
-    const [list, setList] = useState([...allergies])
+function AllergyTable ({defaultAllergies, allergyList, setAllergyList}) {
 
     const addInputValue = (e) => {
         e.preventDefault()
@@ -15,10 +11,10 @@ function AllergyTable () {
             return alert('알레르기를 입력해주세요')
         }
 
-        if(list.includes(inputRef.current.value)){
+        if(allergyList.includes(inputRef.current.value)){
             alert('이미 등록한 정보입니다.')
         }else{
-            setList([...list, inputRef.current.value])
+            setAllergyList([...allergyList, inputRef.current.value])
             inputRef.current.value = ''
         }
     }
@@ -27,7 +23,7 @@ function AllergyTable () {
     // 알레르기 삭제하기
     const deleteList = (allergy) => {
         alert('삭제 완료')
-        setList(list.filter((value)=>{
+        setAllergyList(allergyList.filter((value)=>{
             return value !== allergy
         }))
     }
@@ -48,7 +44,7 @@ function AllergyTable () {
     }
 
     const drop = () => { // 아이템 떨구기
-        const copyListItems = [...list]
+        const copyListItems = [...allergyList]
         const dragItemContent = copyListItems[dragItem.current]
         const changeItemContent = copyListItems[dragOverItem.current]
 
@@ -59,7 +55,7 @@ function AllergyTable () {
         // current 초기화
         dragItem.current = null
         dragOverItem.current = null
-        setList(copyListItems)
+        setAllergyList(copyListItems)
         setItemA(null)
         setItemB(null)
 
@@ -67,7 +63,7 @@ function AllergyTable () {
 
     // 버튼 이벤트(알레르기 위치 바꾸기)
     const changeIndex = (direction , idx) => {
-        const copyListItems = [...list]
+        const copyListItems = [...allergyList]
         const selectItem = copyListItems[idx]
         
         if(direction === 'up'){
@@ -77,7 +73,7 @@ function AllergyTable () {
                 const changeItem = copyListItems[idx-1]
                 copyListItems.splice(idx, 1, changeItem)
                 copyListItems.splice(idx-1, 1, selectItem)
-                setList(copyListItems)
+                setAllergyList(copyListItems)
             }
         }else{
             if(idx<copyListItems.length-1){ // idx === listLength-1 : 마지막 아이템 선택
@@ -86,7 +82,7 @@ function AllergyTable () {
                 const changeItem = copyListItems[idx+1]
                 copyListItems.splice(idx, 1, changeItem)
                 copyListItems.splice(idx+1, 1, selectItem)
-                setList(copyListItems)
+                setAllergyList(copyListItems)
             }
         }
 
@@ -122,7 +118,7 @@ function AllergyTable () {
                     <button onClick={addInputValue}>추가</button>
                 </form>
                 <div className={classNames("allergy-list", {resizing : isOpenForm})}>
-                {list.map((allergy, idx)=> {
+                {allergyList.map((allergy, idx)=> {
                     return (
                         <div key={idx} className={classNames("allergy-item", {active : idx===itemA}, {active: idx===itemB})}
                         onDragStart={()=>dragStartHandler(idx)}
@@ -139,7 +135,7 @@ function AllergyTable () {
                                 <span className="material-symbols-outlined" onClick={()=>changeIndex('up', idx)}>arrow_drop_up</span>
                                 <span className="material-symbols-outlined" onClick={()=>changeIndex('down', idx)}>arrow_drop_down</span>
                             </div>
-                            {!allergies.includes(allergy) && <button className={classNames('delete-btn', {on : isDrag})} onClick={()=>deleteList(allergy)}>삭제</button>}
+                            {!defaultAllergies.includes(allergy) && <button className={classNames('delete-btn', {on : isDrag})} onClick={()=>deleteList(allergy)}>삭제</button>}
                         </div>
                     )
                 })}

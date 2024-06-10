@@ -14,12 +14,15 @@ import sggData from './Datas/sggData';
 
 function App() {
 
+    const [isLogin, setIsLogin] = useState(false)
+
     //검색 전체 데이터
     const [allData, setAllData] = useState([]) // 전체 데이터
     
     const userName = JSON.parse(localStorage.getItem('user'))
     const admin = JSON.parse(localStorage.getItem('admin'))
     const token = JSON.parse(localStorage.getItem('token'))
+
     useEffect(()=>{
         if(userName){
         const findKinderCode = async () => {
@@ -40,10 +43,10 @@ function App() {
 
     const [kinderUrl, setKinderUrl] = useState()
 
-    const UseCommon = ({userName, admin, token, kinderUrl, setKinderUrl}) => {
+    const UseCommon = ({userName, admin, token, kinderUrl, setKinderUrl, isLogin, setIsLogin}) => {
         return(
             <>
-                <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>
+                <Header userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl} isLogin={isLogin} setIsLogin={setIsLogin}/>
                 <Outlet/>
                 <Footer/>
             </>
@@ -53,7 +56,7 @@ function App() {
   return (
     <div className="App">
         <Routes>
-            <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl}/>}>
+            <Route element={<UseCommon userName={userName} admin={admin} token={token} kinderUrl={kinderUrl} setKinderUrl={setKinderUrl} isLogin={isLogin} setIsLogin={setIsLogin}/>}>
                 <Route exact path='/' element={<MainPage/>}/>
                 <Route exact path='/service/:serviceName' element={<ServicePage/>}/>
                 <Route exact path='/search' element={<SearchPage allData={allData}/>}/>

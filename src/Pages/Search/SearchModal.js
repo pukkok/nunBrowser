@@ -26,8 +26,6 @@ function SearchModal ({ kinderData, setClose }) {
         }
     }
 
-    
-    
     return(
         <section className="search-modal" onClick={closeModal}>
             <div className="detail">
@@ -45,7 +43,7 @@ function SearchModal ({ kinderData, setClose }) {
                         <p><span>개원일</span> {kinderData.odate.slice(0,4)+'-'+kinderData.odate.slice(4,6)+'-'+kinderData.odate.slice(6,8)}</p>
                         <p><span>관할행정기관</span> {kinderData.officeedu} / {kinderData.subofficeedu}</p>
                         <p><span>주소</span> {kinderData.addr}</p>
-                        <p><span>홈페이지</span>{homepage ? <Link to={`/kinder/${homepage}`}>{ 'www.moumi.com/kinder/'+homepage}</Link> : '등록된 홈페이지가 없습니다.'} </p>
+                        <p><span>홈페이지</span>{homepage ? <Link to={`/kinder/${homepage}`} style={{color: '#5172df'}}>{ 'www.moumi.com/kinder/'+homepage}</Link> : '등록된 홈페이지가 없습니다.'} </p>
                     </div>
                     <div className="info one-data">
                         <h4><ImgBox src={`${origin}/search/icon-summary-base.png`}/>통학차량</h4>

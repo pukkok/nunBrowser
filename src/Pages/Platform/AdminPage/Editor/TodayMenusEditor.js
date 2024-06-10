@@ -1,5 +1,6 @@
 import React from "react";
 import { TodayMenuBox1 } from "../../TemplateBox/TodayMenuBox";
+import ImgBox from "../../../../Components/ImgBox";
 
 function TodayMenusEditor () {
 
@@ -18,7 +19,7 @@ function TodayMenusEditor () {
             <div className="select-type mb">
                 <div className="type-box">
                     <h1>타입 1 <button>선택</button></h1>
-                    <TodayMenuBox1/>
+                    <ImgBox src={`${origin}/platform/todayMenu-type1.png`}/>
                 </div>
 
             </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import AllergyTable from "./AllergyTable";
 
-function AllergyEditor () {
+function AllergyEditor ({ defaultAllergies, allergyList, setAllergyList }) {
     return(
         <section className="allergy-edit">
             <div className="summary">
@@ -14,7 +14,7 @@ function AllergyEditor () {
                 <button >저장</button>
                 <button >초기화</button>
             </div>
-            <AllergyTable/>
+            <AllergyTable defaultAllergies={defaultAllergies} allergyList={allergyList} setAllergyList={setAllergyList}/>
         </section>
     )
 }

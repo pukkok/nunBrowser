@@ -1,5 +1,5 @@
 import React from "react";
-import { NoticeBox1 } from "../../TemplateBox/NoticeBox";
+import ImgBox from "../../../../Components/ImgBox";
 
 function NoticeEditor () {
     return(
@@ -17,7 +17,7 @@ function NoticeEditor () {
             <div className="select-type">
                 <div className="type-box">
                     <h1>타입 1 <button>선택</button></h1>
-                    <NoticeBox1/>
+                    <ImgBox src={`${origin}/platform/notice-type1.png`}/>
                 </div>
             </div>
         </section>

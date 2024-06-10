@@ -38,10 +38,14 @@
     justify-content: space-between;
 }
 .main-page .main-bg .main-chart h1{
-    font-size: 34px;
+    font-size: 55px;
+    color: #004898;
 }
 .main-page .main-bg .main-chart p{
-    /* font-size: 34px; */
+    font-size: 20px;
+    color: #5172df;
+    padding-top: 10px;
+    font-weight: bold;
 }
 
 
@@ -74,10 +78,6 @@
 
 .main-page .main-go .text-box h2{
     padding-bottom: 40px;
-}
-
-.main-page .main-go .text-box p{
-
 }
 
 .main-page .main-go .text-box a{

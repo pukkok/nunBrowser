@@ -35,6 +35,7 @@ function AdminPage () {
         }
         downloadData()
     },[])
+    console.log(loadData)
 
     useEffect(()=>{
         if(loadData.logoPath){
@@ -49,13 +50,21 @@ function AdminPage () {
         if(loadData.selectBgSrc){
             setBg(loadData.selectBgSrc)
         }
+        if(loadData.containerSize){
+            setContainerSize({...containerSize, width : loadData.containerSize, unit : loadData.containerUnit})
+        }
         if(loadData.navDepth1){
             setMainMenu(loadData.navDepth1)
         }
         if(loadData.navDepth2){
             setSubMenu(loadData.navDepth2)
         }
-        // console.log(loadData)
+        if(loadData.zoneData){
+            setGridZone({...loadData.zoneData})
+        }
+        if(loadData.gridCoord){
+            setXyCount({row: loadData.gridCoord.row, col: loadData.gridCoord.col})
+        }
 
     },[loadData])
 
@@ -117,6 +126,10 @@ function AdminPage () {
     const [deleteYOIL, setDelteYoil] = useState([])
     const [sideOptions, setSideOptions] = useState([])
 
+    // 디폴트 알러지
+    const defaultAllergies = ['난류', '우유','메밀', '땅콩', '대두', '밀', '고등어', '게', '새우', '돼지고기', '복숭아', '토마토', `아황산포함식품(대부분의 가공식품에 포함되어 따로 표기하지 않음)`, '호두', '닭고기', '소고기', '오징어', '조개류(굴, 전복, 홍합 포함)', '잣', '견과류(아몬드)']
+    const [allergyList, setAllergyList] = useState([...defaultAllergies])
+
     return(
         <section className="admin-page open" style={gridTemplate}>
             <SideBar area='l'
@@ -135,7 +148,7 @@ function AdminPage () {
                             <span className="green"></span>
                         </p>
                         <Preview active={selectedTab} hideContainer={hideContainer}
-                        logo={logo} bg={bg} containerSize={containerSize} previewSize={previewSize}
+                        logo={logo} mainMenu={mainMenu} bg={bg} containerSize={containerSize} previewSize={previewSize}
                         xyCount={xyCount} gridZone={gridZone}/>
                     </>}
                     {theme === 'menus' &&
@@ -145,7 +158,7 @@ function AdminPage () {
                             <span className="yellow"></span>
                             <span className="green"></span>
                         </p>
-                        <MenuTable deleteYOIL={deleteYOIL} sideOptions={sideOptions}/>
+                        <MenuTable deleteYOIL={deleteYOIL} sideOptions={sideOptions} allergyList={allergyList}/>
                     </>}
                 </div>
                 <div className="part">
@@ -167,8 +180,8 @@ function AdminPage () {
                         {selectedTab === 'navigation' && <NavigationEditor token={token} mainMenu={mainMenu} setMainMenu={setMainMenu} subMenu={subMenu} setSubMenu={setSubMenu}/>}
                         {selectedTab === 'container' && <ContainerEditor token={token} setSizeValues={setContainerSize}/>}
                         {selectedTab === 'content' && <ContentEditor token={token} xyCount={xyCount} setXyCount={setXyCount} gridZone={gridZone} setGridZone={setGridZone}/>}
-                        {selectedTab === 'menu-table' && <MenuEditor setDeleteYoil={setDelteYoil} sideOptions={sideOptions} setSideOptions={setSideOptions}/>}
-                        {selectedTab === 'allergy' && <AllergyEditor />}
+                        {selectedTab === 'menu-table' && <MenuEditor token={token} deleteYOIL={deleteYOIL} setDeleteYoil={setDelteYoil} sideOptions={sideOptions} setSideOptions={setSideOptions}/>}
+                        {selectedTab === 'allergy' && <AllergyEditor defaultAllergies={defaultAllergies} allergyList={allergyList} setAllergyList={setAllergyList}/>}
                     </div>
                 </div>
             </div>

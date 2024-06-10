@@ -24,7 +24,7 @@ function MainPage () {
                     </div>
                     <div>
                         <h1>1000+</h1>
-                        <p>누적 방문자</p>
+                        <p>누적 가입자</p>
                     </div>
                     <div>
                         <h1>50k</h1>
