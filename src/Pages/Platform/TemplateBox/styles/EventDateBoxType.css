@@ -8,14 +8,10 @@
     height: 100%;
 }
 
-.ed-box-type h1{
-    font-size: 24px;
-}
-
 /* ed 헤더 */
 .ed-box-type .type1 h1{
     display: flex;
-    font-size: 28px;
+    font-size: 22px;
     align-items: center;
     padding-bottom: 15px;
 }

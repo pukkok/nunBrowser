@@ -92,9 +92,10 @@
 /* 컨텐츠 */
 .kinder-page .content{
     display: grid;
-    column-gap: 50px;
+    column-gap: 100px;
     row-gap: 80px;
     justify-content: space-between;
+
 }
 .kinder-page .content .content-item{
     width: 100%;
