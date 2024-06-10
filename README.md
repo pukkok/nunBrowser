@@ -83,7 +83,100 @@
 <img src=extra/componetBuild.png>
 
 <br><br><br>
-## 6. 문제점 및 해결방법
+## 6. 데이터 모델링
+
+<BlockQuote>Certificate</BlockQuote>
+
+|이름|설명|타입|
+|---|---|---|
+|key|인증키|string|
+|password|패스워드|string|
+|name|교사 명|string|
+|organization|유치원 명|string|
+|kinderCode|유치원 코드|string|
+|isDirector|원장 확인|boolean|
+
+<BlockQuote>Teacher</BlockQuote>
+
+|이름|설명|타입|
+|---|---|---|
+|name|교시명|string|
+|organization|유치원 명|string|
+|kinderCode|유치원 코드|string|
+|isDirector|원장 확인|boolean|
+|isAdmin|관리자 권한|boolean|
+|email|이메일|string|
+|phone|연락처|string|
+|userId|아이디|string|
+|password|패스워드|string|
+|createdAt|최초 수정일|date|
+|lastModifiedAt|최종 수정일|date|
+
+<BlockQuote>SchoolParents</BlockQuote>
+
+|이름|설명|타입|
+|---|---|---|
+|name|이름|string|
+|organization|유치원 명|string|
+|kinderCode|유치원 코드|string|
+|email|이메일|string|
+|phone|연락처|string|
+|children|아이|ObjectId('children')|
+|userId|아이디|string|
+|password|패스워드|string|
+|isKinderAdmin|입장 권한|boolean|
+|createdAt|최초 수정일|date|
+|lastModifiedAt|최종 수정일|date|
+
+<br><br><br>
+## 7. 데이터 설계
+
+<BlockQuote>ChildSchool</BlockQuote>
+
+|URL|기능명|http메소드|
+|---|---|---|
+|/api/kinder|유치원 알리미 api 정보|POST|
+
+<BlockQuote>Teacher</BlockQuote>
+
+|URL(base: /taecher)|기능명|http메소드|
+|---|---|---|
+|/join/step1|인증서 처리|POST|
+|/join/id-check|아이디 중복확인|POST|
+|/join/step2|회원가입|POST|
+|/login|로그인|POST|
+
+<BlockQuote>kinder</BlockQuote>
+
+|URL(base: /user)|기능명|http메소드|
+|---|---|---|
+|/kinderUrl|내 유치원 url 찾기|POST|
+|/openKinder/:kinderCode|유치원 페이지가 열렸는지 확인|GET|
+|/KinderData/:url|페이지 데이터 불러오기|GET|
+
+<BlockQuote>uploader</BlockQuote>
+
+|URL(base: /platform)|기능명|http메소드|
+|---|---|---|
+|/upload/logo|로고 신규 추가 및 수정|POST|
+|/upload/bg-list|배경 신규 추가 및 수정|POST|
+|/newpage|URL 생성|POST|
+|/upload/data|유치원 페이지 데이터 추가 및 수정|POST|
+|/startpage|페이지 게시|POST|
+|/menu/yoil|식단표 요일 삭제|POST|
+|/menu/side-options|식단표 사이드 옵션 추가|POST|
+
+<BlockQuote>downloader</BlockQuote>
+
+|URL|기능명|http메소드|
+|---|---|---|
+|/kinder/download/data|입력한 유치원 정보 불러오기(관리자용)|POST|
+
+
+
+
+<br><br><br>
+## 8. 문제점 및 해결방법
 추가 예정
 
 <BlockQuote>
