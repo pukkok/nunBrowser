@@ -61,8 +61,30 @@
 - 커뮤니티 이용 권한 부여
 
 <br><br><br>
-## 4. 컴포넌트 설계
-<img src=컴포넌트설계.png>
+## 4. 페이지 미리보기
+<BlockQuote>메인페이지</BlockQuote>
+<img src=extra/main1.JPG>
+
+<br><br>
+<BlockQuote>서비스 정보</BlockQuote>
+<img src=extra/serviceInfo.JPG>
+<br><br>
+<BlockQuote>유치원 검색</BlockQuote>
+<img src=extra/search.JPG>
+<br><br>
+<BlockQuote>관리자페이지</BlockQuote>
+<img src=extra/admin.JPG>
+<br><br>
+<BlockQuote>제작 페이지</BlockQuote>
+<img src=extra/kinder.JPG>
+
+<br><br><br>
+## 5. 컴포넌트 설계
+<img src=extra/componetBuild.png>
+
+<br><br><br>
+## 6. 문제점 및 해결방법
+추가 예정
 
 <BlockQuote>
   사용 스킬
