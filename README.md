@@ -179,9 +179,7 @@
 ## 8. 문제점 및 해결방법
 추가 예정
 
-<BlockQuote>
-  사용 스킬
-</BlockQuote>
+## 사용한 스킬
 
 ![react](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![mongo](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
