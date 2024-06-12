@@ -35,7 +35,6 @@ function AdminPage () {
         }
         downloadData()
     },[])
-    console.log(loadData)
 
     useEffect(()=>{
         if(loadData.logoPath){
