@@ -113,7 +113,7 @@ function AdminPage () {
 
     const [previewSize, setPreviewSize] = useState()
     const [xyCount, setXyCount] = useState({})
-
+ 
     const [gridZone, setGridZone] = useState({}) // 컨텐츠 그리드 구역
     const sizeRef = useRef()
     useEffect(()=>{

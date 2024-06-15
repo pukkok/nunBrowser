@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { Routes, Route, Outlet, useLocation, useParams } from 'react-router-dom';
 import { JoinPage, LoginPage, MainPage, NotFoundPage, SearchPage } from './Pages'
 import './App.css'
 import PlatformPage from './Pages/Platform/PlatformPage';
