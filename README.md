@@ -1,8 +1,8 @@
 # 유치원 모으미
 <img src=public/main/logo.png>
 
-브라우저 : https://nun-browser.vercel.app/
-서버 : https://github.com/pukkok/nunServer
+브라우저 : https://nun-browser.vercel.app/ <br>
+서버 : https://github.com/pukkok/nunServer <br>
 구현중인 프로젝트 입니다.
 <br><br><br>
 ## 1. 제작사유
