@@ -183,7 +183,7 @@
 
 <BlockQuote>api 불러오기</BlockQuote>
 
-문제점 : http에서 https에 요청을 하니 cors오류가 있었다.
+문제점 : http에서 https에 요청을 하니 cors오류가 있었다. <br>
 해결법 : process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0을 이용하여 인증서 유효성 검증을 넘어갔다.
 
 ## 8. 업데이트 계획
